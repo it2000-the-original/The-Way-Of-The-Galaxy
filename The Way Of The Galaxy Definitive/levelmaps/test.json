@@ -1,0 +1,22 @@
+{
+	"name": "your name",
+	"music": "path_to_music",
+	"music_start_time": 0,
+	"level_blocks": [
+		{
+			"spown": [
+				{
+					"spown_object_number": 1,
+					"spown_reversed": false,
+					"spown_position": 100
+				},
+				{
+					"spown_object_number": 1,
+					"spown_reversed": false,
+					"spown_position": 500
+				}
+			],
+			"block_time": 1000
+		}
+	]
+}

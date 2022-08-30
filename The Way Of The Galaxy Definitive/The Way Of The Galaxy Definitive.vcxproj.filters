@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="File di origine">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="File di intestazione">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="File di risorse">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="File di risorse\sprites">
+      <UniqueIdentifier>{14374e33-130d-436a-a07c-a80bd2500472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di risorse\sprites\spaceships">
+      <UniqueIdentifier>{dd0c93e4-ce57-4829-972d-2e16e1ccb854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di intestazione\EntityComponentSystem">
+      <UniqueIdentifier>{9a25f8d6-6b03-43c2-b259-8f2c09a94db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di risorse\sprites\backgrounds">
+      <UniqueIdentifier>{1518611d-ed52-41aa-bc7a-8051a3095a18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di risorse\sprites\lasers">
+      <UniqueIdentifier>{d749c258-b401-431b-a9ca-936a8f331edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di risorse\levelmaps">
+      <UniqueIdentifier>{9aa64ee4-8955-4b2a-bd33-daeabbfab7e0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>File di risorse</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="Background.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2D.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="libjpeg-9.dll">
+      <Filter>File di risorse</Filter>
+    </None>
+    <None Include="libpng16-16.dll">
+      <Filter>File di risorse</Filter>
+    </None>
+    <None Include="libtiff-5.dll">
+      <Filter>File di risorse</Filter>
+    </None>
+    <None Include="libwebp-7.dll">
+      <Filter>File di risorse</Filter>
+    </None>
+    <None Include="SDL2.dll">
+      <Filter>File di risorse</Filter>
+    </None>
+    <None Include="SDL2_image.dll">
+      <Filter>File di risorse</Filter>
+    </None>
+    <None Include="zlib1.dll">
+      <Filter>File di risorse</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS.h">
+      <Filter>File di intestazione\EntityComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.h">
+      <Filter>File di intestazione\EntityComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionComponent.h">
+      <Filter>File di intestazione\EntityComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponent.h">
+      <Filter>File di intestazione\EntityComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardController.h">
+      <Filter>File di intestazione\EntityComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="Background.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerComponent.h">
+      <Filter>File di intestazione\EntityComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletComponent.h">
+      <Filter>File di intestazione\EntityComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderComponent.h">
+      <Filter>File di intestazione\EntityComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderIds.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="GroupLabels.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2D.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionComponent.h">
+      <Filter>File di intestazione\EntityComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyComponent.h">
+      <Filter>File di intestazione\EntityComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="sprites\spaceships\spaceship1.png">
+      <Filter>File di risorse\sprites\spaceships</Filter>
+    </Image>
+    <Image Include="sprites\backgrounds\background1.png">
+      <Filter>File di risorse\sprites\backgrounds</Filter>
+    </Image>
+    <Image Include="sprites\backgrounds\background2.png">
+      <Filter>File di risorse\sprites\backgrounds</Filter>
+    </Image>
+    <Image Include="sprites\backgrounds\background3.png">
+      <Filter>File di risorse\sprites\backgrounds</Filter>
+    </Image>
+    <Image Include="sprites\lasers\laser.png">
+      <Filter>File di risorse\sprites\lasers</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="levelmaps\test.json">
+      <Filter>File di risorse\levelmaps</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
