@@ -29,7 +29,7 @@ public:
 	
 	PlayerComponent() {
 		
-		reactLaserShoot = TimeAction(100);
+		reactLaserShoot = TimeAction(500);
 		reactMissileShoot = TimeAction(300);
 	}
 
@@ -79,7 +79,7 @@ public:
 			auto& bullet = entity->manager.addEntity();
 			bullet.addComponent<PositionComponent>(position->position.x + position->width - laserPositionCorrection.x, position->position.y + position->height - laserPositionCorrection.y, 8, 2, 1);
 			bullet.getComponent<PositionComponent>().setSpeed(10, 0);
-			bullet.addComponent<SpriteComponent>("sprites\\lasers\\laser.png");
+			bullet.addComponent<SpriteComponent>("sprites//lasers//laser.png");
 			bullet.addComponent<ColliderComponent>(laserId);
 			bullet.addComponent<BulletComponent>();
 			bullet.addGroup(groupBullets);
@@ -96,13 +96,13 @@ public:
 			auto& bullet = entity->manager.addEntity();
 			bullet.addComponent<PositionComponent>(position->position.x + position->width - missilePositionCorrection.x, position->position.y + position->height - missilePositionCorrection.y, 12, 5, 1);
 			bullet.getComponent<PositionComponent>().setSpeed(8, 0);
-			bullet.addComponent<SpriteComponent>("sprites\\missiles\\missile.png", true);
+			bullet.addComponent<SpriteComponent>("sprites//missiles//missile.png", true);
 			bullet.getComponent<SpriteComponent>().addAnimation("base", 4, 0, 10);
 			bullet.getComponent<SpriteComponent>().playAnimation("base");
 			bullet.addComponent<ColliderComponent>(missileId);
 			bullet.addComponent<BulletComponent>();
 			//bullet.addComponent<MissileComponent>();
-			bullet.addComponent<ExplodeComponent>("sprites\\explosions\\explosion.png", 50, 50, 40, 60);
+			bullet.addComponent<ExplodeComponent>("sprites//explosions//explosion.png", 50, 50, 40, 60);
 			bullet.addGroup(groupBullets);
 			sprite->playAnimation("shot");
 			reactShootAnimation.init();

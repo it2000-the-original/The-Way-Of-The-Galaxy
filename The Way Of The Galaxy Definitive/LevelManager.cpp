@@ -1,4 +1,3 @@
-#pragma once
 #include "LevelManager.h"
 #include "ColliderIds.h"
 #include "GroupLabels.h"
@@ -40,7 +39,7 @@ void LevelManager::spownObject(const char* tex, int position, int width, int hei
 	entity.getComponent<SpriteComponent>().playAnimation("base");
 	entity.addComponent<ColliderComponent>(collider);
 	entity.addComponent<EnemyComponent>();
-	entity.addComponent<ExplodeComponent>("sprites\\explosions\\explosion.png", 50, 50, 40, 60, true, 10);
+	entity.addComponent<ExplodeComponent>("sprites//explosions//explosion.png", 50, 50, 40, 60, true, 10);
 	entity.addGroup(groupEnemies);
 }
 
@@ -57,7 +56,7 @@ void LevelManager::update() {
 				case 1:
 
 					spownObject(
-						"sprites\\spaceships\\spaceship1.png", 
+						"sprites//spaceships//spaceship1.png", 
 						spown["spown_position"], 
 						70, 30, 1, enemyId, 
 						spown["spown_reversed"]

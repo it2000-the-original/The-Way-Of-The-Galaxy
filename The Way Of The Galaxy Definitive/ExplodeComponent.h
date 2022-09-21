@@ -16,7 +16,7 @@ private:
 	PositionComponent* position;
 
 	const char* piecesPaths[1] {
-		"sprites\\other\\pieces.png"
+		"sprites//other//pieces.png"
 	};
 
 public:

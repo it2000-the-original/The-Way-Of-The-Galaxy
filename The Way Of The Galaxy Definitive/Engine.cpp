@@ -9,6 +9,7 @@
 #include "LevelManager.h"
 #include "Text.h"
 #include <fstream>
+#include <filesystem>
 
 using json = nlohmann::json;
 
@@ -77,15 +78,15 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 		// Adding wallpapers
 		
 		background = Background(640, 512, 2);
-		background.addWallpaper("sprites\\backgrounds\\background1.png", 1);
-		background.addWallpaper("sprites\\backgrounds\\background2.png", 2);
+		background.addWallpaper("sprites//backgrounds//background1.png", 1);
+		background.addWallpaper("sprites//backgrounds//background2.png", 2);
 		//background.addWallpaper("sprites\\backgrounds\\background3.png", 4);
 
 		// Setting components
 
 		player.addComponent<PositionComponent>(30, 350, 70, 30, 1, 0, true);
 		player.getComponent<PositionComponent>().setSpeed(3, 3);
-		player.addComponent<SpriteComponent>("sprites\\spaceships\\spaceship1.png", true);
+		player.addComponent<SpriteComponent>("sprites//spaceships//spaceship1.png", true);
 		player.getComponent<SpriteComponent>().addAnimation("base", 4, 0, 100);
 		player.getComponent<SpriteComponent>().addAnimation("shot", 4, 1, 100);
 		player.getComponent<SpriteComponent>().addAnimation("damage", 4, 2, 100);
@@ -95,12 +96,13 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 		player.addComponent<ColliderComponent>(playerId);
 		player.addGroup(groupPlayer);
 
-		textEnergy = Text("sprites\\fonts\\character.ttf", 32, { 255, 255, 255 }, "Energy: 0", 8, -10, 32 * 11 / 2, 40);
-		textMissiles = Text("sprites\\fonts\\character.ttf", 32, { 255, 255, 255 }, "Missiles: 0", 200, -10, 32 * 11 / 2, 40);
+		textEnergy = Text("sprites//fonts//character.ttf", 32, { 255, 255, 255 }, "Energy: 0", 8, -10, 32 * 11 / 2, 40);
+		textMissiles = Text("sprites//fonts//character.ttf", 32, { 255, 255, 255 }, "Missiles: 0", 200, -10, 32 * 11 / 2, 40);
 
 		std::cout << IMG_GetError() << std::endl;
+		std::cout << std::filesystem::current_path() << std::endl;
 
-		levelmanager.startLevel("levelmaps\\test.json");
+		levelmanager.startLevel("levelmaps//test.json");
 		isRunning = true;
 	}
 
