@@ -95,8 +95,8 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 		player.addComponent<ColliderComponent>(playerId);
 		player.addGroup(groupPlayer);
 
-		//textEnergy = Text("sprites\\fonts\\character.ttf", 32, { 255, 255, 255 }, "Energy: 0", 8, -10, 32 * 11 / 2, 40);
-		//textMissiles = Text("sprites\\fonts\\character.ttf", 32, { 255, 255, 255 }, "Missiles: 0", 200, -10, 32 * 11 / 2, 40);
+		textEnergy = Text("sprites\\fonts\\character.ttf", 32, { 255, 255, 255 }, "Energy: 0", 8, -10, 32 * 11 / 2, 40);
+		textMissiles = Text("sprites\\fonts\\character.ttf", 32, { 255, 255, 255 }, "Missiles: 0", 200, -10, 32 * 11 / 2, 40);
 
 		std::cout << IMG_GetError() << std::endl;
 
