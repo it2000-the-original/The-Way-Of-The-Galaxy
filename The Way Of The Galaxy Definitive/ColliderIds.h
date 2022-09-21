@@ -6,5 +6,6 @@ enum ColliderIds : std::size_t {
 	playerId,
 	enemyId,
 	laserId,
-	enemylaserId
+	enemylaserId,
+	missileId
 };

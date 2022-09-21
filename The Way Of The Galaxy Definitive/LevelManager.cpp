@@ -40,6 +40,7 @@ void LevelManager::spownObject(const char* tex, int position, int width, int hei
 	entity.getComponent<SpriteComponent>().playAnimation("base");
 	entity.addComponent<ColliderComponent>(collider);
 	entity.addComponent<EnemyComponent>();
+	entity.addComponent<ExplodeComponent>("sprites\\explosions\\explosion.png", 50, 50, 40, 60, true, 10);
 	entity.addGroup(groupEnemies);
 }
 

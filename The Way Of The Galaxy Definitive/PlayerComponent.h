@@ -2,6 +2,7 @@
 #include "Components.h"
 #include "ColliderIds.h"
 #include "GroupLabels.h"
+#include "TimeAction.h"
 
 class PlayerComponent : public Component {
 
@@ -11,32 +12,31 @@ private:
 	SpriteComponent* sprite;
 
 	// This variables define the time before a bullet to another
-	int shootTime;
-	Uint32 initialShootTime;
 	const SDL_Rect laserPositionCorrection {10, 6, 0, 0};
-
+	const SDL_Rect missilePositionCorrection {10, 8, 0, 0};
+	
 	// Bool variables for animations
-	bool reactShotAnimation = false;
-	Uint32 initialReactShootAnimation;
-	Uint32 reactShootAnimationTime = 60;
-
-	bool reactDamageAnimation = false;
-	Uint32 initialReactDamageAnimation;
-	Uint32 reactDamageAnimationTime = 100;
+	TimeAction reactLaserShoot;
+	TimeAction reactMissileShoot;
+	TimeAction reactShootAnimation  = TimeAction(100);
+	TimeAction reactDamageAnimation = TimeAction(100);
 
 
 public:
 
 	int energy = 100;
+	int missiles = 20;
 	
 	PlayerComponent() {
 		
-		shootTime = 100;
+		reactLaserShoot = TimeAction(100);
+		reactMissileShoot = TimeAction(300);
 	}
 
 	PlayerComponent(int mShootTime) {
 
-		shootTime = mShootTime;
+		reactLaserShoot = TimeAction(mShootTime);
+		reactMissileShoot = TimeAction(mShootTime);
 	}
 
 	void init() override {
@@ -47,12 +47,9 @@ public:
 
 	void update() override {
 
-		if (reactShotAnimation and SDL_GetTicks() - initialReactShootAnimation > reactShootAnimationTime or
-			reactDamageAnimation and SDL_GetTicks() - initialReactDamageAnimation > reactDamageAnimationTime) {
+		if (reactShootAnimation.check() or reactDamageAnimation.check()) {
 
 			sprite->playAnimation("base");
-			reactShotAnimation = false;
-			reactDamageAnimation = false;
 		}
 
 		if (energy <= 0) {
@@ -76,9 +73,9 @@ public:
 
 	void shot() {
 			
-		if (SDL_GetTicks() - initialShootTime > shootTime and !reactDamageAnimation) {
+		if (reactLaserShoot.check() and !reactDamageAnimation.isActive()) {
 
-			initialShootTime = SDL_GetTicks();
+			reactLaserShoot.init();
 			auto& bullet = entity->manager.addEntity();
 			bullet.addComponent<PositionComponent>(position->position.x + position->width - laserPositionCorrection.x, position->position.y + position->height - laserPositionCorrection.y, 8, 2, 1);
 			bullet.getComponent<PositionComponent>().setSpeed(10, 0);
@@ -87,8 +84,29 @@ public:
 			bullet.addComponent<BulletComponent>();
 			bullet.addGroup(groupBullets);
 			sprite->playAnimation("shot");
-			reactShotAnimation = true;
-			initialReactShootAnimation = SDL_GetTicks();
+			reactShootAnimation.init();
+		}
+	}
+
+	void shootMissile() {
+
+		if (reactMissileShoot.check() and !reactDamageAnimation.isActive() and missiles > 0) {
+
+			reactMissileShoot.init();
+			auto& bullet = entity->manager.addEntity();
+			bullet.addComponent<PositionComponent>(position->position.x + position->width - missilePositionCorrection.x, position->position.y + position->height - missilePositionCorrection.y, 12, 5, 1);
+			bullet.getComponent<PositionComponent>().setSpeed(8, 0);
+			bullet.addComponent<SpriteComponent>("sprites\\missiles\\missile.png", true);
+			bullet.getComponent<SpriteComponent>().addAnimation("base", 4, 0, 10);
+			bullet.getComponent<SpriteComponent>().playAnimation("base");
+			bullet.addComponent<ColliderComponent>(missileId);
+			bullet.addComponent<BulletComponent>();
+			//bullet.addComponent<MissileComponent>();
+			bullet.addComponent<ExplodeComponent>("sprites\\explosions\\explosion.png", 50, 50, 40, 60);
+			bullet.addGroup(groupBullets);
+			sprite->playAnimation("shot");
+			reactShootAnimation.init();
+			missiles -= 1;
 		}
 	}
 
@@ -97,7 +115,7 @@ public:
 		reactDamageAnimation = true;
 		position->restorePosition(true, true);
 		sprite->playAnimation("damage");
-		initialReactDamageAnimation = SDL_GetTicks();
+		reactDamageAnimation.init();
 	}
 
 	~PlayerComponent() {

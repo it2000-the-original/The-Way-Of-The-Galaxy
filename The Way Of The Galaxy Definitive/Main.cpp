@@ -12,6 +12,7 @@ int main(int argc, char* argv[]) {
 	int frameTime;
 	
 	engine = new Engine();
+	srand(time(NULL));
 	engine->init("The Way Of The Galaxy", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 700, false);
 
 	while (engine->running()) {

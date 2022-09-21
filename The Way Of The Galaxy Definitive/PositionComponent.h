@@ -15,6 +15,7 @@ public:
 	Vector2D position;
 	Vector2D velocity;
 
+	int rotationSpeed;
 	bool controlled;
 	int height;
 	int width;
@@ -28,6 +29,7 @@ public:
 		position.Zero();
 		width = height = 32;
 		controlled = false;
+		rotationSpeed = 0;
 		angle = 0;
 		scale = 1;
 	}
@@ -38,6 +40,7 @@ public:
 		position.y = y;
 		width = height = 32;
 		controlled = false;
+		rotationSpeed = 0;
 		angle = 0;
 		scale = 1;
 	}
@@ -47,6 +50,7 @@ public:
 		position.x = x;
 		position.y = y;
 		controlled = false;
+		rotationSpeed = 0;
 		width = w;
 		height = h;
 		angle = 0;
@@ -58,6 +62,7 @@ public:
 		position.x = x;
 		position.y = y;
 		controlled = false;
+		rotationSpeed = 0;
 		width = w;
 		height = h;
 		angle = a;
@@ -69,6 +74,19 @@ public:
 		position.x = x;
 		position.y = y;
 		controlled = c;
+		rotationSpeed = 0;
+		width = w;
+		height = h;
+		angle = a;
+		scale = s;
+	}
+
+	PositionComponent(int x, int y, int w, int h, int s, int a, int c, int rs) {
+
+		position.x = x;
+		position.y = y;
+		controlled = c;
+		rotationSpeed = rs;
 		width = w;
 		height = h;
 		angle = a;
@@ -85,6 +103,7 @@ public:
 	void update() override {
 
 		backupPosition = position;
+		angle += rotationSpeed;
 
 		if (!controlled) {
 

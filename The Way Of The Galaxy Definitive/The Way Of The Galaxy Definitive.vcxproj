@@ -116,14 +116,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Programmazione\VisualStudio\The Way Of The Galaxy Definitive\SDL2_ttf-2.20.1\include;D:\Programmazione\VisualStudio\The Way Of The Galaxy Definitive\json\include;D:\Programmazione\VisualStudio\The Way Of The Galaxy Definitive\SDL2-2.0.22\include;D:\Programmazione\VisualStudio\The Way Of The Galaxy Definitive\SDL2_image-2.0.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>26812;26451;26495;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\Programmazione\VisualStudio\The Way Of The Galaxy Definitive\SDL2_ttf-2.20.1\lib\x64;D:\Programmazione\VisualStudio\The Way Of The Galaxy Definitive\SDL2-2.0.22\lib\x64;D:\Programmazione\VisualStudio\The Way Of The Galaxy Definitive\SDL2_image-2.0.5\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2maind.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,16 +151,8 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="TimeAction.cpp" />
     <ClCompile Include="Vector2D.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="libjpeg-9.dll" />
-    <None Include="libpng16-16.dll" />
-    <None Include="libtiff-5.dll" />
-    <None Include="libwebp-7.dll" />
-    <None Include="SDL2.dll" />
-    <None Include="SDL2_image.dll" />
-    <None Include="zlib1.dll" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -173,15 +165,19 @@
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="ExplodeComponent.h" />
     <ClInclude Include="ExplosionComponent.h" />
     <ClInclude Include="GroupLabels.h" />
     <ClInclude Include="KeyboardController.h" />
     <ClInclude Include="LevelManager.h" />
+    <ClInclude Include="MissileComponent.h" />
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="PositionComponent.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="TimeAction.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <ItemGroup>

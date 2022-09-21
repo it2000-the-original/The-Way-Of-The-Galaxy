@@ -6,5 +6,6 @@ enum GroupLabels : std::size_t {
 	groupBullets,
 	groupEnemies,
 	groupPlayer,
-	groupExplosions
+	groupExplosions,
+	groupPieces
 };

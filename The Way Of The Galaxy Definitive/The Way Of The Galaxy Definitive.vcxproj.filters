@@ -60,29 +60,9 @@
     <ClCompile Include="Text.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="libjpeg-9.dll">
-      <Filter>File di risorse</Filter>
-    </None>
-    <None Include="libpng16-16.dll">
-      <Filter>File di risorse</Filter>
-    </None>
-    <None Include="libtiff-5.dll">
-      <Filter>File di risorse</Filter>
-    </None>
-    <None Include="libwebp-7.dll">
-      <Filter>File di risorse</Filter>
-    </None>
-    <None Include="SDL2.dll">
-      <Filter>File di risorse</Filter>
-    </None>
-    <None Include="SDL2_image.dll">
-      <Filter>File di risorse</Filter>
-    </None>
-    <None Include="zlib1.dll">
-      <Filter>File di risorse</Filter>
-    </None>
+    <ClCompile Include="TimeAction.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -144,6 +124,18 @@
     </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeAction.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplodeComponent.h">
+      <Filter>File di intestazione\EntityComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileComponent.h">
+      <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

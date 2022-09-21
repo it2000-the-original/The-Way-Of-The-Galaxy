@@ -23,7 +23,9 @@ Background background;
 
 auto& player = manager.addEntity();
 auto& enemy = manager.addEntity();
-Text text;
+
+Text textEnergy;
+Text textMissiles;
 
 std::vector<ColliderComponent*> Engine::colliders;
 
@@ -34,6 +36,7 @@ auto& bullets = manager.getGroup(groupBullets);
 auto& enemies = manager.getGroup(groupEnemies);
 auto& players = manager.getGroup(groupPlayer);
 auto& explosions = manager.getGroup(groupExplosions);
+auto& pieces = manager.getGroup(groupPieces);
 
 void Engine::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
 
@@ -92,15 +95,8 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 		player.addComponent<ColliderComponent>(playerId);
 		player.addGroup(groupPlayer);
 
-		/*enemy.addComponent<PositionComponent>(500, 500, 70, 30, 1);
-		enemy.addComponent<SpriteComponent>("sprites\\spaceships\\spaceship1.png", true);
-		enemy.getComponent<SpriteComponent>().addAnimation("base", 4, 0, 100);
-		enemy.getComponent<SpriteComponent>().playAnimation("base");
-		enemy.addComponent<ColliderComponent>(enemyId);
-		enemy.addComponent<EnemyComponent>();
-		enemy.addGroup(groupEnemies);*/
-
-		text = Text("sprites\\fonts\\character.ttf", 32, { 255, 255, 255 }, "Energy: 0", 8, -10, 32 * 11 / 2, 40);
+		textEnergy = Text("sprites\\fonts\\character.ttf", 32, { 255, 255, 255 }, "Energy: 0", 8, -10, 32 * 11 / 2, 40);
+		textMissiles = Text("sprites\\fonts\\character.ttf", 32, { 255, 255, 255 }, "Missiles: 0", 200, -10, 32 * 11 / 2, 40);
 
 		std::cout << IMG_GetError() << std::endl;
 
@@ -121,7 +117,8 @@ void Engine::update() {
 	levelmanager.update();
 	manager.refersh();
 	manager.update();
-	text.setText(std::string("Energy: " + std::to_string(player.getComponent<PlayerComponent>().energy)).c_str());
+	textEnergy.setText(std::string("Energy: " + std::to_string(player.getComponent<PlayerComponent>().energy)).c_str());
+	textMissiles.setText(std::string("Missiles: " + std::to_string(player.getComponent<PlayerComponent>().missiles)).c_str());
 
 	/*if (!player.getComponent<PositionComponent>().isCompletelyOnRender()) {
 
@@ -161,8 +158,8 @@ void Engine::update() {
 					case enemyId:
 
 						std::cout << "Collision laser->enemy" << std::endl;
-						cd->entity->getComponent<EnemyComponent>().explode();
 						cc->entity->destroy();
+						cd->entity->getComponent<ExplodeComponent>().explode();
 						break;
 					}
 				}
@@ -183,10 +180,35 @@ void Engine::update() {
 						std::cout << "Collision enemy laser->player" << std::endl;
 						cc->entity->destroy();
 						cd->entity->getComponent<PlayerComponent>().energy -= 2;
+						break;
 					}
 				}
 			}
+
+			break;
+
+		case missileId:
+
+			for (auto cd : colliders) {
+
+				if (Collision::AABB(*cc, *cd)) {
+
+					switch (cd->id) {
+
+					case enemyId:
+
+						std::cout << "Collision missile->enemy" << std::endl;
+						cc->entity->getComponent<ExplodeComponent>().explode();
+						cd->entity->getComponent<ExplodeComponent>().explode();
+						break;
+					}
+				}
+			}
+
+			break;
 		}
+
+		
 	}
 }
 
@@ -196,12 +218,14 @@ void Engine::render() {
 	background.draw();
 	//manager.draw();
 
-	for (auto& t : bullets) t->draw();
-	for (auto& t : enemies) t->draw();
-	for (auto& t : players) t->draw();
+	for (auto& t : pieces)     t->draw();
+	for (auto& t : bullets)    t->draw();
+	for (auto& t : enemies)    t->draw();
+	for (auto& t : players)    t->draw();
 	for (auto& t : explosions) t->draw();
 
-	text.draw();
+	textEnergy.draw();
+	textMissiles.draw();
 	SDL_RenderPresent(renderer);
 }
 

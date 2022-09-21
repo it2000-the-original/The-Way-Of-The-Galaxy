@@ -7,13 +7,15 @@ private:
 	PositionComponent* position;
 	PlayerComponent* player;
 	const Uint8* KeyboardState;
-	bool automatic;
+	bool automaticLaser;
+	bool automaticMissile;
 
 public:
 
 	KeyboardController() {
 
-		automatic = false;
+		automaticLaser = false;
+		automaticMissile = false;
 	}
 
 	~KeyboardController() {
@@ -71,16 +73,30 @@ public:
 
 		if (KeyboardState[SDL_SCANCODE_SPACE]) {
 
-			if (!automatic) {
+			if (!automaticLaser) {
 				
 				player->shot();
-				automatic = true;
+				automaticLaser = true;
 			}
 		}
 
 		else {
 
-			automatic = false;
+			automaticLaser = false;
+		}
+
+		if (KeyboardState[SDL_SCANCODE_M]) {
+
+			if (!automaticMissile) {
+				
+				player->shootMissile();
+				automaticMissile = true;
+			}
+		}
+
+		else {
+
+			automaticMissile = false;
 		}
 
 		player->checkPosition();
