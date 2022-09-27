@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>26812;26451;26495;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -155,30 +155,30 @@
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="BulletComponent.h" />
-    <ClInclude Include="ColliderComponent.h" />
-    <ClInclude Include="ColliderIds.h" />
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="Components.h" />
-    <ClInclude Include="ECS.h" />
-    <ClInclude Include="EnemyComponent.h" />
-    <ClInclude Include="Engine.h" />
-    <ClInclude Include="Background.h" />
-    <ClInclude Include="ExplodeComponent.h" />
-    <ClInclude Include="ExplosionComponent.h" />
-    <ClInclude Include="GroupLabels.h" />
-    <ClInclude Include="KeyboardController.h" />
-    <ClInclude Include="LevelManager.h" />
-    <ClInclude Include="MissileComponent.h" />
-    <ClInclude Include="PlayerComponent.h" />
-    <ClInclude Include="PositionComponent.h" />
-    <ClInclude Include="Random.h" />
-    <ClInclude Include="SpriteComponent.h" />
-    <ClInclude Include="Text.h" />
-    <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="TimeAction.h" />
-    <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="include\Animation.h" />
+    <ClInclude Include="ECS\BulletComponent.h" />
+    <ClInclude Include="ECS\ColliderComponent.h" />
+    <ClInclude Include="include\ColliderIds.h" />
+    <ClInclude Include="include\Collision.h" />
+    <ClInclude Include="include\Components.h" />
+    <ClInclude Include="ECS\ECS.h" />
+    <ClInclude Include="ECS\EnemyComponent.h" />
+    <ClInclude Include="include\Engine.h" />
+    <ClInclude Include="include\Background.h" />
+    <ClInclude Include="ECS\ExplodeComponent.h" />
+    <ClInclude Include="ECS\ExplosionComponent.h" />
+    <ClInclude Include="include\GroupLabels.h" />
+    <ClInclude Include="ECS\KeyboardController.h" />
+    <ClInclude Include="include\LevelManager.h" />
+    <ClInclude Include="ECS\MissileComponent.h" />
+    <ClInclude Include="ECS\PlayerComponent.h" />
+    <ClInclude Include="ECS\PositionComponent.h" />
+    <ClInclude Include="include\Random.h" />
+    <ClInclude Include="ECS\SpriteComponent.h" />
+    <ClInclude Include="include\Text.h" />
+    <ClInclude Include="include\TextureManager.h" />
+    <ClInclude Include="include\TimeAction.h" />
+    <ClInclude Include="include\Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="sprites\backgrounds\background1.png" />

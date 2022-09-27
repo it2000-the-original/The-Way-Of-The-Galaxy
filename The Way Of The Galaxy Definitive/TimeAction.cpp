@@ -2,7 +2,7 @@
 
 TimeAction::TimeAction() { duration = 1000; }
 
-TimeAction::TimeAction(Uint32 mDuration) { duration = mDuration; active = true;}
+TimeAction::TimeAction(Uint32 mDuration) { duration = mDuration; active = true; }
 
 void TimeAction::init() {
 

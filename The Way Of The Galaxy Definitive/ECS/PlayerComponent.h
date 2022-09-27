@@ -29,7 +29,7 @@ public:
 	
 	PlayerComponent() {
 		
-		reactLaserShoot = TimeAction(500);
+		reactLaserShoot = TimeAction(100);
 		reactMissileShoot = TimeAction(300);
 	}
 

@@ -9,7 +9,6 @@
 #include "LevelManager.h"
 #include "Text.h"
 #include <fstream>
-#include <filesystem>
 
 using json = nlohmann::json;
 
@@ -100,7 +99,6 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 		textMissiles = Text("sprites//fonts//character.ttf", 32, { 255, 255, 255 }, "Missiles: 0", 200, -10, 32 * 11 / 2, 40);
 
 		std::cout << IMG_GetError() << std::endl;
-		std::cout << std::filesystem::current_path() << std::endl;
 
 		levelmanager.startLevel("levelmaps//test.json");
 		isRunning = true;

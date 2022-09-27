@@ -65,76 +65,76 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine.h">
+    <ClInclude Include="include\Engine.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="TextureManager.h">
+    <ClInclude Include="include\TextureManager.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="ECS.h">
+    <ClInclude Include="ECS\ECS.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Components.h">
+    <ClInclude Include="include\Components.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="PositionComponent.h">
+    <ClInclude Include="ECS\PositionComponent.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteComponent.h">
+    <ClInclude Include="ECS\SpriteComponent.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="KeyboardController.h">
+    <ClInclude Include="ECS\KeyboardController.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
+    <ClInclude Include="include\Animation.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="Background.h">
+    <ClInclude Include="include\Background.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerComponent.h">
+    <ClInclude Include="ECS\PlayerComponent.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="BulletComponent.h">
+    <ClInclude Include="ECS\BulletComponent.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
+    <ClInclude Include="include\Collision.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="ColliderComponent.h">
+    <ClInclude Include="ECS\ColliderComponent.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="LevelManager.h">
+    <ClInclude Include="include\LevelManager.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="ColliderIds.h">
+    <ClInclude Include="include\ColliderIds.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="GroupLabels.h">
+    <ClInclude Include="include\GroupLabels.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2D.h">
+    <ClInclude Include="include\Vector2D.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="ExplosionComponent.h">
+    <ClInclude Include="ECS\ExplosionComponent.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyComponent.h">
+    <ClInclude Include="ECS\EnemyComponent.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
+    <ClInclude Include="include\Text.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="TimeAction.h">
+    <ClInclude Include="include\TimeAction.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="Random.h">
+    <ClInclude Include="include\Random.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="ExplodeComponent.h">
+    <ClInclude Include="ECS\ExplodeComponent.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="MissileComponent.h">
+    <ClInclude Include="ECS\MissileComponent.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
   </ItemGroup>
