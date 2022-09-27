@@ -3,9 +3,12 @@
 project ("The Way Of The Galaxy")
 
 file(GLOB srcfiles "*.cpp")
-file(GLOB headers "*.h")
+file(GLOB headers "include/*.h")
+file(GLOB components "ECS/*.h")
 
-add_executable(TWOTG ${srcfiles} ${headers})
+add_executable(TWOTG ${srcfiles} ${headers} ${components})
+
+target_include_directories(TWOTG PRIVATE "include" "ECS")
 
 target_link_libraries(TWOTG PRIVATE SDL2 SDL2main SDL2_image SDL2_ttf)
 
