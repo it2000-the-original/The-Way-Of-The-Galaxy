@@ -19,7 +19,7 @@ public:
 
 	void update() override {
 	
-		if (!position->isOnRender()) {
+		if (!position->isOnRender().xy) {
 
 			entity->destroy();
 		}

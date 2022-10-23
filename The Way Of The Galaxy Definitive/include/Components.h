@@ -2,6 +2,7 @@
 #include "ECS.h"
 #include "PositionComponent.h"
 #include "SpriteComponent.h"
+#include "TextComponent.h"
 #include "BulletComponent.h"
 #include "ColliderComponent.h"
 #include "ExplosionComponent.h"

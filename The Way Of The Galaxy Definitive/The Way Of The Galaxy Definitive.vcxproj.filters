@@ -42,7 +42,7 @@
     <ClCompile Include="TextureManager.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="Background.cpp">
+    <ClCompile Include="BackgroundsManager.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
@@ -57,10 +57,10 @@
     <ClCompile Include="Vector2D.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
+    <ClCompile Include="TimeAction.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="TimeAction.cpp">
+    <ClCompile Include="include\Statusbar.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,7 +89,7 @@
     <ClInclude Include="include\Animation.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="include\Background.h">
+    <ClInclude Include="include\BackgroundsManager.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="ECS\PlayerComponent.h">
@@ -122,9 +122,6 @@
     <ClInclude Include="ECS\EnemyComponent.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="include\Text.h">
-      <Filter>File di intestazione</Filter>
-    </ClInclude>
     <ClInclude Include="include\TimeAction.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
@@ -136,6 +133,12 @@
     </ClInclude>
     <ClInclude Include="ECS\MissileComponent.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\TextComponent.h">
+      <Filter>File di intestazione\EntityComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Statusbar.h">
+      <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

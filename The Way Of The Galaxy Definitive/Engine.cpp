@@ -1,42 +1,42 @@
 #include "Engine.h"
 #include "TextureManager.h"
 #include "Components.h"
-#include "Background.h"
+#include "BackgroundsManager.h"
 #include "Collision.h"
 #include <nlohmann/json.hpp>
 #include "ColliderIds.h"
 #include "GroupLabels.h"
 #include "LevelManager.h"
-#include "Text.h"
+#include "Statusbar.h"
 #include <fstream>
 
 using json = nlohmann::json;
 
 Manager manager;
-LevelManager levelmanager(manager);
+LevelManager levelManager(manager);
+BackgroundsManager backgroundsManager(manager);
+Statusbar statusbar(manager);
+
 SDL_Renderer* Engine::renderer;
 SDL_Event* Engine::event;
 int Engine::renderwidth = 0;
 int Engine::renderheight = 0;
 
-Background background;
-
 auto& player = manager.addEntity();
-auto& enemy = manager.addEntity();
-
-Text textEnergy;
-Text textMissiles;
+auto& textEntity = manager.addEntity();
 
 std::vector<ColliderComponent*> Engine::colliders;
 
 // Put the manager->groupedEntities vectors in the refereces variables to control
 // the render layers in the render() metod
 
+auto& backgrounds = manager.getGroup(groupBackgrounds);
 auto& bullets = manager.getGroup(groupBullets);
 auto& enemies = manager.getGroup(groupEnemies);
 auto& players = manager.getGroup(groupPlayer);
 auto& explosions = manager.getGroup(groupExplosions);
 auto& pieces = manager.getGroup(groupPieces);
+auto& status = manager.getGroup(groupStatus);
 
 void Engine::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
 
@@ -76,10 +76,8 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 
 		// Adding wallpapers
 		
-		background = Background(640, 512, 2);
-		background.addWallpaper("sprites//backgrounds//background1.png", 1);
-		background.addWallpaper("sprites//backgrounds//background2.png", 2);
-		//background.addWallpaper("sprites\\backgrounds\\background3.png", 4);
+		backgroundsManager.addWallpaper("sprites//backgrounds//background1.png", 1, 2, 640, 512, 2);
+		backgroundsManager.addWallpaper("sprites//backgrounds//background2.png", 2, 2, 640, 512, 2);
 
 		// Setting components
 
@@ -95,12 +93,25 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 		player.addComponent<ColliderComponent>(playerId);
 		player.addGroup(groupPlayer);
 
-		textEnergy = Text("sprites//fonts//character.ttf", 32, { 255, 255, 255 }, "Energy: 0", 8, -10, 32 * 11 / 2, 40);
-		textMissiles = Text("sprites//fonts//character.ttf", 32, { 255, 255, 255 }, "Missiles: 0", 200, -10, 32 * 11 / 2, 40);
+		//textEntity.addComponent<PositionComponent>(50, 50);
+		//textEntity.addComponent<TextComponent>("Cazzate", "sprites//fonts//pixelfonts.ttf", 25, 255, 255, 255);
+		//textEntity.getComponent<TextComponent>().addIcon("sprites//icons//missileIcon.png", 20, 5, 4, false);
+		//textEntity.addGroup(groupEnemies);
+		//textEntity.getComponent<TextComponent>().setText("Noooooooooooooooooooooooooooooooo");
+
+		statusbar.init(30, "sprites//statusbar.png", "sprites//fonts//pixelfonts.ttf", 20, 5, 20);
+		auto& energyWidget = statusbar.addWidget<EnergyWidget>(&player.getComponent<PlayerComponent>().energy);
+		auto& missilesWidget = statusbar.addWidget<EnergyWidget>(&player.getComponent<PlayerComponent>().missiles);
+
+		energyWidget.setModel("999");
+		energyWidget.addIcon("sprites//icons//missileIcon.png", 15, 8, 4);
+
+		missilesWidget.setModel("999");
+		missilesWidget.addIcon("sprites//icons//missileIcon.png", 15, 8, 4);
 
 		std::cout << IMG_GetError() << std::endl;
 
-		levelmanager.startLevel("levelmaps//test.json");
+		levelManager.startLevel("levelmaps//test.json");
 		isRunning = true;
 	}
 
@@ -112,18 +123,14 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 
 void Engine::update() {
 
-	background.update();
 	refreshColliders();
-	levelmanager.update();
+	levelManager.update();
+	backgroundsManager.update();
+	statusbar.update();
+	statusbar.refresh();
+
 	manager.refersh();
 	manager.update();
-	textEnergy.setText(std::string("Energy: " + std::to_string(player.getComponent<PlayerComponent>().energy)).c_str());
-	textMissiles.setText(std::string("Missiles: " + std::to_string(player.getComponent<PlayerComponent>().missiles)).c_str());
-
-	/*if (!player.getComponent<PositionComponent>().isCompletelyOnRender()) {
-
-		player.getComponent<PositionComponent>().restorePosition();
-	}*/
 
 	for (auto cc : colliders) {
 
@@ -215,17 +222,15 @@ void Engine::update() {
 void Engine::render() {
 
 	SDL_RenderClear(renderer);
-	background.draw();
-	//manager.draw();
 
-	for (auto& t : pieces)     t->draw();
-	for (auto& t : bullets)    t->draw();
-	for (auto& t : enemies)    t->draw();
-	for (auto& t : players)    t->draw();
-	for (auto& t : explosions) t->draw();
+	for (auto& t : backgrounds) t->draw();
+	for (auto& t : pieces)      t->draw();
+	for (auto& t : bullets)     t->draw();
+	for (auto& t : enemies)     t->draw();
+	for (auto& t : players)     t->draw();
+	for (auto& t : explosions)  t->draw();
+	for (auto& t : status)      t->draw();
 
-	textEnergy.draw();
-	textMissiles.draw();
 	SDL_RenderPresent(renderer);
 }
 

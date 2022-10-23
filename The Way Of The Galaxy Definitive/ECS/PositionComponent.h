@@ -4,6 +4,14 @@
 #include "Vector2D.h"
 #include "Engine.h"
 
+struct statusPosition {
+
+	bool x = false, y = false,
+	xr = false, xl = false,
+	yu = false, yd = false,
+	xy = false;
+};
+
 class PositionComponent : public Component {
 
 //private:
@@ -117,39 +125,50 @@ public:
 		velocity.y = y;
 	}
 
+	void setPosition(int x, int y) {
+
+		position.x = x;
+		position.y = y;
+	}
+
 	void restorePosition(bool x, bool y) {
 
 		if (x) position.x = backupPosition.x;
 		if (y) position.y = backupPosition.y;
 	}
 
-	bool isOnRender() {
+	statusPosition isOnRender() {
 
-		if (
+		statusPosition status;
 
-			position.x > -width and
-			position.y > -height and
-			position.x < Engine::renderwidth and
-			position.y < Engine::renderheight
+		if (position.x > -width * scale) status.xl = true;
+		if (position.x < Engine::renderwidth) status.xr = true;
+		if (status.xl == true and status.xr == true) status.x = true;
 
-			) {
+		if (position.y > -height * scale) status.yu = true;
+		if (position.y < Engine::renderheight) status.yd = true;
+		if (status.yu == true and status.yd == true) status.y = true;
 
-			return true;
-		}
+		if (status.x == true and status.y == true) status.xy = true;
 
-		return false;
+		return status;
 	}
 
 	std::array<bool, 2> isCompletelyOnRender() {
 
 		std::array<bool, 2> xyarray;
 		
-		if (position.x >= 0 and	position.x <= Engine::renderwidth - width) xyarray[0] = true;
+		if (position.x >= 0 and	position.x <= Engine::renderwidth - width * scale) xyarray[0] = true;
 		else xyarray[0] = false;
 
-		if (position.y >= 0 and position.y <= Engine::renderheight - height) xyarray[1] = true;
+		if (position.y >= 0 and position.y <= Engine::renderheight - height * scale) xyarray[1] = true;
 		else xyarray[1] = false;
 
 		return xyarray;
+	}
+
+	SDL_Rect getCenterPoint() {
+
+		return { position.x + width * scale / 2, position.y + height * scale / 2, 0, 0 };
 	}
 };

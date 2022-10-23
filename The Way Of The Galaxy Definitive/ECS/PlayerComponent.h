@@ -3,6 +3,7 @@
 #include "ColliderIds.h"
 #include "GroupLabels.h"
 #include "TimeAction.h"
+#include <string>
 
 class PlayerComponent : public Component {
 
@@ -20,7 +21,6 @@ private:
 	TimeAction reactMissileShoot;
 	TimeAction reactShootAnimation  = TimeAction(100);
 	TimeAction reactDamageAnimation = TimeAction(100);
-
 
 public:
 
@@ -77,7 +77,7 @@ public:
 
 			reactLaserShoot.init();
 			auto& bullet = entity->manager.addEntity();
-			bullet.addComponent<PositionComponent>(position->position.x + position->width - laserPositionCorrection.x, position->position.y + position->height - laserPositionCorrection.y, 8, 2, 1);
+			bullet.addComponent<PositionComponent>(position->position.x + position->width * position->scale - laserPositionCorrection.x, position->position.y + position->height * position->scale - laserPositionCorrection.y, 8, 2, 1);
 			bullet.getComponent<PositionComponent>().setSpeed(10, 0);
 			bullet.addComponent<SpriteComponent>("sprites//lasers//laser.png");
 			bullet.addComponent<ColliderComponent>(laserId);
@@ -101,7 +101,7 @@ public:
 			bullet.getComponent<SpriteComponent>().playAnimation("base");
 			bullet.addComponent<ColliderComponent>(missileId);
 			bullet.addComponent<BulletComponent>();
-			//bullet.addComponent<MissileComponent>();
+			bullet.addComponent<MissileComponent>();
 			bullet.addComponent<ExplodeComponent>("sprites//explosions//explosion.png", 50, 50, 40, 60);
 			bullet.addGroup(groupBullets);
 			sprite->playAnimation("shot");
