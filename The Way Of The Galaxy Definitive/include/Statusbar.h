@@ -25,7 +25,7 @@ public:
 	int getIconWidth();
 	int getWidth();
 	void addIcon(const char* iconPath, int mIconSize, int mIconSpacing, int iconMarginTop);
-	void setColor(int r, int g, int b);
+	void setColor(int r, int g, int b, int a);
 	void setPrefix(std::string mPrefix);
 	void setModel(std::string mModel);
 	void setPosition(int x, int y);
@@ -48,10 +48,11 @@ public:
 	int fontSize;
 
 	Statusbar(Manager& mManager);
-	void init(int size, const char* statusTexture, std::string mFontPath, int mFontSize, int mTopPosition, int mSpacing);
+	void init(int size, const char* statusTexture, std::string mFontPath, int mFontSize, int mTopPosition, int mSpacing, bool animated);
 	void update();
 	void refresh();
 	void reloadPositions();
+	void setAnimation(int f, int i, int s);
 
 	template <typename T, typename... TArgs> T& addWidget(TArgs&&... mArgs) {
 		
@@ -94,5 +95,18 @@ public:
 	MissilesWidget(int* mMissiles) { missiles = mMissiles; }
 	void update() override { entity->getComponent<TextComponent>().setText(prefix + std::to_string(*missiles)); }
 	~MissilesWidget() {}
+};
+
+class WeaponWidget : public Widget {
+
+private:
+
+	PlayerComponent* player;
+
+public:
+
+	WeaponWidget(PlayerComponent* mPlayer) { player = mPlayer; }
+	void update() override { entity->getComponent<TextComponent>().setText(prefix + player->getSelectedWeapon()); }
+	~WeaponWidget() {}
 };
 

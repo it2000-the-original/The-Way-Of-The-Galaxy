@@ -15,15 +15,14 @@ private:
 	SDL_Texture* texture;
 	SDL_Rect srcRect;
 	SDL_Rect destRect;
-	bool animated;
+	bool animated = false;
+	bool animatedReversed = false;
 
 	// Animation values
 	int previousTime;
 	int frames;
 	int index;
 	int speed;
-
-	int var = true;
 
 	std::map<const char*, Animation> animation;
 
@@ -33,7 +32,6 @@ public:
 
 		texture = TextureManager::LoadTexture(path);
 		flip = SDL_FLIP_NONE;
-		animated = false;
 	}
 
 	SpriteComponent(const char* path, bool isAnimated) {
@@ -41,6 +39,15 @@ public:
 		texture = TextureManager::LoadTexture(path);
 		flip = SDL_FLIP_NONE;
 		animated = isAnimated;
+	}
+	
+	SpriteComponent(const char* path, bool isAnimated, bool mAnimatedReversed) {
+
+		texture = TextureManager::LoadTexture(path);
+		flip = SDL_FLIP_NONE;
+		animated = isAnimated;
+		animatedReversed = mAnimatedReversed;
+		std::cout << animatedReversed << std::endl;
 	}
 
 	~SpriteComponent() {
@@ -75,13 +82,14 @@ public:
 
 			if (SDL_GetTicks() - previousTime > speed) {
 
-				passNextFrame();
+				if (!animatedReversed) moveRightFrame();
+				else moveDownFrame();
 				previousTime = SDL_GetTicks();
 			}
 
+			if (!animatedReversed) srcRect.y = srcRect.h * index;
+			else srcRect.x = srcRect.w * index;
 		}
-
-		srcRect.y = srcRect.h * index;
 		
 		destRect.x = position->position.x;
 		destRect.y = position->position.y;
@@ -105,10 +113,16 @@ public:
 		speed = animation[ani].speed;
 	}
 
-	void passNextFrame() {
+	void moveRightFrame() {
 
 		if (srcRect.x < srcRect.w * (frames - 1)) srcRect.x += srcRect.w;
 		else srcRect.x = 0;
+	}
+
+	void moveDownFrame() {
+
+		if (srcRect.y < srcRect.h * (frames - 1)) srcRect.y += srcRect.h;
+		else srcRect.y = 0;
 	}
 
 	void setFlip(SDL_RendererFlip mFlip) {

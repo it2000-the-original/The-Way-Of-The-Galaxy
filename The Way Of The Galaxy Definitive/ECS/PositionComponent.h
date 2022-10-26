@@ -142,11 +142,11 @@ public:
 		statusPosition status;
 
 		if (position.x > -width * scale) status.xl = true;
-		if (position.x < Engine::renderwidth) status.xr = true;
+		if (position.x < renderwidth) status.xr = true;
 		if (status.xl == true and status.xr == true) status.x = true;
 
-		if (position.y > -height * scale) status.yu = true;
-		if (position.y < Engine::renderheight) status.yd = true;
+		if (position.y > statusheight - height * scale) status.yu = true;
+		if (position.y < renderheight) status.yd = true;
 		if (status.yu == true and status.yd == true) status.y = true;
 
 		if (status.x == true and status.y == true) status.xy = true;
@@ -158,10 +158,10 @@ public:
 
 		std::array<bool, 2> xyarray;
 		
-		if (position.x >= 0 and	position.x <= Engine::renderwidth - width * scale) xyarray[0] = true;
+		if (position.x >= 0 and	position.x <= renderwidth - width * scale) xyarray[0] = true;
 		else xyarray[0] = false;
 
-		if (position.y >= 0 and position.y <= Engine::renderheight - height * scale) xyarray[1] = true;
+		if (position.y >= statusheight and position.y <= renderheight - height * scale) xyarray[1] = true;
 		else xyarray[1] = false;
 
 		return xyarray;

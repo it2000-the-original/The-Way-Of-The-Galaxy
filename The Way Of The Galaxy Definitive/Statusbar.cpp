@@ -7,8 +7,7 @@ bool Widget::isActive() { return active; }
 int Widget::getWidth() {
 
 	std::string widgetString = prefix + model;
-	int iconWidth = iconSize + iconSpacing;
-	return (widgetString.size() * statusbar->fontSize / 2) + iconWidth;
+	return widgetString.size() * statusbar->fontSize / 2;
 }
 
 int Widget::getIconWidth() {
@@ -24,9 +23,9 @@ void Widget::addIcon(const char* iconPath, int mIconSize, int mIconSpacing, int 
 	statusbar->reloadPositions();
 }
 
-void Widget::setColor(int r, int g, int b) {
+void Widget::setColor(int r, int g, int b, int a) {
 
-	entity->getComponent<TextComponent>().setColor(r, g, b);
+	entity->getComponent<TextComponent>().setColor(r, g, b, a);
 }
 
 void Widget::setPrefix(std::string mPrefix) {
@@ -52,10 +51,10 @@ Widget::~Widget() {}
 
 Statusbar::Statusbar(Manager& mManager) : manager(mManager) { statusbar = &manager.addEntity(); }
 
-void Statusbar::init(int size, const char* statusImage, std::string mFontPath, int mFontSize, int mTopPosition, int mSpacing) {
+void Statusbar::init(int size, const char* statusImage, std::string mFontPath, int mFontSize, int mTopPosition, int mSpacing, bool animated) {
 
 	statusbar->addComponent<PositionComponent>(0, 0, 1200, size, 1);
-	statusbar->addComponent<SpriteComponent>(statusImage);
+	statusbar->addComponent<SpriteComponent>(statusImage, animated, true);
 	statusbar->addGroup(groupStatus);
 	fontPath = mFontPath;
 	fontSize = mFontSize;
@@ -88,12 +87,18 @@ void Statusbar::refresh() {
 
 void Statusbar::reloadPositions() {
 
-	int lastPosition = widgets[0]->getIconWidth();
+	int lastPosition = spacing;
 
 	for (auto* widget : widgets) {
 
-		lastPosition += spacing;
+		lastPosition += widget->getIconWidth();
 		widget->setPosition(lastPosition, topPosition);
-		lastPosition += widget->getWidth();
+		lastPosition += widget->getWidth() + spacing;
 	}
+}
+
+void Statusbar::setAnimation(int f, int i, int s) {
+
+	statusbar->getComponent<SpriteComponent>().addAnimation("statusAnimation", f, i, s);
+	statusbar->getComponent<SpriteComponent>().playAnimation("statusAnimation");
 }

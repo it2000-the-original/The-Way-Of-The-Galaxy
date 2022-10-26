@@ -147,9 +147,9 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="ECS.cpp" />
     <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="include\Statusbar.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Statusbar.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TimeAction.cpp" />
     <ClCompile Include="Vector2D.cpp" />

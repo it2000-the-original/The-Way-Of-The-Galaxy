@@ -96,17 +96,17 @@ public:
 		texture = TextureManager::LoadTexture(font, color, text.c_str());
 	}
 
-	void setColor(int r, int g, int b) {
+	void setColor(int r, int g, int b, int a) {
 
 		SDL_DestroyTexture(texture);
-		color.r = r; color.g = g; color.b = b;
+		color.r = r; color.g = g; color.b = b; color.a = a;
 		texture = TextureManager::LoadTexture(font, color, text.c_str());
 	}
 	
 	void addIcon(const char* iconPath, int mIconSize, int mIconSpacing, int mIconMarginTop, bool mIconRight) {
 
 		iconTexture = TextureManager::LoadTexture(iconPath);
-		iconSize = 15;
+		iconSize = mIconSize;
 		iconSpacing = mIconSpacing;
 		iconMarginTop = mIconMarginTop;
 		iconRight = mIconRight;

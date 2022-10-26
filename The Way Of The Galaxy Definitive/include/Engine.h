@@ -10,6 +10,10 @@
 
 class ColliderComponent;
 
+const int statusheight = 30;
+const int renderwidth = 1200;
+const int renderheight = 700;
+
 class Engine {
 
 public:
@@ -24,8 +28,6 @@ public:
 
 	static SDL_Renderer* renderer;
 	static SDL_Event* event;
-	static int renderwidth;
-	static int renderheight;
 	static std::vector<ColliderComponent*> colliders;
 
 private:

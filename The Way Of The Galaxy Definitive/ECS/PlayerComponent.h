@@ -22,10 +22,13 @@ private:
 	TimeAction reactShootAnimation  = TimeAction(100);
 	TimeAction reactDamageAnimation = TimeAction(100);
 
+	std::string weapons[2] = { "laser", "missile" };
+	int SelectedWeapon = 0;
+
 public:
 
 	int energy = 100;
-	int missiles = 20;
+	int missiles = 200;
 	
 	PlayerComponent() {
 		
@@ -33,10 +36,10 @@ public:
 		reactMissileShoot = TimeAction(300);
 	}
 
-	PlayerComponent(int mShootTime) {
+	PlayerComponent(int laserShotTime, int missileShotTime) {
 
-		reactLaserShoot = TimeAction(mShootTime);
-		reactMissileShoot = TimeAction(mShootTime);
+		reactLaserShoot = TimeAction(laserShotTime);
+		reactMissileShoot = TimeAction(missileShotTime);
 	}
 
 	void init() override {
@@ -72,7 +75,13 @@ public:
 	}
 
 	void shot() {
-			
+		
+		if (weapons[SelectedWeapon] == "laser") shotLaser();
+		else if (weapons[SelectedWeapon] == "missile") shotMissile();
+	}
+
+	void shotLaser() {
+
 		if (reactLaserShoot.check() and !reactDamageAnimation.isActive()) {
 
 			reactLaserShoot.init();
@@ -87,8 +96,7 @@ public:
 			reactShootAnimation.init();
 		}
 	}
-
-	void shootMissile() {
+	void shotMissile() {
 
 		if (reactMissileShoot.check() and !reactDamageAnimation.isActive() and missiles > 0) {
 
@@ -109,6 +117,15 @@ public:
 			missiles -= 1;
 		}
 	}
+
+	void switchWeapon() {
+
+		std::cout << sizeof(weapons) << std::endl;
+		if (SelectedWeapon < (sizeof(weapons) / sizeof(std::string)) - 1) SelectedWeapon++;
+		else SelectedWeapon = 0;
+	}
+
+	std::string getSelectedWeapon() { return weapons[SelectedWeapon]; }
 
 	void reactDamage() {
 

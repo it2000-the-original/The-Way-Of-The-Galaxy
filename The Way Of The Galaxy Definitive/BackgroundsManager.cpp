@@ -12,7 +12,7 @@ void BackgroundsManager::addWallpaper(const char* path, int speed, int entitiesN
 	for (int i = 0; i < entitiesNumber; i++) {
 
 		entities.emplace_back(&manager.addEntity());
-		entities[i]->addComponent<PositionComponent>(actualPosition, 0, width, height, scale);
+		entities[i]->addComponent<PositionComponent>(actualPosition, statusheight, width, height, scale);
 		entities[i]->getComponent<PositionComponent>().setSpeed(-speed, 0);
 		entities[i]->addComponent<SpriteComponent>(path);
 		entities[i]->addGroup(groupBackgrounds);

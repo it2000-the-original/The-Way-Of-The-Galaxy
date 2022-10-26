@@ -7,16 +7,12 @@ private:
 	PositionComponent* position;
 	PlayerComponent* player;
 	const Uint8* KeyboardState;
-	bool automaticLaser;
-	bool automaticMissile;
+	bool automaticWeapon = true;
+	bool alreadySwitched = true;
 
 public:
 
-	KeyboardController() {
-
-		automaticLaser = false;
-		automaticMissile = false;
-	}
+	KeyboardController() {}
 
 	~KeyboardController() {
 
@@ -71,32 +67,32 @@ public:
 			player->reactDamage();
 		}
 
-		if (KeyboardState[SDL_SCANCODE_SPACE]) {
-
-			if (!automaticLaser) {
-				
-				player->shot();
-				automaticLaser = true;
-			}
-		}
-
-		else {
-
-			automaticLaser = false;
-		}
-
 		if (KeyboardState[SDL_SCANCODE_M]) {
 
-			if (!automaticMissile) {
-				
-				player->shootMissile();
-				automaticMissile = true;
+			if (!alreadySwitched) {
+
+				player->switchWeapon();
+				alreadySwitched = true;
 			}
 		}
 
 		else {
 
-			automaticMissile = false;
+			alreadySwitched = false;
+		}
+
+		if (KeyboardState[SDL_SCANCODE_SPACE]) {
+
+			if (!automaticWeapon) {
+				
+				player->shot();
+				automaticWeapon = true;
+			}
+		}
+
+		else {
+
+			automaticWeapon = false;
 		}
 
 		player->checkPosition();

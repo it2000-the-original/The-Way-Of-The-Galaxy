@@ -19,8 +19,6 @@ Statusbar statusbar(manager);
 
 SDL_Renderer* Engine::renderer;
 SDL_Event* Engine::event;
-int Engine::renderwidth = 0;
-int Engine::renderheight = 0;
 
 auto& player = manager.addEntity();
 auto& textEntity = manager.addEntity();
@@ -50,8 +48,6 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 
 		window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
-		renderwidth = width;
-		renderheight = height;
 
 		if (window) {
 
@@ -99,15 +95,24 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 		//textEntity.addGroup(groupEnemies);
 		//textEntity.getComponent<TextComponent>().setText("Noooooooooooooooooooooooooooooooo");
 
-		statusbar.init(30, "sprites//statusbar.png", "sprites//fonts//pixelfonts.ttf", 20, 5, 20);
+		statusbar.init(statusheight, "sprites//statusbar.png", "sprites//fonts//pixelfonts.ttf", 20, 4, 20, true);
+		statusbar.setAnimation(43, 0, 40);
+
 		auto& energyWidget = statusbar.addWidget<EnergyWidget>(&player.getComponent<PlayerComponent>().energy);
-		auto& missilesWidget = statusbar.addWidget<EnergyWidget>(&player.getComponent<PlayerComponent>().missiles);
+		auto& missilesWidget = statusbar.addWidget<MissilesWidget>(&player.getComponent<PlayerComponent>().missiles);
+		auto& weaponWidget = statusbar.addWidget<WeaponWidget>(&player.getComponent<PlayerComponent>());
 
 		energyWidget.setModel("999");
-		energyWidget.addIcon("sprites//icons//missileIcon.png", 15, 8, 4);
+		energyWidget.setColor(255, 255, 0, 180);
+		energyWidget.addIcon("sprites//icons//missileIcon.png", 12, 6, 5);
 
 		missilesWidget.setModel("999");
-		missilesWidget.addIcon("sprites//icons//missileIcon.png", 15, 8, 4);
+		missilesWidget.setColor(255, 255, 0, 180);
+		missilesWidget.addIcon("sprites//icons//missileIcon.png", 12, 6, 5);
+
+		weaponWidget.setModel("missile");
+		weaponWidget.setColor(255, 255, 0, 180);
+		weaponWidget.setPrefix("W: ");
 
 		std::cout << IMG_GetError() << std::endl;
 
