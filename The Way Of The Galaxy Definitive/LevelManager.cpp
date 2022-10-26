@@ -1,6 +1,4 @@
 #include "LevelManager.h"
-#include "ColliderIds.h"
-#include "GroupLabels.h"
 #include <fstream>
 
 LevelManager::LevelManager(Manager& mManager) : manager(mManager) {}

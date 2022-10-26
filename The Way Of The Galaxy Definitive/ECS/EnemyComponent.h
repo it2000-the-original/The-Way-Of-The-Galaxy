@@ -1,6 +1,5 @@
 #pragma once
 #include "Components.h"
-#include "GroupLabels.h"
 
 class EnemyComponent : public Component {
 

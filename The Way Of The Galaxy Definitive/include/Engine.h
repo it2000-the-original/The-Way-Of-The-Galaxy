@@ -14,6 +14,26 @@ const int statusheight = 30;
 const int renderwidth = 1200;
 const int renderheight = 700;
 
+enum ColliderIds : std::size_t {
+
+	playerId,
+	enemyId,
+	laserId,
+	enemylaserId,
+	missileId
+};
+
+enum GroupLabels : std::size_t {
+
+	groupBullets,
+	groupEnemies,
+	groupPlayer,
+	groupExplosions,
+	groupPieces,
+	groupBackgrounds,
+	groupStatus
+};
+
 class Engine {
 
 public:

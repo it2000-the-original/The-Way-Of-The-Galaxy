@@ -1,7 +1,5 @@
 #pragma once
 #include "Components.h"
-#include "ColliderIds.h"
-#include "GroupLabels.h"
 #include "TimeAction.h"
 #include <string>
 
@@ -11,6 +9,7 @@ private:
 
 	PositionComponent* position;
 	SpriteComponent* sprite;
+	ColliderComponent* collider;
 
 	// This variables define the time before a bullet to another
 	const SDL_Rect laserPositionCorrection {10, 6, 0, 0};
@@ -46,6 +45,7 @@ public:
 
 		position = &entity->getComponent<PositionComponent>();
 		sprite = &entity->getComponent<SpriteComponent>();
+		collider = &entity->getComponent<ColliderComponent>();
 	}
 
 	void update() override {
@@ -59,6 +59,7 @@ public:
 
 			entity->destroy();
 		}
+
 	}
 
 	void checkPosition() {

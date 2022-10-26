@@ -1,5 +1,4 @@
 #include "BackgroundsManager.h"
-#include "GroupLabels.h"
 
 BackgroundsManager::BackgroundsManager(Manager& mManager) : manager(mManager) {}
 
@@ -24,7 +23,8 @@ void BackgroundsManager::addWallpaper(const char* path, int speed, int entitiesN
 
 void BackgroundsManager::update() {
 
-	for (auto vec : backgrounds)
+	for (auto vec : backgrounds) {
+
 		for (auto* ent : vec) {
 
 			if (!ent->getComponent<PositionComponent>().isOnRender().xl) {
@@ -32,4 +32,5 @@ void BackgroundsManager::update() {
 				ent->getComponent<PositionComponent>().position.x += (ent->getComponent<PositionComponent>().width * ent->getComponent<PositionComponent>().scale) * vec.size();
 			}
 		}
+	}
 }

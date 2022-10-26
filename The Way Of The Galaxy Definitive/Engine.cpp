@@ -1,11 +1,9 @@
 #include "Engine.h"
 #include "TextureManager.h"
+#include "Collision.h"
 #include "Components.h"
 #include "BackgroundsManager.h"
-#include "Collision.h"
 #include <nlohmann/json.hpp>
-#include "ColliderIds.h"
-#include "GroupLabels.h"
 #include "LevelManager.h"
 #include "Statusbar.h"
 #include <fstream>
@@ -84,9 +82,9 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 		player.getComponent<SpriteComponent>().addAnimation("shot", 4, 1, 100);
 		player.getComponent<SpriteComponent>().addAnimation("damage", 4, 2, 100);
 		player.getComponent<SpriteComponent>().playAnimation("base");
+		player.addComponent<ColliderComponent>(playerId);
 		player.addComponent<PlayerComponent>();
 		player.addComponent<KeyboardController>();
-		player.addComponent<ColliderComponent>(playerId);
 		player.addGroup(groupPlayer);
 
 		//textEntity.addComponent<PositionComponent>(50, 50);
@@ -104,7 +102,7 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 
 		energyWidget.setModel("999");
 		energyWidget.setColor(255, 255, 0, 180);
-		energyWidget.addIcon("sprites//icons//missileIcon.png", 12, 6, 5);
+		energyWidget.addIcon("sprites//icons//energyIcon.png", 12, 6, 5);
 
 		missilesWidget.setModel("999");
 		missilesWidget.setColor(255, 255, 0, 180);
@@ -137,91 +135,7 @@ void Engine::update() {
 	manager.refersh();
 	manager.update();
 
-	for (auto cc : colliders) {
-
-		switch (cc->id) {
-
-		case playerId:
-
-			for (auto cd : colliders) {
-				
-				if (Collision::AABB(*cc, *cd)) {
-
-					switch (cd->id) {
-
-					case enemyId:
-
-						std::cout << "Collision player->enemy" << std::endl;
-						break;
-					}
-				}
-			}
-
-			break;
-
-		case laserId:
-
-			for (auto cd : colliders) {
-
-				if (Collision::AABB(*cc, *cd)) {
-
-					switch (cd->id) {
-
-					case enemyId:
-
-						std::cout << "Collision laser->enemy" << std::endl;
-						cc->entity->destroy();
-						cd->entity->getComponent<ExplodeComponent>().explode();
-						break;
-					}
-				}
-			}
-
-			break;
-
-		case enemylaserId:
-
-			for (auto cd : colliders) {
-
-				if (Collision::AABB(*cc, *cd)) {
-
-					switch (cd->id) {
-
-					case playerId:
-
-						std::cout << "Collision enemy laser->player" << std::endl;
-						cc->entity->destroy();
-						cd->entity->getComponent<PlayerComponent>().energy -= 2;
-						break;
-					}
-				}
-			}
-
-			break;
-
-		case missileId:
-
-			for (auto cd : colliders) {
-
-				if (Collision::AABB(*cc, *cd)) {
-
-					switch (cd->id) {
-
-					case enemyId:
-
-						std::cout << "Collision missile->enemy" << std::endl;
-						cc->entity->getComponent<ExplodeComponent>().explode();
-						cd->entity->getComponent<ExplodeComponent>().explode();
-						break;
-					}
-				}
-			}
-
-			break;
-		}
-
-		
-	}
+	Collision::checkCollisions();
 }
 
 void Engine::render() {
