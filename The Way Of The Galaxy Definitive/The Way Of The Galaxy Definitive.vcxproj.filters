@@ -63,6 +63,9 @@
     <ClCompile Include="Statusbar.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionSettings.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Engine.h">
@@ -107,12 +110,6 @@
     <ClInclude Include="include\LevelManager.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="include\ColliderIds.h">
-      <Filter>File di intestazione</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GroupLabels.h">
-      <Filter>File di intestazione</Filter>
-    </ClInclude>
     <ClInclude Include="include\Vector2D.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
@@ -138,6 +135,9 @@
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
     <ClInclude Include="include\Statusbar.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CollisionSettings.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

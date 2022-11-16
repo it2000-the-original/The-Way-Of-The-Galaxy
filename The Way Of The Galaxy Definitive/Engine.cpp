@@ -1,12 +1,13 @@
 #include "Engine.h"
 #include "TextureManager.h"
-#include "Collision.h"
 #include "Components.h"
+#include "Collision.h"
 #include "BackgroundsManager.h"
 #include <nlohmann/json.hpp>
 #include "LevelManager.h"
 #include "Statusbar.h"
 #include <fstream>
+#include "CollisionSettings.h"
 
 using json = nlohmann::json;
 
@@ -135,7 +136,7 @@ void Engine::update() {
 	manager.refersh();
 	manager.update();
 
-	Collision::checkCollisions();
+	checkCollisions();
 }
 
 void Engine::render() {

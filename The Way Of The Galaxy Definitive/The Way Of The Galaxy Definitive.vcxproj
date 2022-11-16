@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="BackgroundsManager.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="CollisionSettings.cpp" />
     <ClCompile Include="ECS.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="LevelManager.cpp" />
@@ -155,10 +156,10 @@
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\CollisionSettings.h" />
     <ClInclude Include="include\Animation.h" />
     <ClInclude Include="ECS\BulletComponent.h" />
     <ClInclude Include="ECS\ColliderComponent.h" />
-    <ClInclude Include="include\ColliderIds.h" />
     <ClInclude Include="include\Collision.h" />
     <ClInclude Include="include\Components.h" />
     <ClInclude Include="ECS\ECS.h" />
@@ -167,7 +168,6 @@
     <ClInclude Include="include\BackgroundsManager.h" />
     <ClInclude Include="ECS\ExplodeComponent.h" />
     <ClInclude Include="ECS\ExplosionComponent.h" />
-    <ClInclude Include="include\GroupLabels.h" />
     <ClInclude Include="ECS\KeyboardController.h" />
     <ClInclude Include="include\LevelManager.h" />
     <ClInclude Include="ECS\MissileComponent.h" />
