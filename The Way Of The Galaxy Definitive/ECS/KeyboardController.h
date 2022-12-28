@@ -1,6 +1,8 @@
 #pragma once
 #include "Components.h"
 
+class PlayerComponent;
+
 class KeyboardController : public Component {
 
 private:
@@ -85,7 +87,7 @@ public:
 		if (KeyboardState[SDL_SCANCODE_SPACE]) {
 
 			if (!automaticWeapon) {
-				
+
 				player->shot();
 				automaticWeapon = true;
 			}
@@ -97,5 +99,11 @@ public:
 		}
 
 		player->checkPosition();
+		getCollisionMTV(&entity->getComponent<ColliderComponent>(), satId);
+	}
+
+	void printWtf() {
+
+		std::cout << "Wtf" << std::endl;
 	}
 };

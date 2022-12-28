@@ -1,8 +1,8 @@
 #pragma once
+#include "CollisionRules.h"
 #include "Components.h"
 #include "TimeAction.h"
 #include <string>
-#include "ColliderComponent.h"
 
 class PlayerComponent : public Component {
 
@@ -58,6 +58,8 @@ public:
 
 			entity->destroy();
 		}
+
+		//checkForCollisions(collider, satId, std::bind(&KeyboardController::printWtf, this));
 	}
 
 	void checkPosition() {

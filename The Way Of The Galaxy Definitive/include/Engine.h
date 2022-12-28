@@ -10,7 +10,7 @@
 
 class ColliderComponent;
 
-const int statusheight = 30;
+const int statusheight = 0;
 const int renderwidth = 1200;
 const int renderheight = 700;
 
@@ -20,7 +20,8 @@ enum ColliderIds : std::size_t {
 	enemyId,
 	laserId,
 	enemylaserId,
-	missileId
+	missileId,
+	satId
 };
 
 enum GroupLabels : std::size_t {

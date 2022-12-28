@@ -63,7 +63,7 @@
     <ClCompile Include="Statusbar.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionSettings.cpp">
+    <ClCompile Include="CollisionRules.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -137,7 +137,7 @@
     <ClInclude Include="include\Statusbar.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="include\CollisionSettings.h">
+    <ClInclude Include="include\CollisionRules.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

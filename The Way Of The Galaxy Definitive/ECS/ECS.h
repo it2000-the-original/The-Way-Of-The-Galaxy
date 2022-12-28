@@ -104,13 +104,7 @@ public:
 		for (int i = components.size() - 1; i >= 0; i--) {
 
 			delete components[i];
-			components[i] = nullptr;
 			components.erase(components.begin() + i);
-		}
-
-		for (auto& c : components) {
-
-			c = nullptr;
 		}
 
 		std::cout << "Removed entity" << std::endl;
@@ -127,11 +121,6 @@ private:
 public:
 
 	void update() {
-
-		// I use this metod to update every entity instead of "auto& e : entities" because if i add an entity while
-		// they are updating, it generates an exception with the vector class and the crash of the program but i 
-		// need so mutch to add entityes during the uppdate. If you that are reading this have an idea to fix this, 
-		// write an issue on Github.
 
 		for (int i = 0; i < entities.size(); i++) entities[i]->update();
 	}

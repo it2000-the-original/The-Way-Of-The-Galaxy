@@ -24,6 +24,7 @@
     <ProjectGuid>{c5b20032-f2e6-4ff4-9330-4871385e6a5b}</ProjectGuid>
     <RootNamespace>TheWayOfTheGalaxyDefinitive</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>The Way Of The Galaxy Definitive</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -116,7 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>ECS/Custom;ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>26812;26451;26495;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -134,18 +135,20 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BackgroundsManager.cpp" />
     <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="CollisionSettings.cpp" />
+    <ClCompile Include="CollisionRules.cpp" />
     <ClCompile Include="ECS.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="LevelManager.cpp" />
@@ -156,7 +159,7 @@
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\CollisionSettings.h" />
+    <ClInclude Include="include\CollisionRules.h" />
     <ClInclude Include="include\Animation.h" />
     <ClInclude Include="ECS\BulletComponent.h" />
     <ClInclude Include="ECS\ColliderComponent.h" />
