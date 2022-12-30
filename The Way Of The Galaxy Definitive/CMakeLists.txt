@@ -3,19 +3,20 @@
 # and cross platform, to compile, you need to install the SDL2 SDL2_image SDL2_ttf packages....
 
 cmake_minimum_required (VERSION 3.8)
+project ("The Way Of The Galaxy" VERSION 0.0.1)
+
+include(CTest)
+enable_testing()
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-
 set(SDL2_MIN_VERSION 2.26.0)
 
-find_package(SDL2 ${SDL2_MIN_VERSION} CONFIG REQUIRED)
-find_package(SDL2_image CONFIG REQUIRED)
-find_package(SDL2_ttf CONFIG REQUIRED)
+find_package(SDL2 ${SDL2_MIN_VERSION} REQUIRED)
+find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 
 include_directories(${SDL2_INCLUDE_DIRS})
-
-project ("The Way Of The Galaxy" VERSION 0.0.1)
 
 file(GLOB srcfiles "${PROJECT_SOURCE_DIR}/*.cpp")
 file(GLOB headers "${PROJECT_SOURCE_DIR}/include/*.h")
@@ -28,8 +29,8 @@ target_include_directories(TWOTG PRIVATE
 	"${PROJECT_SOURCE_DIR}/ECS"
 )
 
-target_link_libraries(TWOTG PRIVATE 
+target_link_libraries(TWOTG
 	${SDL2_LIBRARIES} 
-	SDL2_image::SDL2_image 
-	SDL2::ttf::SDL2_ttf
+	SDL2_image::SDL2_image
+	SDL2_ttf::SDL2_ttf
 )
