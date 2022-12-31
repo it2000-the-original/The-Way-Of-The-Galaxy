@@ -3,10 +3,10 @@
 # and cross platform, to compile, you need to install the SDL2 SDL2_image SDL2_ttf packages....
 
 cmake_minimum_required (VERSION 3.8)
-project ("The Way Of The Galaxy" VERSION 0.0.1)
+project("The Way Of The Galaxy" VERSION 0.0.1)
 
-include(CTest)
-enable_testing()
+#include(CTest)
+#enable_testing()
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)

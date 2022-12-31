@@ -13,7 +13,7 @@ void checkForCollisions(ColliderComponent* collider, std::size_t id, std::functi
 }
 
 
-void getCollisionMTV(ColliderComponent* collider, std::size_t id) {
+void subtractCollisionMTV(ColliderComponent* collider, std::size_t id) {
 
 	for (auto cc : Engine::colliders) {
 

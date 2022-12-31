@@ -24,6 +24,9 @@ private:
 	std::string weapons[2] = { "laser", "missile" };
 	int SelectedWeapon = 0;
 
+	bool automaticWeapon = true;
+	bool alreadySwitched = true;
+
 public:
 
 	int energy = 100;
@@ -59,7 +62,11 @@ public:
 			entity->destroy();
 		}
 
-		//checkForCollisions(collider, satId, std::bind(&KeyboardController::printWtf, this));
+		checkPosition();
+		checkForInputs();
+		subtractCollisionMTV(&entity->getComponent<ColliderComponent>(), satId);
+		std::cout << entity->getComponent<ColliderComponent>().collider.x << std::endl;
+		std::cout << entity->getComponent<PositionComponent>().position.x << std::endl;
 	}
 
 	void checkPosition() {
@@ -72,6 +79,40 @@ public:
 		if (!position->isCompletelyOnRender()[1]) {
 
 			position->restorePosition(false, true);
+		}
+	}
+
+	void checkForInputs() {
+
+		const Uint8* KeyboardState = SDL_GetKeyboardState(NULL);
+
+		if (KeyboardState[SDL_SCANCODE_X]) reactDamage();
+		if (KeyboardState[SDL_SCANCODE_M]) {
+
+			if (!alreadySwitched) {
+
+				switchWeapon();
+				alreadySwitched = true;
+			}
+		}
+
+		else {
+
+			alreadySwitched = false;
+		}
+
+		if (KeyboardState[SDL_SCANCODE_SPACE]) {
+
+			if (!automaticWeapon) {
+
+				shot();
+				automaticWeapon = true;
+			}
+		}
+
+		else {
+
+			automaticWeapon = false;
 		}
 	}
 

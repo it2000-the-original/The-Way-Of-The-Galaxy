@@ -104,15 +104,15 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 		};
 
 		player.addComponent<PositionComponent>(30, 350, 70, 30, 1, 0, true);
-		player.getComponent<PositionComponent>().setSpeed(3, 3);
+		player.getComponent<PositionComponent>().setControlledSpeed(3, 3);
+		player.addComponent<KeyboardController>();
 		player.addComponent<SpriteComponent>("sprites//spaceships//spaceship1.png", true);
 		player.getComponent<SpriteComponent>().addAnimation("base", 4, 0, 100);
 		player.getComponent<SpriteComponent>().addAnimation("shot", 4, 1, 100);
 		player.getComponent<SpriteComponent>().addAnimation("damage", 4, 2, 100);
 		player.getComponent<SpriteComponent>().playAnimation("base");
-		player.addComponent<PlayerComponent>();
-		player.addComponent<KeyboardController>();
 		player.addComponent<ColliderComponent>(playerId);
+		player.addComponent<PlayerComponent>();
 		player.addGroup(groupPlayer);
 
 		triangle.addComponent<PositionComponent>(500, 200, 300, 300, 1);

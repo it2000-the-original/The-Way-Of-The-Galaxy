@@ -22,6 +22,7 @@ public:
 	Vector2D backupPosition;
 	Vector2D position;
 	Vector2D velocity;
+	Vector2D controlledVelocity;
 
 	int rotationSpeed;
 	bool controlled;
@@ -112,17 +113,22 @@ public:
 
 		backupPosition = position;
 		angle += rotationSpeed;
-
-		if (!controlled) {
-
-			position += velocity;
-		}
+		position += velocity;
 	}
 
 	void setSpeed(int x, int y) {
 
 		velocity.x = x;
 		velocity.y = y;
+	}
+
+	void setControlledSpeed(int x, int y) {
+
+		if (controlled) {
+
+			controlledVelocity.x = x;
+			controlledVelocity.y = y;
+		}
 	}
 
 	void setPosition(int x, int y) {
@@ -171,4 +177,9 @@ public:
 
 		return { position.x + width * scale / 2, position.y + height * scale / 2, 0, 0 };
 	}
+
+	void moveRight() {position.x += controlledVelocity.x;}
+	void moveLeft() {position.x -= controlledVelocity.x;}
+	void moveUp()   {position.y -= controlledVelocity.y;}
+	void moveDown() {position.y += controlledVelocity.y;}
 };

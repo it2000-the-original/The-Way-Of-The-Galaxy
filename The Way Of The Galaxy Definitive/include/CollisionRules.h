@@ -7,5 +7,5 @@ class ColliderComponent;
 
 void printHello();
 void checkForCollisions(ColliderComponent* collider, std::size_t id, std::function<void()> func);
-void getCollisionMTV(ColliderComponent* collider, std::size_t id);
+void subtractCollisionMTV(ColliderComponent* collider, std::size_t id);
 void checkCollisions();
