@@ -13,36 +13,42 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="File di risorse\sprites">
-      <UniqueIdentifier>{14374e33-130d-436a-a07c-a80bd2500472}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="File di risorse\sprites\spaceships">
-      <UniqueIdentifier>{dd0c93e4-ce57-4829-972d-2e16e1ccb854}</UniqueIdentifier>
-    </Filter>
     <Filter Include="File di intestazione\EntityComponentSystem">
       <UniqueIdentifier>{9a25f8d6-6b03-43c2-b259-8f2c09a94db1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="File di risorse\sprites\backgrounds">
-      <UniqueIdentifier>{1518611d-ed52-41aa-bc7a-8051a3095a18}</UniqueIdentifier>
+    <Filter Include="File di risorse\SpaceshipsTextures">
+      <UniqueIdentifier>{227f1335-9adb-434d-944d-850a4ded4ff9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="File di risorse\sprites\lasers">
-      <UniqueIdentifier>{d749c258-b401-431b-a9ca-936a8f331edd}</UniqueIdentifier>
+    <Filter Include="File di risorse\Fonts">
+      <UniqueIdentifier>{df5977fd-e818-455e-9772-7e3f3a59e520}</UniqueIdentifier>
     </Filter>
-    <Filter Include="File di risorse\levelmaps">
-      <UniqueIdentifier>{9aa64ee4-8955-4b2a-bd33-daeabbfab7e0}</UniqueIdentifier>
+    <Filter Include="File di risorse\Backgrounds">
+      <UniqueIdentifier>{0682998a-afa6-483a-9513-a8df46a95f66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di risorse\Explosions">
+      <UniqueIdentifier>{af1a6f38-1ee7-47a1-8140-4856356d3d60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di risorse\Lasers">
+      <UniqueIdentifier>{5231c184-3e0d-4bcb-8837-0160c0658c79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di risorse\Missiles">
+      <UniqueIdentifier>{6dc4a554-83cf-48cb-90b3-889df4348216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di risorse\Icons">
+      <UniqueIdentifier>{01155bb8-c564-49d6-a64e-1d2dbebff2fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di risorse\Pieces">
+      <UniqueIdentifier>{98457aeb-b777-4a8e-affa-aff570405cc5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>File di risorse</Filter>
-    </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="BackgroundsManager.cpp">
+    <ClCompile Include="BackgroundManager.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
@@ -63,7 +69,7 @@
     <ClCompile Include="Statusbar.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionRules.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,10 +95,7 @@
     <ClInclude Include="ECS\KeyboardController.h">
       <Filter>File di intestazione\EntityComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="include\Animation.h">
-      <Filter>File di intestazione</Filter>
-    </ClInclude>
-    <ClInclude Include="include\BackgroundsManager.h">
+    <ClInclude Include="include\BackgroundManager.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="ECS\PlayerComponent.h">
@@ -137,30 +140,48 @@
     <ClInclude Include="include\Statusbar.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="include\CollisionRules.h">
-      <Filter>File di intestazione</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="sprites\spaceships\PolygonConcaveTest.png">
+      <Filter>File di risorse\SpaceshipsTextures</Filter>
+    </Image>
+    <Image Include="sprites\spaceships\PolygonConvexTest.png">
+      <Filter>File di risorse\SpaceshipsTextures</Filter>
+    </Image>
     <Image Include="sprites\spaceships\spaceship1.png">
-      <Filter>File di risorse\sprites\spaceships</Filter>
+      <Filter>File di risorse\SpaceshipsTextures</Filter>
     </Image>
-    <Image Include="sprites\backgrounds\background1.png">
-      <Filter>File di risorse\sprites\backgrounds</Filter>
+    <Image Include="sprites\backgrounds\Space_Stars2.png">
+      <Filter>File di risorse\Backgrounds</Filter>
     </Image>
-    <Image Include="sprites\backgrounds\background2.png">
-      <Filter>File di risorse\sprites\backgrounds</Filter>
-    </Image>
-    <Image Include="sprites\backgrounds\background3.png">
-      <Filter>File di risorse\sprites\backgrounds</Filter>
+    <Image Include="sprites\explosions\explosion.png">
+      <Filter>File di risorse\Explosions</Filter>
     </Image>
     <Image Include="sprites\lasers\laser.png">
-      <Filter>File di risorse\sprites\lasers</Filter>
+      <Filter>File di risorse\Lasers</Filter>
+    </Image>
+    <Image Include="sprites\missiles\missile.png">
+      <Filter>File di risorse\Missiles</Filter>
+    </Image>
+    <Image Include="sprites\icons\energyIcon.png">
+      <Filter>File di risorse\Icons</Filter>
+    </Image>
+    <Image Include="sprites\icons\missileIcon.png">
+      <Filter>File di risorse\Icons</Filter>
+    </Image>
+    <Image Include="sprites\other\pieces.png">
+      <Filter>File di risorse\Pieces</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="levelmaps\test.json">
-      <Filter>File di risorse\levelmaps</Filter>
-    </Text>
+    <Font Include="sprites\fonts\character.ttf">
+      <Filter>File di risorse\Fonts</Filter>
+    </Font>
+    <Font Include="sprites\fonts\pixelfonts.ttf">
+      <Filter>File di risorse\Fonts</Filter>
+    </Font>
+    <Font Include="sprites\fonts\wayfers.ttf">
+      <Filter>File di risorse\Fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>

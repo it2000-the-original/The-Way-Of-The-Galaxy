@@ -1,27 +1,15 @@
 #pragma once
 #include "Components.h"
 
-class PlayerComponent;
-
 class KeyboardController : public Component {
 
 private:
 
 	PositionComponent* position;
-	const Uint8* KeyboardState;
-	bool automaticWeapon = true;
-	bool alreadySwitched = true;
 
 public:
 
 	KeyboardController() {}
-
-	~KeyboardController() {
-
-		position = nullptr;
-		delete KeyboardState;
-		KeyboardState = nullptr;
-	}
 
 	void init() override {
 
@@ -35,8 +23,10 @@ public:
 
 	void update() override {
 
-		KeyboardState = SDL_GetKeyboardState(NULL);
+		// get the state of every key
+		const Uint8* KeyboardState = SDL_GetKeyboardState(NULL);
 
+		// moving the entity if one of the interested keys is pressed.
 		if (KeyboardState[SDL_SCANCODE_D] or KeyboardState[SDL_SCANCODE_RIGHT]) position->moveRight();
 		if (KeyboardState[SDL_SCANCODE_A] or KeyboardState[SDL_SCANCODE_LEFT])  position->moveLeft();
 		if (KeyboardState[SDL_SCANCODE_W] or KeyboardState[SDL_SCANCODE_UP]) 	position->moveUp();

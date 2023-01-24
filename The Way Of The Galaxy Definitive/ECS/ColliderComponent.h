@@ -1,16 +1,27 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include "Components.h"
+#include "Collision.h"
 #include <string>
+
+struct Point;                        // Pre-declaration of the Point struct for the 2 lines of code under here
+using Convex = std::vector<Point>;   // A std::vector of points that define a convex polygon
+using Polygon = std::vector<Convex>; // A std::vector of convex polygons to create a concave polygons
 
 struct Point {
 
 	float x, y;
 	bool internal = false;
 
+	/* The internal variable is used to know in case of a convex decomposition
+	 * of a polygon, to know if a point is at the start of a side condivided
+	 * by two polygons, this is for ignore that sides, in the calculation of
+	 * the MTV (Minimal Translation Vector) and to avoid bad effects. */
+
 	Point() {
 
 		x = 10.0;
+		y = 10.0;
 	}
 
 	Point(float px, float py) {
@@ -26,10 +37,19 @@ struct Point {
 		internal = mInternal;
 	}
 
+	// operators methods to apply
+
 	Point Add(Point poi) {
 
 		x += poi.x;
 		y += poi.y;
+		return *this;
+	}
+
+	Point Subtract(Point poi) {
+
+		x -= poi.x;
+		y -= poi.y;
 		return *this;
 	}
 
@@ -40,73 +60,57 @@ struct Point {
 		return *this;
 	}
 
-	Point Subtract(Point poi) {
+	Point Divide(Point poi) {
 
-		x -= poi.x;
-		y -= poi.y;
+		x /= poi.x;
+		y /= poi.y;
 		return *this;
 	}
-	
-	friend Point operator*(Point p1, Point p2) {
 
-		return p1.Multiply(p2);
-	}
+	// Defining operators......
 
-	friend Point operator+(Point p1, const Point p2) {
+	friend Point operator+(Point p1, const Point p2) { return p1.Add(p2);      }
+	friend Point operator-(Point p1, const Point p2) { return p1.Subtract(p2); }
+	friend Point operator*(Point p1, const Point p2) { return p1.Multiply(p2); }
+	friend Point operator/(Point p1, const Point p2) { return p1.Divide(p2);   }
 
-		return p1.Add(p2);
-	}
+	Point operator+=(Point p) { return Add(p);      }
+	Point operator-=(Point p) { return Subtract(p); }
+	Point operator*=(Point p) { return Multiply(p); }
+	Point operator/=(Point p) { return Divide(p);   }
 
-	friend Point operator-(Point p1, const Point p2) {
-
-		return p1.Subtract(p2);
-	}
-	
-	Point operator*=(Point p2) {
-
-		return Multiply(p2);
-	}
-
-	Point operator+=(Point p2) {
-
-		return Add(p2);
-	}
-
-	Point operator-=(Point p2) {
-
-		return Subtract(p2);
-	}
-
-	float getProjection(Point point) {
-
-		return x * point.x + y * point.y;
-	}
+	// A function to get the projection of a vector between the origin and
+	// this point to another. Created to simplify the operations in the SAT algorithm
+	float getProjection(Point point) { return x * point.x + y * point.y; }
 
 };
 
 class ColliderComponent : public Component {
 
-public:
-
-	SDL_Rect collider;
-	bool polygon = false;
-	std::vector<std::vector<Point>> srcPolygons;
-	std::vector<std::vector<Point>> destPolygons;
-	std::size_t id;
+private:
 
 	PositionComponent* position;
 
-	ColliderComponent(std::size_t t) {
+	Polygon srcPolygon;
+	bool polygon = false;
 
-		id = t;
+public:
+
+	std::size_t id;
+	SDL_Rect collider;
+	Polygon destPolygon;
+
+	ColliderComponent(std::size_t mId) {
+
+		id = mId;
 	}
 
-	ColliderComponent(std::size_t t, std::vector<std::vector<Point>> mPolygons) {
+	ColliderComponent(std::size_t mId, Polygon mPolygon) {
 
-		id = t;
-		srcPolygons = mPolygons;
-		destPolygons = mPolygons;
+		id = mId;
 		polygon = true;
+		srcPolygon = mPolygon;
+		destPolygon = mPolygon;
 	}
 
 	void init() override {
@@ -117,11 +121,10 @@ public:
 		}
 
 		position = &entity->getComponent<PositionComponent>();
-		Engine::colliders.push_back(this);
 
 		if (!polygon) {
 
-			destPolygons = srcPolygons = { {
+			destPolygon = srcPolygon = { {
 
 				Point(0.0, 0.0),
 				Point(float(position->width), 0.0),
@@ -129,17 +132,26 @@ public:
 				Point(0.0, float(position->height))
 			} };
 		}
+
+		// Adds the initialized collider in the colliders static vector
+		Collision::colliders.push_back(this);
 	}
 
 	void update() override {
 
+		// Updating the position of collider...
 		collider.x = static_cast<int>(position->position.x);
 		collider.y = static_cast<int>(position->position.y);
 		collider.w = position->width * position->scale;
 		collider.h = position->height * position->scale;
 
-		for (int i = 0; i < destPolygons.size(); i++)
-		for (int j = 0; j < destPolygons[i].size(); j++)
-		destPolygons[i][j] = srcPolygons[i][j] + Point(float(position->position.x), float(position->position.y));
+		// Updating the position of the polygons...
+		for (int i = 0; i < destPolygon.size(); i++)
+		for (int j = 0; j < destPolygon[i].size(); j++)
+
+		destPolygon[i][j] = srcPolygon[i][j] + Point(
+			float(position->position.x),
+			float(position->position.y)
+		);
 	}
 };

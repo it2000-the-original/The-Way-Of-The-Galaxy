@@ -117,7 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>ECS/Custom;ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>26812;26451;26495;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -135,10 +135,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -146,9 +146,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BackgroundsManager.cpp" />
+    <ClCompile Include="BackgroundManager.cpp" />
     <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="CollisionRules.cpp" />
     <ClCompile Include="ECS.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="LevelManager.cpp" />
@@ -159,8 +158,6 @@
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\CollisionRules.h" />
-    <ClInclude Include="include\Animation.h" />
     <ClInclude Include="ECS\BulletComponent.h" />
     <ClInclude Include="ECS\ColliderComponent.h" />
     <ClInclude Include="include\Collision.h" />
@@ -168,7 +165,7 @@
     <ClInclude Include="ECS\ECS.h" />
     <ClInclude Include="ECS\EnemyComponent.h" />
     <ClInclude Include="include\Engine.h" />
-    <ClInclude Include="include\BackgroundsManager.h" />
+    <ClInclude Include="include\BackgroundManager.h" />
     <ClInclude Include="ECS\ExplodeComponent.h" />
     <ClInclude Include="ECS\ExplosionComponent.h" />
     <ClInclude Include="ECS\KeyboardController.h" />
@@ -185,14 +182,21 @@
     <ClInclude Include="ECS\TextComponent.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="sprites\backgrounds\background1.png" />
-    <Image Include="sprites\backgrounds\background2.png" />
-    <Image Include="sprites\backgrounds\background3.png" />
+    <Image Include="sprites\backgrounds\Space_Stars2.png" />
+    <Image Include="sprites\explosions\explosion.png" />
+    <Image Include="sprites\icons\energyIcon.png" />
+    <Image Include="sprites\icons\missileIcon.png" />
     <Image Include="sprites\lasers\laser.png" />
+    <Image Include="sprites\missiles\missile.png" />
+    <Image Include="sprites\other\pieces.png" />
+    <Image Include="sprites\spaceships\PolygonConcaveTest.png" />
+    <Image Include="sprites\spaceships\PolygonConvexTest.png" />
     <Image Include="sprites\spaceships\spaceship1.png" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="levelmaps\test.json" />
+    <Font Include="sprites\fonts\character.ttf" />
+    <Font Include="sprites\fonts\pixelfonts.ttf" />
+    <Font Include="sprites\fonts\wayfers.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

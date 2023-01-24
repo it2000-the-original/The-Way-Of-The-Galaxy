@@ -20,7 +20,9 @@ void LevelManager::spownObject(const char* tex, int position, int width, int hei
 
 	if (reversed) {
 
-		entity.addComponent<PositionComponent>(1200, position, width, height, 1);
+		SDL_Rect objectSpace = { 1200, position, width, height };
+
+		entity.addComponent<PositionComponent>(objectSpace, 1);
 		entity.getComponent<PositionComponent>().setSpeed(-speed, 0);
 		entity.addComponent<SpriteComponent>(tex, true);
 		entity.getComponent<SpriteComponent>().setFlip(SDL_FLIP_HORIZONTAL);
@@ -28,16 +30,20 @@ void LevelManager::spownObject(const char* tex, int position, int width, int hei
 
 	else {
 
-		entity.addComponent<PositionComponent>(-width, position, width, height, 1);
+		SDL_Rect objectSpace = { -width, position, width, height };
+
+		entity.addComponent<PositionComponent>(objectSpace, 1);
 		entity.getComponent<PositionComponent>().setSpeed(speed, 0);
 		entity.addComponent<SpriteComponent>(tex, true);
 	}
+
+	Explosion explosion = { "sprites//explosions//explosion.png", 40, 60 };
 	
 	entity.getComponent<SpriteComponent>().addAnimation("base", 4, 0, 100);
 	entity.getComponent<SpriteComponent>().playAnimation("base");
 	entity.addComponent<ColliderComponent>(collider);
 	entity.addComponent<EnemyComponent>();
-	entity.addComponent<ExplodeComponent>("sprites//explosions//explosion.png", 50, 50, 40, 60, true, 10);
+	entity.addComponent<ExplodeComponent>(explosion, 50, 50, 10);
 	entity.addGroup(groupEnemies);
 }
 

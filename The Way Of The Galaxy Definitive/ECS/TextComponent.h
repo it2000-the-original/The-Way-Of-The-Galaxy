@@ -3,23 +3,35 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+// A struct created to reduce the
+// number of parameters in the constructor
+
+struct Icon {
+
+	const char* texture;
+	int size = 32;
+	int spacing = 0;
+	int margin = 0;
+};
+
 class TextComponent : public Component {
 
 private:
 
 	PositionComponent* position;
-	SDL_RendererFlip flip;
+
 	SDL_Texture* texture;
 	SDL_Rect destRect;
+
 	TTF_Font* font;
 	std::string text;
 	int fontSize;
 	SDL_Color color = { 255, 255, 255 };
 
-	// icon variables
 	bool icon = false;
-	bool iconRight;
+	bool iconRight = false;
 	int iconSize;
+
 	int iconSpacing;
 	int iconMarginTop;
 	SDL_Rect iconDestRect;
@@ -33,24 +45,19 @@ public:
 
 		text = mText;
 		fontSize = mFontSize;
+
 		font = TTF_OpenFont(mFont, fontSize);
 		texture = TextureManager::LoadTexture(font, color, text.c_str());
 	}
 
-	TextComponent(std::string mText, const char* mFont, int mFontSize, int r, int g, int b) {
+	TextComponent(std::string mText, const char* mFont, int mFontSize, SDL_Color mColor) {
 
 		text = mText;
+		color = mColor;
 		fontSize = mFontSize;
-		color.r = r; color.g = g; color.b = b;
+
 		font = TTF_OpenFont(mFont, fontSize);
 		texture = TextureManager::LoadTexture(font, color, text.c_str());
-	}
-
-	~TextComponent() {
-
-		SDL_DestroyTexture(texture);
-		TTF_CloseFont(font);
-		position = nullptr;
 	}
 
 	void init() override {
@@ -62,11 +69,11 @@ public:
 
 		position = &entity->getComponent<PositionComponent>();
 
+		// Setting the destination rectangle
 		destRect.x = position->position.x;
 		destRect.y = position->position.y;
 		destRect.h = fontSize * position->scale;
 		destRect.w = fontSize * text.size() / 2;
-
 	}
 
 	void update() override {
@@ -76,8 +83,11 @@ public:
 
 		if (icon) {
 
+			// Setting the position of the icon
+
 			if (iconRight) iconDestRect.x = destRect.x + iconSpacing;
 			else iconDestRect.x = destRect.x - iconSize - iconSpacing;
+
 			iconDestRect.y = destRect.y + iconMarginTop;
 		}
 	}
@@ -90,28 +100,44 @@ public:
 
 	void setText(std::string mText) {
 
+		// Delete from the memory the previous
+		// textu of the sprite before creating a new one
+
 		SDL_DestroyTexture(texture);
+
 		text = mText;
 		destRect.w = fontSize * text.size() / 2;
 		texture = TextureManager::LoadTexture(font, color, text.c_str());
 	}
 
-	void setColor(int r, int g, int b, int a) {
+	void setColor(SDL_Color mColor) {
+
+		// Delete from the memory the previous
+		// textu of the sprite before creating a new one
 
 		SDL_DestroyTexture(texture);
-		color.r = r; color.g = g; color.b = b; color.a = a;
+
+		color = mColor;
 		texture = TextureManager::LoadTexture(font, color, text.c_str());
 	}
 	
-	void addIcon(const char* iconPath, int mIconSize, int mIconSpacing, int mIconMarginTop, bool mIconRight) {
+	void addIcon(Icon mIcon, bool mIconRight) {
 
-		iconTexture = TextureManager::LoadTexture(iconPath);
-		iconSize = mIconSize;
-		iconSpacing = mIconSpacing;
-		iconMarginTop = mIconMarginTop;
-		iconRight = mIconRight;
+		iconTexture = TextureManager::LoadTexture(mIcon.texture);
+		iconMarginTop = mIcon.margin;
+		iconSpacing = mIcon.spacing;
+		iconSize = mIcon.size;
 		
-		iconDestRect.w = iconDestRect.h = iconSize;
+		iconDestRect.w = iconSize;
+		iconDestRect.h = iconSize;
+
+		iconRight = mIconRight;
 		icon = true;
+	}
+	
+	~TextComponent() {
+
+		SDL_DestroyTexture(texture);
+		TTF_CloseFont(font);
 	}
 };

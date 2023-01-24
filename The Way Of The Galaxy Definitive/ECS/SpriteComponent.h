@@ -1,61 +1,67 @@
 #pragma once
-#include "Components.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "Components.h"
 #include "TextureManager.h"
-#include "Animation.h"
+#include "TimeAction.h"
 #include <map>
+
+struct Animation {
+
+	int frames;
+	int index;
+	int speed;
+
+	Animation() {}
+	Animation(int f, int i, int s) {
+
+		frames = f;
+		index = i;
+		speed = s;
+	}
+};
 
 class SpriteComponent : public Component {
 
 private:
 
 	PositionComponent* position;
-	SDL_RendererFlip flip;
+
 	SDL_Texture* texture;
+	SDL_RendererFlip flip = SDL_FLIP_NONE;
+
 	SDL_Rect srcRect;
 	SDL_Rect destRect;
-	bool animated = false;
-	bool animatedReversed = false;
 
-	// Animation values
-	int previousTime;
-	int frames;
-	int index;
-	int speed;
+	bool animated = false;
+	bool reversed = false;
+
+	int animationFrames = 1;
+	int animationIndex = 0;
+	TimeAction animationSpeed = TimeAction(100);
 
 	std::map<const char*, Animation> animation;
 
 public:
+
+	SpriteComponent() {}
 	
 	SpriteComponent(const char* path) {
 
 		texture = TextureManager::LoadTexture(path);
-		flip = SDL_FLIP_NONE;
 	}
 
-	SpriteComponent(const char* path, bool isAnimated) {
+	SpriteComponent(const char* path, bool mAnimated) {
 
 		texture = TextureManager::LoadTexture(path);
-		flip = SDL_FLIP_NONE;
-		animated = isAnimated;
+		animated = mAnimated;
 	}
 	
-	SpriteComponent(const char* path, bool isAnimated, bool mAnimatedReversed) {
+	SpriteComponent(const char* path, bool mAnimated, bool mReversed) {
 
 		texture = TextureManager::LoadTexture(path);
-		flip = SDL_FLIP_NONE;
-		animated = isAnimated;
-		animatedReversed = mAnimatedReversed;
-		std::cout << animatedReversed << std::endl;
-	}
-
-	~SpriteComponent() {
-
-		SDL_DestroyTexture(texture);
-		texture = nullptr;
-		position = nullptr;
-		animation.clear();
+		reversed = mReversed;
+		animated = mAnimated;
 	}
 
 	void init() override {
@@ -65,13 +71,14 @@ public:
 			entity->addComponent<PositionComponent>();
 		}
 		
-		frames = 1;
-		index = 0;
-		speed = 100;
 		position = &entity->getComponent<PositionComponent>();
+
+		// Setting source rectangle
 		srcRect.x = srcRect.y = 0;
 		srcRect.w = position->width;
 		srcRect.h = position->height;
+
+		// Setting destination rectangle
 		destRect.w = position->width * position->scale;
 		destRect.h = position->height * position->scale;
 	}
@@ -80,15 +87,17 @@ public:
 
 		if (animated) {
 
-			if (SDL_GetTicks() - previousTime > speed) {
+			// Updating the animation state
 
-				if (!animatedReversed) moveRightFrame();
+			if (animationSpeed.check()) {
+
+				if (!reversed) moveRightFrame();
 				else moveDownFrame();
-				previousTime = SDL_GetTicks();
+				animationSpeed.init();
 			}
 
-			if (!animatedReversed) srcRect.y = srcRect.h * index;
-			else srcRect.x = srcRect.w * index;
+			if (!reversed) srcRect.y = srcRect.h * animationIndex;
+			else srcRect.x = srcRect.w * animationIndex;
 		}
 		
 		destRect.x = position->position.x;
@@ -108,25 +117,46 @@ public:
 
 	void playAnimation(const char* ani) {
 
-		frames = animation[ani].frames;
-		index = animation[ani].index;
-		speed = animation[ani].speed;
+		animationFrames = animation[ani].frames;
+		animationIndex = animation[ani].index;
+
+		animationSpeed.setDuration(animation[ani].speed);
+		animationSpeed.init();
 	}
 
 	void moveRightFrame() {
 
-		if (srcRect.x < srcRect.w * (frames - 1)) srcRect.x += srcRect.w;
+		// Switch frame of the animation moving right the source position
+		if (srcRect.x < srcRect.w * (animationFrames - 1)) srcRect.x += srcRect.w;
 		else srcRect.x = 0;
 	}
 
 	void moveDownFrame() {
 
-		if (srcRect.y < srcRect.h * (frames - 1)) srcRect.y += srcRect.h;
+		// Switch frame of the animation moving down the source position
+		if (srcRect.y < srcRect.h * (animationFrames - 1)) srcRect.y += srcRect.h;
 		else srcRect.y = 0;
 	}
 
 	void setFlip(SDL_RendererFlip mFlip) {
 
 		flip = mFlip;
+	}
+
+	void resetPosition() {
+
+		// This could be usefull if the position
+		// is changed after the update of the component
+
+		destRect.x = position->position.x;
+		destRect.y = position->position.y;
+	}
+
+	~SpriteComponent() {
+
+		SDL_DestroyTexture(texture);
+		texture = nullptr;
+		position = nullptr;
+		animation.clear();
 	}
 };

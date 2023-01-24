@@ -1,28 +1,30 @@
 #include "Engine.h"
 #include "TextureManager.h"
 #include "Components.h"
-#include "BackgroundsManager.h"
-#include <nlohmann/json.hpp>
+#include "BackgroundManager.h"
 #include "LevelManager.h"
 #include "Statusbar.h"
 #include <fstream>
-#include "CollisionRules.h"
 
-using json = nlohmann::json;
+Manager manager; // Referrence of the manager class of ECS
 
-Manager manager;
-LevelManager levelManager(manager);
-BackgroundsManager backgroundsManager(manager);
-Statusbar statusbar(manager);
+// A manager and a reader of the level files
+
+//LevelManager levelManager = LevelManager(manager);
+
+// A manager of the background with some functionalities
+
+BackgroundManager backgroundManager = BackgroundManager(manager);
+
+// A manager of the top statusbar with some informations fo the player
+
+Statusbar statusbar = Statusbar(manager);
 
 SDL_Renderer* Engine::renderer;
 SDL_Event* Engine::event;
 
 auto& player = manager.addEntity();
-auto& textEntity = manager.addEntity();
 auto& triangle = manager.addEntity();
-
-std::vector<ColliderComponent*> Engine::colliders;
 
 // Put the manager->groupedEntities vectors in the refereces variables to control
 // the render layers in the render() metod
@@ -35,7 +37,25 @@ auto& explosions = manager.getGroup(groupExplosions);
 auto& pieces = manager.getGroup(groupPieces);
 auto& status = manager.getGroup(groupStatus);
 
-void Engine::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
+// Defining levels of the background
+
+LevelBackground bg1 = { "sprites//backgrounds//Space_Stars2.png", 2, 64, 64, 2 };
+
+// Defining initial positions of the entities
+
+SDL_Rect playerPosition = { 30, 350, 70, 30 };
+SDL_Rect trianglePosition = {500, 200, 300, 300};
+
+// Defining the statusbar
+
+Status statusSetting = {
+	"sprites//statusbar.png",
+	"sprites//fonts//pixelfonts.ttf",
+	statusheight,
+	20, 4, 20
+};
+
+void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 
 	int flags = SDL_WINDOW_RESIZABLE;
 
@@ -46,13 +66,14 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 
-		window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
+		window = SDL_CreateWindow(title, mWindow.xposition, mWindow.yposition, mWindow.width, mWindow.height, flags);
 
 		if (window) {
 
 			std::cout << "Window created succesfuly" << std::endl;
 		}
 
+		SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d");
 		renderer = SDL_CreateRenderer(window, -1, 0);
 
 		if (renderer) {
@@ -69,23 +90,10 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 
 		event = new SDL_Event();
 
-		// Adding wallpapers
-		
-		//backgroundsManager.addWallpaper("sprites//backgrounds//background1.png", 1, 2, 640, 512, 2);
-		//backgroundsManager.addWallpaper("sprites//backgrounds//background2.png", 2, 2, 640, 512, 2);
+		// Addind levels to the background
+		backgroundManager.addLevel(bg1);
 
-		// Setting components
-
-		/*std::vector<std::vector<Point>> polygons = {
-
-			{
-				Point(0, 300),
-				Point(150, 0),
-				Point(300, 300)
-			}
-		};*/
-
-		std::vector<std::vector<Point>> polygons = {
+		Polygon polygons = {
 			{
 				Point(0, 0),
 				Point(300, 124, true),
@@ -103,24 +111,27 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 			}
 		};
 
-		player.addComponent<PositionComponent>(30, 350, 70, 30, 1, 0, true);
-		player.getComponent<PositionComponent>().setControlledSpeed(3, 3);
+		player.addComponent<PositionComponent>(playerPosition, 1, 0, true);
 		player.addComponent<KeyboardController>();
+		player.addComponent<ColliderComponent>(playerId);
 		player.addComponent<SpriteComponent>("sprites//spaceships//spaceship1.png", true);
+		player.addComponent<PlayerComponent>();
+
+		player.getComponent<PositionComponent>().setControlledSpeed(3, 3);
 		player.getComponent<SpriteComponent>().addAnimation("base", 4, 0, 100);
 		player.getComponent<SpriteComponent>().addAnimation("shot", 4, 1, 100);
 		player.getComponent<SpriteComponent>().addAnimation("damage", 4, 2, 100);
 		player.getComponent<SpriteComponent>().playAnimation("base");
-		player.addComponent<ColliderComponent>(playerId);
-		player.addComponent<PlayerComponent>();
+
 		player.addGroup(groupPlayer);
 
-		triangle.addComponent<PositionComponent>(500, 200, 300, 300, 1);
+		triangle.addComponent<PositionComponent>(trianglePosition, 1);
 		triangle.addComponent<SpriteComponent>("sprites//spaceships//PolygonConcaveTest.png");
 		triangle.addComponent<ColliderComponent>(satId, polygons);
+
 		triangle.addGroup(groupEnemies);
 
-		/*statusbar.init(statusheight, "sprites//statusbar.png", "sprites//fonts//pixelfonts.ttf", 20, 4, 20, true);
+		statusbar.init(statusSetting, true);
 		statusbar.setAnimation(43, 0, 40);
 
 		auto& energyWidget = statusbar.addWidget<EnergyWidget>(&player.getComponent<PlayerComponent>().energy);
@@ -129,15 +140,15 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 
 		energyWidget.setModel("999");
 		energyWidget.setColor(255, 255, 0, 180);
-		energyWidget.addIcon("sprites//icons//energyIcon.png", 12, 6, 5);
+		energyWidget.setIcon("sprites//icons//energyIcon.png", 12, 6, 5);
 
 		missilesWidget.setModel("999");
 		missilesWidget.setColor(255, 255, 0, 180);
-		missilesWidget.addIcon("sprites//icons//missileIcon.png", 12, 6, 5);
+		missilesWidget.setIcon("sprites//icons//missileIcon.png", 12, 6, 5);
 
 		weaponWidget.setModel("missile");
 		weaponWidget.setColor(255, 255, 0, 180);
-		weaponWidget.setPrefix("W: ");*/
+		weaponWidget.setPrefix("W: ");
 
 		std::cout << IMG_GetError() << std::endl;
 
@@ -153,16 +164,15 @@ void Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 
 void Engine::update() {
 
-	refreshColliders();
-	levelManager.update();
-	backgroundsManager.update();
-	statusbar.update();
+	Collision::refreshColliders();
 	statusbar.refresh();
-
 	manager.refersh();
-	manager.update();
 
-	//checkCollisions();
+	//levelManager.update();
+	backgroundManager.update();
+	statusbar.update();
+
+	manager.update();
 }
 
 void Engine::render() {
@@ -183,6 +193,7 @@ void Engine::render() {
 void Engine::closeEvent() {
 
 	SDL_PollEvent(event);
+
 	switch (event->type) {
 
 	case SDL_QUIT:
@@ -194,23 +205,20 @@ void Engine::closeEvent() {
 	}
 }
 
-void Engine::refreshColliders() {
-
-	colliders.erase(std::remove_if(std::begin(colliders), std::end(colliders), [](ColliderComponent* mCollider) {
-
-		return !mCollider->entity->isActive();
-	}),
-
-	std::end(colliders));
-}
-
 void Engine::clean() {
 	
 	SDL_DestroyRenderer(renderer);
 	std::cout << "renderer destroyed successfuly" << std::endl;
+
 	SDL_DestroyWindow(window);
 	std::cout << "window destroied successfuly" << std::endl;
+
 	IMG_Quit();
 	TTF_Quit();
 	SDL_Quit();
+}
+
+bool Engine::running() {
+
+	return isRunning;
 }

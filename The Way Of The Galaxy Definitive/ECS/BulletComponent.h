@@ -19,12 +19,17 @@ public:
 
 	void init() override {
 
+		if (!entity->hasComponent<PositionComponent>()) {
+
+			entity->addComponent<PositionComponent>();
+		}
+
 		position = &entity->getComponent<PositionComponent>();
 	}
 	
 	void update() override {
 
-		if (!position->isOnRender().xy)
-			entity->destroy();
+		// Chek if the posion is in the render area.
+		if (!position->isOnRender().xy) entity->destroy();
 	}
 };

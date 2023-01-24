@@ -22,11 +22,24 @@ public:
 	MissileComponent(int mDamage) {
 		
 		damage = mDamage;
+		missileAcceleration = TimeAction(35);
+	}
+
+	MissileComponent(int mDamage, int mAcceleration) {
+
+		damage = mDamage;
+		missileAcceleration = TimeAction(mAcceleration);
 	}
 
 	void init() override {
 
+		if (!entity->hasComponent<PositionComponent>()) {
+
+			entity->addComponent<PositionComponent>();
+		}
+
 		position = &entity->getComponent<PositionComponent>();
+
 		missileAcceleration.init();
 	}
 

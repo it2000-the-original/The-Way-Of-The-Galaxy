@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include "Components.h"
 #include "Vector2D.h"
 #include "Engine.h"
@@ -10,99 +9,73 @@ struct statusPosition {
 	xr = false, xl = false,
 	yu = false, yd = false,
 	xy = false;
+
+	int xdistance = 0;
+	int ydistance = 0;
 };
 
 class PositionComponent : public Component {
 
-//private:
+private:
 
+	Vector2D controlledVelocity = Vector2D();
+	bool controlled = false;
+
+	Vector2D previousPosition = Vector2D();
+	int rotationSpeed = 0;
 
 public:
 
-	Vector2D backupPosition;
-	Vector2D position;
-	Vector2D velocity;
-	Vector2D controlledVelocity;
+	Vector2D speed = Vector2D();
+	Vector2D velocity = Vector2D();
+	Vector2D position = Vector2D();
 
-	int rotationSpeed;
-	bool controlled;
-	int height;
-	int width;
+	int height = 64;
+	int width = 64;
+	int angle = 0;
+	int scale = 1;
 
-	int angle;
-
-	int scale;
-
-	PositionComponent() {
-
-		position.Zero();
-		width = height = 32;
-		controlled = false;
-		rotationSpeed = 0;
-		angle = 0;
-		scale = 1;
-	}
+	PositionComponent() {}
 
 	PositionComponent(int x, int y) {
 
 		position.x = x;
 		position.y = y;
-		width = height = 32;
-		controlled = false;
-		rotationSpeed = 0;
-		angle = 0;
-		scale = 1;
 	}
 
-	PositionComponent(int x, int y, int w, int h, int s) {
+	PositionComponent(SDL_Rect space, int s) {
 
-		position.x = x;
-		position.y = y;
-		controlled = false;
-		rotationSpeed = 0;
-		width = w;
-		height = h;
-		angle = 0;
+		position.x = space.x;
+		position.y = space.y;
+
+		width = space.w;
+		height = space.h;
 		scale = s;
 	}
 
-	PositionComponent(int x, int y, int w, int h, int s, int a) {
+	PositionComponent(SDL_Rect space, int s, int a) {
 
-		position.x = x;
-		position.y = y;
-		controlled = false;
-		rotationSpeed = 0;
-		width = w;
-		height = h;
+		position.x = space.x;
+		position.y = space.y;
+
+		width = space.w;
+		height = space.h;
+		scale = s;
 		angle = a;
-		scale = s;
 	}
 
-	PositionComponent(int x, int y, int w, int h, int s, int a, int c) {
+	PositionComponent(SDL_Rect space, int s, int a, int c) {
 
-		position.x = x;
-		position.y = y;
+		position.x = space.x;
+		position.y = space.y;
+
+		width = space.w;
+		height = space.h;
+		scale = s;
+		angle = a;
+
 		controlled = c;
-		rotationSpeed = 0;
-		width = w;
-		height = h;
-		angle = a;
-		scale = s;
 	}
-
-	PositionComponent(int x, int y, int w, int h, int s, int a, int c, int rs) {
-
-		position.x = x;
-		position.y = y;
-		controlled = c;
-		rotationSpeed = rs;
-		width = w;
-		height = h;
-		angle = a;
-		scale = s;
-	}
-
-	~PositionComponent() {}
 
 	void init() override {
 
@@ -111,15 +84,26 @@ public:
 
 	void update() override {
 
-		backupPosition = position;
+		previousPosition = position;
 		angle += rotationSpeed;
 		position += velocity;
+	}
+
+	void setPosition(int x, int y) {
+
+		position.x = x;
+		position.y = y;
 	}
 
 	void setSpeed(int x, int y) {
 
 		velocity.x = x;
 		velocity.y = y;
+	}
+
+	void setRotationSpeed(int mRotationSpeed) {
+
+		rotationSpeed = mRotationSpeed;
 	}
 
 	void setControlledSpeed(int x, int y) {
@@ -131,55 +115,72 @@ public:
 		}
 	}
 
-	void setPosition(int x, int y) {
-
-		position.x = x;
-		position.y = y;
-	}
-
-	void restorePosition(bool x, bool y) {
-
-		if (x) position.x = backupPosition.x;
-		if (y) position.y = backupPosition.y;
-	}
-
 	statusPosition isOnRender() {
+
+		// This function return a status struct to know if the entity is in
+		// the render area and to get distance to the margin in x and y
 
 		statusPosition status;
 
-		if (position.x > -width * scale) status.xl = true;
-		if (position.x < renderwidth) status.xr = true;
+		if (position.x >= -width * scale) status.xl = true;
+		if (position.x <= renderwidth) status.xr = true;
 		if (status.xl == true and status.xr == true) status.x = true;
 
-		if (position.y > statusheight - height * scale) status.yu = true;
-		if (position.y < renderheight) status.yd = true;
+		if (position.y >= -height * scale + statusheight) status.yu = true;
+		if (position.y <= renderheight) status.yd = true;
 		if (status.yu == true and status.yd == true) status.y = true;
 
 		if (status.x == true and status.y == true) status.xy = true;
 
+		if      (!status.x and status.xl) status.xdistance = position.x - renderwidth;
+		else if (!status.x and status.xr) status.xdistance = position.x + width * scale;
+		if      (!status.y and status.yu) status.ydistance = position.y - renderheight;
+		else if (!status.y and status.yd) status.ydistance = position.y + height * scale - statusheight;
+
 		return status;
 	}
 
-	std::array<bool, 2> isCompletelyOnRender() {
-
-		std::array<bool, 2> xyarray;
+	statusPosition isCompletelyOnRender() {
 		
-		if (position.x >= 0 and	position.x <= renderwidth - width * scale) xyarray[0] = true;
-		else xyarray[0] = false;
+		// This function return a status struct to know if the entity 
+		// is completely with all the space of the sprite in
+		// the render area and to get distance to the margin in x and y
 
-		if (position.y >= statusheight and position.y <= renderheight - height * scale) xyarray[1] = true;
-		else xyarray[1] = false;
+		statusPosition status;
 
-		return xyarray;
+		if (position.x >= 0) status.xl = true;
+		if (position.x <= renderwidth - width * scale) status.xr = true;
+		if (status.xl == true and status.xr == true) status.x = true;
+
+		if (position.y >= statusheight) status.yu = true;
+		if (position.y <= renderheight - height * scale) status.yd = true;
+		if (status.yu == true and status.yd == true) status.y = true;
+
+		if (status.x == true and status.y == true) status.xy = true;
+
+		if      (!status.x and status.xl) status.xdistance = position.x + width * scale - renderwidth;
+		else if (!status.x and status.xr) status.xdistance = position.x;
+		if      (!status.y and status.yu) status.ydistance = position.y + height * scale - renderheight;
+		else if (!status.y and status.yd) status.ydistance = position.y - statusheight;
+
+		return status;
 	}
 
 	SDL_Rect getCenterPoint() {
 
-		return { position.x + width * scale / 2, position.y + height * scale / 2, 0, 0 };
+		return { 
+			position.x + width * scale / 2,
+			position.y + height * scale / 2 
+		};
+	}
+
+	Vector2D getActualMovement() {
+
+		return position - previousPosition;
 	}
 
 	void moveRight() {position.x += controlledVelocity.x;}
-	void moveLeft() {position.x -= controlledVelocity.x;}
-	void moveUp()   {position.y -= controlledVelocity.y;}
-	void moveDown() {position.y += controlledVelocity.y;}
+	void moveLeft()  {position.x -= controlledVelocity.x;}
+	void moveUp()    {position.y -= controlledVelocity.y;}
+	void moveDown()  {position.y += controlledVelocity.y;}
 };
