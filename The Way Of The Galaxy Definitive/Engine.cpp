@@ -6,18 +6,16 @@
 #include "Statusbar.h"
 #include <fstream>
 
-Manager manager; // Referrence of the manager class of ECS
+// Referrence of the manager class of ECS
+Manager manager;
 
 // A manager and a reader of the level files
-
 //LevelManager levelManager = LevelManager(manager);
 
 // A manager of the background with some functionalities
-
 BackgroundManager backgroundManager = BackgroundManager(manager);
 
 // A manager of the top statusbar with some informations fo the player
-
 Statusbar statusbar = Statusbar(manager);
 
 SDL_Renderer* Engine::renderer;

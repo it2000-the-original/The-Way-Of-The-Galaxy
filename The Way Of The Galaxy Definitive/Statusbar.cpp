@@ -81,7 +81,7 @@ void Statusbar::update() {
 
 void Statusbar::refresh() {
 
-	// Remove all incarive widgets from the vector and from the memory
+	// Remove all inactive widgets from the vector and from the memory
 
 	widgets.erase(std::remove_if(std::begin(widgets), std::end(widgets), [](Widget* mWidget) {
 

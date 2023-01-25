@@ -15,9 +15,9 @@ struct SATstatus {
 	float penetrationAngle;
 };
 
-float findMinimumPoint(std::vector<Point> points, Point axis);   // Find the smaller projection point in the axis
-float findMaximumPoint(std::vector<Point> points, Point axis);   // Find the highter projection point in the axis
-SATstatus polygon_polygon_SAT(Convex polygonA, Convex polygonB); // Separating Axis Theorem that return the status of the collision
+float findMinimumPoint(std::vector<Point> points, Point axis);
+float findMaximumPoint(std::vector<Point> points, Point axis);
+SATstatus polygon_polygon_SAT(Convex polygonA, Convex polygonB);
 
 bool Collision::AABB(const SDL_Rect& recA, const SDL_Rect& recB) {
 
