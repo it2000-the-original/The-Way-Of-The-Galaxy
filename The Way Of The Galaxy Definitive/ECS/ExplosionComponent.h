@@ -1,28 +1,28 @@
 #pragma once
 #include "Components.h"
+#include "TimeAction.h"
 
 class ExplosionComponent : public Component {
 
 private:
 
-	Uint32 initialTime;
-	int explosionDuration;
+	TimeAction explosionDuration = TimeAction(100);
 
 public:
 
 	ExplosionComponent(int mExplosionDuration) {
 
-		explosionDuration = mExplosionDuration;
+		explosionDuration.setDuration(mExplosionDuration);
 	}
 
 	void init() override {
 	
-		initialTime = SDL_GetTicks();
+		explosionDuration.init();
 	}
 
 	void update() override {
 
-		if (SDL_GetTicks() - initialTime > explosionDuration) {
+		if (explosionDuration.check()) {
 
 			entity->destroy();
 		}

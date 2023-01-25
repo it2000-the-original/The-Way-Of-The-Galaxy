@@ -2,7 +2,6 @@
 #include "Components.h"
 #include "TimeAction.h"
 #include <string>
-#include "ColliderComponent.h"
 
 class PlayerComponent : public Component {
 
@@ -11,11 +10,9 @@ private:
 	PositionComponent* position;
 	SpriteComponent* sprite;
 
-	// This variables define the time before a bullet to another
 	const SDL_Rect laserPositionCorrection {10, 6, 0, 0};
 	const SDL_Rect missilePositionCorrection {10, 8, 0, 0};
 	
-	// Bool variables for animations
 	TimeAction reactLaserShoot;
 	TimeAction reactMissileShoot;
 	TimeAction reactShootAnimation  = TimeAction(100);
@@ -24,10 +21,13 @@ private:
 	std::string weapons[2] = { "laser", "missile" };
 	int SelectedWeapon = 0;
 
+	bool automaticWeapon = false;
+	bool alreadySwitched = false;
+
 public:
 
 	int energy = 100;
-	int missiles = 200;
+	int missiles = 20;
 	
 	PlayerComponent() {
 		
@@ -43,99 +43,165 @@ public:
 
 	void init() override {
 
+		if (!entity->hasComponent<PositionComponent>()) {
+
+			entity->addComponent<PositionComponent>();
+		}
+
+		if (!entity->hasComponent<SpriteComponent>()) {
+
+			entity->addComponent<SpriteComponent>();
+		}
+
 		position = &entity->getComponent<PositionComponent>();
 		sprite = &entity->getComponent<SpriteComponent>();
 	}
 
 	void update() override {
 
-		if (reactShootAnimation.check() or reactDamageAnimation.check()) {
+		if (reactShootAnimation.check() or reactDamageAnimation.check()) sprite->playAnimation("base");
 
-			sprite->playAnimation("base");
-		}
+		if (energy <= 0) entity->destroy();
 
-		if (energy <= 0) {
+		checkForInputs();
+		correctPositionInTheArea();
+		
+		// Setting wall entityes
+		Collision::subtractCollisionMTV(&entity->getComponent<ColliderComponent>(), satId);
 
-			entity->destroy();
-		}
-	}
-
-	void checkPosition() {
-
-		if (!position->isCompletelyOnRender()[0]) {
-
-			position->restorePosition(true, false);
-		}
-
-		if (!position->isCompletelyOnRender()[1]) {
-
-			position->restorePosition(false, true);
-		}
+		// After checking collisions with walls reset the position of the sprite.
+		sprite->resetPosition();
 	}
 
 	void shot() {
 		
-		if (weapons[SelectedWeapon] == "laser") shotLaser();
+		if      (weapons[SelectedWeapon] == "laser")   shotLaser();
 		else if (weapons[SelectedWeapon] == "missile") shotMissile();
+	}
+
+	
+
+	void checkForInputs() {
+
+		const Uint8* KeyboardState = SDL_GetKeyboardState(NULL);
+
+		if (KeyboardState[SDL_SCANCODE_X]) reactDamage();
+
+		if (KeyboardState[SDL_SCANCODE_M]) {
+
+			if (alreadySwitched) {
+				switchWeapon();
+				alreadySwitched = false;
+			}
+		}
+
+		else alreadySwitched = true;
+
+		if (KeyboardState[SDL_SCANCODE_SPACE]) {
+
+			if (automaticWeapon) {
+				shot();
+				automaticWeapon = false;
+			}
+		}
+
+		else automaticWeapon = true;
 	}
 
 	void shotLaser() {
 
 		if (reactLaserShoot.check() and !reactDamageAnimation.isActive()) {
 
+			// definning the position where spawn the laser
+			int xposition = position->scale * (position->position.x + position->width - laserPositionCorrection.x);
+			int yposition = position->scale * (position->position.y + position->height - laserPositionCorrection.y);
+
 			reactLaserShoot.init();
+
+			SDL_Rect laserSpace = { xposition, yposition, 8, 2 };
+
 			auto& bullet = entity->manager.addEntity();
-			bullet.addComponent<PositionComponent>(position->position.x + position->width * position->scale - laserPositionCorrection.x, position->position.y + position->height * position->scale - laserPositionCorrection.y, 8, 2, 1);
-			bullet.getComponent<PositionComponent>().setSpeed(10, 0);
+
+			bullet.addComponent<PositionComponent>(laserSpace, 1);
 			bullet.addComponent<SpriteComponent>("sprites//lasers//laser.png");
 			bullet.addComponent<ColliderComponent>(laserId);
 			bullet.addComponent<BulletComponent>();
+
+			bullet.getComponent<PositionComponent>().setSpeed(10, 0);
+
 			bullet.addGroup(groupBullets);
+
 			sprite->playAnimation("shot");
+
 			reactShootAnimation.init();
 		}
 	}
+
 	void shotMissile() {
 
 		if (reactMissileShoot.check() and !reactDamageAnimation.isActive() and missiles > 0) {
 
+			// defining the position where spawn the missile
+			int xposition = position->scale * (position->position.x + position->width - missilePositionCorrection.x);
+			int yposition = position->scale * (position->position.y + position->height - missilePositionCorrection.y);
+			int xspeed = position->getActualMovement().x + 8;
+			int yspeed = position->getActualMovement().y;
+
+			Explosion explosion = { "sprites//explosions//explosion.png", 40, 60 };
+			SDL_Rect missileSpace = { xposition, yposition, 12, 5 };
+
 			reactMissileShoot.init();
+
 			auto& bullet = entity->manager.addEntity();
-			bullet.addComponent<PositionComponent>(position->position.x + position->width - missilePositionCorrection.x, position->position.y + position->height - missilePositionCorrection.y, 12, 5, 1);
-			bullet.getComponent<PositionComponent>().setSpeed(8, 0);
+
+			bullet.addComponent<PositionComponent>(missileSpace, 1);
 			bullet.addComponent<SpriteComponent>("sprites//missiles//missile.png", true);
-			bullet.getComponent<SpriteComponent>().addAnimation("base", 4, 0, 10);
-			bullet.getComponent<SpriteComponent>().playAnimation("base");
 			bullet.addComponent<ColliderComponent>(missileId);
 			bullet.addComponent<BulletComponent>();
 			bullet.addComponent<MissileComponent>();
-			bullet.addComponent<ExplodeComponent>("sprites//explosions//explosion.png", 50, 50, 40, 60);
+			bullet.addComponent<ExplodeComponent>(explosion, 50, 50);
+
+			bullet.getComponent<PositionComponent>().setSpeed(xspeed, yspeed);
+			bullet.getComponent<SpriteComponent>().addAnimation("base", 4, 0, 10);
+			bullet.getComponent<SpriteComponent>().playAnimation("base");
+
 			bullet.addGroup(groupBullets);
+
 			sprite->playAnimation("shot");
+
 			reactShootAnimation.init();
+
 			missiles -= 1;
 		}
 	}
 
+	void correctPositionInTheArea() {
+
+		// Move the player inside the render area if it is outside
+
+		statusPosition status = position->isCompletelyOnRender();
+
+		position->position.x -= status.xdistance;
+		position->position.y -= status.ydistance;
+	}
+
 	void switchWeapon() {
 
-		std::cout << sizeof(weapons) << std::endl;
 		if (SelectedWeapon < (sizeof(weapons) / sizeof(std::string)) - 1) SelectedWeapon++;
 		else SelectedWeapon = 0;
 	}
 
-	std::string getSelectedWeapon() { return weapons[SelectedWeapon]; }
+	std::string getSelectedWeapon() {
+
+		return weapons[SelectedWeapon];
+	}
 
 	void reactDamage() {
 
+		// The reaction to do when the player is hitted by a bullet
+
 		reactDamageAnimation = true;
-		position->restorePosition(true, true);
 		sprite->playAnimation("damage");
 		reactDamageAnimation.init();
-	}
-
-	~PlayerComponent() {
-
-		position = nullptr;
 	}
 };

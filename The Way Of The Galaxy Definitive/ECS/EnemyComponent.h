@@ -13,6 +13,11 @@ public:
 
 	void init() override {
 		
+		if (entity->hasComponent<PositionComponent>()) {
+
+			entity->addComponent<PositionComponent>();
+		}
+
 		position = &entity->getComponent<PositionComponent>();
 	}
 

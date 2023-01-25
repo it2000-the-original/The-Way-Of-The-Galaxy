@@ -1,17 +1,36 @@
-﻿cmake_minimum_required (VERSION 3.8)
+﻿# This is a simple makefile to compile this project.
+# This project is hybrid between visual studio and cmake
+# and cross platform, to compile, you need to install the SDL2 SDL2_image SDL2_ttf packages....
 
-project ("The Way Of The Galaxy")
+cmake_minimum_required (VERSION 3.8)
+project("The Way Of The Galaxy" VERSION 0.0.1)
 
-file(GLOB srcfiles "*.cpp")
-file(GLOB headers "include/*.h")
-file(GLOB components "ECS/*.h")
+#include(CTest)
+#enable_testing()
 
-add_executable(TWOTG ${srcfiles} ${headers} ${components})
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(SDL2_MIN_VERSION 2.26.0)
 
-target_include_directories(TWOTG PRIVATE "include" "ECS")
+find_package(SDL2 ${SDL2_MIN_VERSION} REQUIRED)
+find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 
-target_link_libraries(TWOTG PRIVATE SDL2 SDL2main SDL2_image SDL2_ttf)
+include_directories(${SDL2_INCLUDE_DIRS})
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET TWOTG PROPERTY CXX_STANDARD 20)
-endif()
+file(GLOB srcfiles "${PROJECT_SOURCE_DIR}/*.cpp")
+file(GLOB headers "${PROJECT_SOURCE_DIR}/include/*.h")
+file(GLOB components "${PROJECT_SOURCE_DIR}/ECS/*.h")
+
+add_executable(TWOTG ${srcfiles})
+
+target_include_directories(TWOTG PRIVATE 
+	"${PROJECT_SOURCE_DIR}/include"
+	"${PROJECT_SOURCE_DIR}/ECS"
+)
+
+target_link_libraries(TWOTG
+	${SDL2_LIBRARIES} 
+	SDL2_image::SDL2_image
+	SDL2_ttf::SDL2_ttf
+)

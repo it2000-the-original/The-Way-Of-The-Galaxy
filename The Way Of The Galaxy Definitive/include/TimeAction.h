@@ -13,8 +13,10 @@ public:
 
 	TimeAction();
 	TimeAction(Uint32 mDuration);
+
 	void init();
 	bool check();
 	bool isActive();
+
 	void setDuration(Uint32 mDuration);
 };

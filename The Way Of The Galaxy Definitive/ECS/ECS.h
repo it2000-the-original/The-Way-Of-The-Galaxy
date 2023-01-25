@@ -4,9 +4,20 @@
 #include <vector>
 #include <algorithm>
 
+/* This is the header file that define all of the classes to manage for the
+ * Entity Component System, in fact there is a Component class that acts as a polymorphism
+ * to create other components, an entity class that define his components and a manager class
+ * to manage all of the entities in the system. */
+
+// declaration of the three classes
 class Component;
 class Entity;
 class Manager;
+
+const int maxComponents = 32;
+const int maxGroups = 32;
+
+// two methods to use to define the position to put new components
 
 inline int getNewComponentID() {
 
@@ -20,14 +31,11 @@ template <typename T> inline int getComponentID() noexcept {
 	return ID;
 }
 
-const int maxComponents = 32;
-const int maxGroups = 32;
-
 class Component {
 
 public:
 
-	Entity* entity;
+	Entity* entity;         
 	virtual void init()   {}
 	virtual void update() {}
 	virtual void draw()   {}
@@ -39,10 +47,11 @@ class Entity {
 private:
 
 	bool active = true;
-	std::vector<Component*> components;
-	Component* ComponentArray[maxComponents];
 	bool GroupBitSet[maxGroups];
+
+	std::vector<Component*> components;
 	bool ComponentBitSet[maxComponents];
+	Component* ComponentArray[maxComponents];
 
 public:
 
@@ -65,10 +74,21 @@ public:
 
 	template <typename T> const bool hasComponent() {
 
+		// Return a bool value from a position of ComponentBitSet
+		// dictated by the function getComponentID.
+		// If call this function with a new typename never gived
+		// it will generate a new value, but if we give to it
+		// a typename that we have already gived before,
+		// it will return the same value of the first time.
+
 		return ComponentBitSet[getComponentID<T>()];
 	}
 
 	template <typename T, typename... TArgs> T& addComponent(TArgs&&... mArgs) {
+
+		// Creating and call the constructor of a new entity, give to it the same
+		// parameters given at the call of the function and put the pointer in
+		// the component std::vector.
 
 		T* c = new T(std::forward<TArgs>(mArgs)...);
 		c->entity = this;
@@ -78,10 +98,16 @@ public:
 		ComponentBitSet[getComponentID<T>()] = true;
 
 		c->init();
+
+		std::cout << "Added component: " << typeid(c).name() << std::endl;
+
 		return *c;
 	}
 
 	template <typename T> T& getComponent() const {
+
+		// Create a variable that contain an element of
+		// ComponentArray in a position returned by getComponentID
 
 		auto ptr = ComponentArray[getComponentID<T>()];
 		return *static_cast<T*>(ptr);
@@ -92,6 +118,8 @@ public:
 		return GroupBitSet[mGroup];
 	}
 
+	// you can find the definition of this function in ECS.cpp
+
 	void addGroup(int mGroup);
 
 	void delGroup(int mGroup) {
@@ -101,16 +129,12 @@ public:
 
 	~Entity() {
 
+		// Delete from the memory all components of components vector
+
 		for (int i = components.size() - 1; i >= 0; i--) {
 
 			delete components[i];
-			components[i] = nullptr;
 			components.erase(components.begin() + i);
-		}
-
-		for (auto& c : components) {
-
-			c = nullptr;
 		}
 
 		std::cout << "Removed entity" << std::endl;
@@ -122,16 +146,60 @@ class Manager {
 private:
 
 	std::vector<Entity*> entities;
+
+	// a way to render all entitties in a specific order,
+	// every entity has a group defined by a size_t value
+
 	std::vector<Entity*> groupedEntities[maxGroups];
+
+	void refreshInactiveEntities() {
+
+		// Refresh and delete every inactive entity in the entities vector
+
+		entities.erase(std::remove_if(std::begin(entities), std::end(entities), [](Entity* mEntity) {
+
+			if (!mEntity->isActive()) {
+
+				delete mEntity;
+				return true;
+			}
+
+			else {
+
+				return false;
+			}
+
+			}), std::end(entities));
+	}
+
+	void refreshGroupedEntities() {
+
+		// Remove and destroy every entity from a group of entities that
+		// is inactive or doesn't make part of the group where it is
+
+		for (auto i = 0; i < maxGroups; i++) {
+
+			auto& v = groupedEntities[i];
+
+			v.erase(std::remove_if(std::begin(v), std::end(v), [i](Entity* mEntity) {
+
+				if (!mEntity->hasGroup(i)) return true;
+				else if (!mEntity->isActive())  return true;
+
+				return false;
+
+				}), std::end(v));
+		}
+	}
 
 public:
 
 	void update() {
 
-		// I use this metod to update every entity instead of "auto& e : entities" because if i add an entity while
-		// they are updating, it generates an exception with the vector class and the crash of the program but i 
-		// need so mutch to add entityes during the uppdate. If you that are reading this have an idea to fix this, 
-		// write an issue on Github.
+		// I must use this method to update all entities because the number
+		// of elements in the entities vector is not constant during this phase,
+		// this is because in some components they could be methods tha during the
+		// update can add or remove components, generating conflicts with the other form
 
 		for (int i = 0; i < entities.size(); i++) entities[i]->update();
 	}
@@ -142,55 +210,9 @@ public:
 	}
 
 	void refersh() {
-		
-		for (auto i = 0; i < maxGroups; i++) {
 
-			auto& v(groupedEntities[i]);
-			v.erase(
-
-				std::remove_if(std::begin(v), std::end(v),
-					[i](Entity* mEntity) {
-
-						if (!mEntity->hasGroup(i)) {
-
-							mEntity->destroy();
-							return true;
-						}
-
-						else if (!mEntity->isActive()) {
-
-							return true;
-						}
-						
-						return false;
-					}),
-
-				std::end(v));
-		}
-		
-		entities.erase(std::remove_if(std::begin(entities), std::end(entities), [](Entity* mEntity) {
-
-			if (!mEntity->isActive()) {
-
-				delete mEntity;
-				mEntity = nullptr;
-				return true;
-			}
-			
-			else {
-
-				return false;
-			}
-		}),
-
-		std::end(entities));
-	}
-
-	Entity& addEntity() {
-
-		Entity* e = new Entity(*this);
-		entities.emplace_back(std::move(e));
-		return *e;
+		refreshGroupedEntities();
+		refreshInactiveEntities();
 	}
 
 	void addToGroup(Entity* mEntity, int mGroup) {
@@ -201,5 +223,15 @@ public:
 	std::vector<Entity*>& getGroup(int mGroup) {
 
 		return groupedEntities[mGroup];
+	}
+
+	Entity& addEntity() {
+
+		Entity* e = new Entity(*this);
+		entities.emplace_back(std::move(e));
+		
+		std::cout << "Added entity" << std::endl;
+
+		return *e;
 	}
 };

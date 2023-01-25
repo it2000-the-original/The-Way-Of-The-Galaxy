@@ -6,13 +6,14 @@ class LevelManager {
 
 private:
 
+	Manager& manager;
 	nlohmann::json levelData;
+
 	int levelBlocksSize;
 	int actualBlock;
 	bool running;
 	Uint32 initialTime;
 	int blockTime;
-	Manager& manager;
 
 public:
 

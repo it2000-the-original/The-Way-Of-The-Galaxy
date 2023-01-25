@@ -2,6 +2,7 @@
 
 SDL_Texture* TextureManager::LoadTexture(const char* path) {
 
+	// Return a texture of an image
 	SDL_Surface* textureSurface = IMG_Load(path);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(Engine::renderer, textureSurface);
 	SDL_FreeSurface(textureSurface);
@@ -10,6 +11,7 @@ SDL_Texture* TextureManager::LoadTexture(const char* path) {
 
 SDL_Texture* TextureManager::LoadTexture(TTF_Font* font, SDL_Color color, const char* text) {
 
+	// Return a texture of a text
 	SDL_Surface* textureSurface = TTF_RenderText_Solid(font, text, color);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(Engine::renderer, textureSurface);
 	SDL_FreeSurface(textureSurface);

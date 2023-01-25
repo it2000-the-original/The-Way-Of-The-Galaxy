@@ -1,31 +1,20 @@
 #include "Statusbar.h"
 
-void Widget::destroy() { active = false; }
+void Widget::setIcon(const char* path, int size, int spacing, int margin) {
 
-bool Widget::isActive() { return active; }
+	iconSize = size;
+	iconSpacing = spacing;
 
-int Widget::getWidth() {
+	Icon icon = { path, size, spacing, margin };
 
-	std::string widgetString = prefix + model;
-	return widgetString.size() * statusbar->fontSize / 2;
-}
-
-int Widget::getIconWidth() {
-
-	return iconSize + iconSpacing;
-}
-
-void Widget::addIcon(const char* iconPath, int mIconSize, int mIconSpacing, int iconMarginTop) {
-
-	iconSize = mIconSize;
-	iconSpacing = mIconSpacing;
-	entity->getComponent<TextComponent>().addIcon(iconPath, iconSize, iconSpacing, iconMarginTop, false);
+	entity->getComponent<TextComponent>().addIcon(icon, false);
 	statusbar->reloadPositions();
 }
 
 void Widget::setColor(int r, int g, int b, int a) {
 
-	entity->getComponent<TextComponent>().setColor(r, g, b, a);
+	SDL_Color color = { r, g, b, a };
+	entity->getComponent<TextComponent>().setColor(color);
 }
 
 void Widget::setPrefix(std::string mPrefix) {
@@ -45,60 +34,88 @@ void Widget::setPosition(int x, int y) {
 	entity->getComponent<PositionComponent>().setPosition(x, y);
 }
 
-Widget::~Widget() {}
+int Widget::getWidth() {
 
-//////////////////////////////// Statusbar methods
+	// Get the width of the widget exluding the icon
 
-Statusbar::Statusbar(Manager& mManager) : manager(mManager) { statusbar = &manager.addEntity(); }
+	std::string widgetString = prefix + model;
+	return widgetString.size() * statusbar->fontSize / 2;
+}
 
-void Statusbar::init(int size, const char* statusImage, std::string mFontPath, int mFontSize, int mTopPosition, int mSpacing, bool animated) {
+int Widget::getIconWidth() {
 
-	statusbar->addComponent<PositionComponent>(0, 0, 1200, size, 1);
-	statusbar->addComponent<SpriteComponent>(statusImage, animated, true);
+	// Get the width of the icon
+	// including the spacing
+
+	return iconSize + iconSpacing;
+}
+
+bool Widget::isActive() { return active; }
+
+void Widget::destroy() { active = false; }
+
+///////////////////////////////////////////////// Statusbar..........
+
+Statusbar::Statusbar(Manager& mManager) : manager(mManager) {}
+
+void Statusbar::init(Status status, bool animated) {
+
+	SDL_Rect statusbarSpace = { 0, 0, 1200, status.height };
+	
+	statusbar = &manager.addEntity();
+
+	statusbar->addComponent<PositionComponent>(statusbarSpace, 1);
+	statusbar->addComponent<SpriteComponent>(status.texture, animated, true);
 	statusbar->addGroup(groupStatus);
-	fontPath = mFontPath;
-	fontSize = mFontSize;
-	spacing = mSpacing;
-	topPosition = mTopPosition;
+
+	fontPath = status.font;
+	fontSize = status.fontSize;
+	spacing = status.spacing;
+	marginTop = status.marginTop;
 }
 
 void Statusbar::update() {
 
-	for (auto* widget : widgets) {widget->update();}
+	for (auto* widget : widgets) widget->update();
 }
 
 void Statusbar::refresh() {
 
-	widgets.erase(std::remove_if(std::begin(widgets), std::end(widgets),
-		[](Widget* mWidget) {
+	// Remove all inactive widgets from the vector and from the memory
 
-			if (!mWidget->isActive()) {
+	widgets.erase(std::remove_if(std::begin(widgets), std::end(widgets), [](Widget* mWidget) {
 
-				mWidget->entity->destroy();
-				delete mWidget;
-				return true;
-			}
+		if (!mWidget->isActive()) {
+
+			mWidget->entity->destroy();
+			delete mWidget;
+			return true;
+		}
 
 			return false;
-		}), 
+	}), 
 		
-		std::end(widgets));
-}
-
-void Statusbar::reloadPositions() {
-
-	int lastPosition = spacing;
-
-	for (auto* widget : widgets) {
-
-		lastPosition += widget->getIconWidth();
-		widget->setPosition(lastPosition, topPosition);
-		lastPosition += widget->getWidth() + spacing;
-	}
+	std::end(widgets));
 }
 
 void Statusbar::setAnimation(int f, int i, int s) {
 
 	statusbar->getComponent<SpriteComponent>().addAnimation("statusAnimation", f, i, s);
 	statusbar->getComponent<SpriteComponent>().playAnimation("statusAnimation");
+}
+
+void Statusbar::reloadPositions() {
+
+	// Move all widgets into the correct position
+
+	int lastPosition = spacing;
+
+	for (auto* widget : widgets) {
+
+		lastPosition += widget->getIconWidth();
+
+		widget->setPosition(lastPosition, marginTop);
+		
+		lastPosition += widget->getWidth() + spacing;
+	}
 }
