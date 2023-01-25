@@ -79,7 +79,7 @@ public:
 
 		auto& e = manager.addEntity();
 		e.addComponent<PositionComponent>(0, 0);
-		e.addComponent<TextComponent>("", fontPath, fontSize);
+		e.addComponent<TextComponent>("none", fontPath, fontSize);
 		e.addGroup(groupStatus);
 
 		// Setting dependency pointers

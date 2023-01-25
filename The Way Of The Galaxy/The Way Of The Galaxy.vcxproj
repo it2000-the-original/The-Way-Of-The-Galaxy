@@ -22,9 +22,9 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{c5b20032-f2e6-4ff4-9330-4871385e6a5b}</ProjectGuid>
-    <RootNamespace>TheWayOfTheGalaxyDefinitive</RootNamespace>
+    <RootNamespace>TheWayOfTheGalaxy</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>The Way Of The Galaxy Definitive</ProjectName>
+    <ProjectName>The Way Of The Galaxy</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
