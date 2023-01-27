@@ -1,5 +1,13 @@
 #include "Statusbar.h"
 
+std::string stringNumber(std::string model, int number) {
+
+	std::string stringNumber = std::to_string(number);
+	while (stringNumber.size() < model.size())
+	stringNumber = "0" + stringNumber;
+	return stringNumber;
+}
+
 void Widget::setIcon(const char* path, int size, int spacing, int margin) {
 
 	iconSize = size;

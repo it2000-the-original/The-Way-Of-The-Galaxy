@@ -2,6 +2,10 @@
 #include "Components.h"
 #include <string>
 
+// A function that return a string from a
+// int number that show all digits in relation to the model
+std::string stringNumber(std::string model, int number);
+
 struct Status {
 
 	const char* texture;
@@ -19,7 +23,6 @@ class Widget {
 
 private:
 
-	std::string model = "";
 
 	int iconSize = 0;
 	int iconSpacing = 0;
@@ -29,6 +32,7 @@ public:
 
 	Entity* entity;
 	Statusbar* statusbar;
+	std::string model = "";
 	std::string prefix = "";
 
 	virtual void update() {}
@@ -111,7 +115,7 @@ public:
 
 	void update() override { 
 		
-		entity->getComponent<TextComponent>().setText(prefix + std::to_string(*energy));
+		entity->getComponent<TextComponent>().setText(prefix + stringNumber(model, *energy));
 	}
 };
 
@@ -127,7 +131,7 @@ public:
 
 	void update() override {
 		
-		entity->getComponent<TextComponent>().setText(prefix + std::to_string(*missiles));
+		entity->getComponent<TextComponent>().setText(prefix + stringNumber(model, *missiles));
 	}
 };
 
@@ -146,4 +150,3 @@ public:
 		entity->getComponent<TextComponent>().setText(prefix + player->getSelectedWeapon());
 	}
 };
-
