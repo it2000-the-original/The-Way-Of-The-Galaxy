@@ -4,6 +4,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <vector>
+#include "AssetsManager.h"
 
 const int statusheight = 30;
 const int renderwidth = 1200;
@@ -49,6 +50,7 @@ public:
 
 	static SDL_Renderer* renderer;
 	static SDL_Event* event;
+	static AssetsManager* assets;
 
 	void init(const char* title, Window mWindow, bool fullscreen);
 

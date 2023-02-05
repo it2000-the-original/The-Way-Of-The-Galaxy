@@ -1,0 +1,9 @@
+{
+    "texture": "path to texture",
+    "width": 64,
+    "height": 64,
+    "colliderId": 2,
+    "renderGroup": 1,
+
+    "explosion": "path to explosion"
+}
