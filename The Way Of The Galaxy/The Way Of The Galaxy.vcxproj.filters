@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="File di intestazione\EntityComponentSystem">
-      <UniqueIdentifier>{9a25f8d6-6b03-43c2-b259-8f2c09a94db1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="File di risorse\SpaceshipsTextures">
       <UniqueIdentifier>{227f1335-9adb-434d-944d-850a4ded4ff9}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,15 @@
     </Filter>
     <Filter Include="File di risorse\Pieces">
       <UniqueIdentifier>{98457aeb-b777-4a8e-affa-aff570405cc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di risorse\Assets">
+      <UniqueIdentifier>{c7c152cc-ea0b-4b2a-9ff6-111ebf2833d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity Component System">
+      <UniqueIdentifier>{9a25f8d6-6b03-43c2-b259-8f2c09a94db1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Custom Components">
+      <UniqueIdentifier>{5ddf025a-9d89-447c-8e31-41d95fe87a19}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +78,9 @@
     <ClCompile Include="Main.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="AssetsManager.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Engine.h">
@@ -81,34 +90,31 @@
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="ECS\ECS.h">
-      <Filter>File di intestazione\EntityComponentSystem</Filter>
+      <Filter>Entity Component System</Filter>
     </ClInclude>
     <ClInclude Include="include\Components.h">
-      <Filter>File di intestazione\EntityComponentSystem</Filter>
+      <Filter>Entity Component System</Filter>
     </ClInclude>
     <ClInclude Include="ECS\PositionComponent.h">
-      <Filter>File di intestazione\EntityComponentSystem</Filter>
+      <Filter>Entity Component System</Filter>
     </ClInclude>
     <ClInclude Include="ECS\SpriteComponent.h">
-      <Filter>File di intestazione\EntityComponentSystem</Filter>
+      <Filter>Entity Component System</Filter>
     </ClInclude>
     <ClInclude Include="ECS\KeyboardController.h">
-      <Filter>File di intestazione\EntityComponentSystem</Filter>
+      <Filter>Entity Component System</Filter>
     </ClInclude>
     <ClInclude Include="include\BackgroundManager.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="ECS\PlayerComponent.h">
-      <Filter>File di intestazione\EntityComponentSystem</Filter>
-    </ClInclude>
     <ClInclude Include="ECS\BulletComponent.h">
-      <Filter>File di intestazione\EntityComponentSystem</Filter>
+      <Filter>Entity Component System</Filter>
     </ClInclude>
     <ClInclude Include="include\Collision.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="ECS\ColliderComponent.h">
-      <Filter>File di intestazione\EntityComponentSystem</Filter>
+      <Filter>Entity Component System</Filter>
     </ClInclude>
     <ClInclude Include="include\LevelManager.h">
       <Filter>File di intestazione</Filter>
@@ -117,10 +123,7 @@
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="ECS\ExplosionComponent.h">
-      <Filter>File di intestazione\EntityComponentSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="ECS\EnemyComponent.h">
-      <Filter>File di intestazione\EntityComponentSystem</Filter>
+      <Filter>Entity Component System</Filter>
     </ClInclude>
     <ClInclude Include="include\TimeAction.h">
       <Filter>File di intestazione</Filter>
@@ -129,16 +132,22 @@
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="ECS\ExplodeComponent.h">
-      <Filter>File di intestazione\EntityComponentSystem</Filter>
+      <Filter>Entity Component System</Filter>
     </ClInclude>
     <ClInclude Include="ECS\MissileComponent.h">
-      <Filter>File di intestazione\EntityComponentSystem</Filter>
+      <Filter>Entity Component System</Filter>
     </ClInclude>
     <ClInclude Include="ECS\TextComponent.h">
-      <Filter>File di intestazione\EntityComponentSystem</Filter>
+      <Filter>Entity Component System</Filter>
     </ClInclude>
     <ClInclude Include="include\Statusbar.h">
       <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AssetsManager.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\custom\PlayerSpaceship.h">
+      <Filter>Custom Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -183,5 +192,13 @@
     <Font Include="sprites\fonts\wayfers.ttf">
       <Filter>File di risorse\Fonts</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\asset.json">
+      <Filter>File di risorse\Assets</Filter>
+    </None>
+    <None Include="assets\asset2.json">
+      <Filter>File di risorse\Assets</Filter>
+    </None>
   </ItemGroup>
 </Project>

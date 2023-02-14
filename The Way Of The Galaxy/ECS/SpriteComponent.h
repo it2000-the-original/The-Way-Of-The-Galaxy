@@ -40,7 +40,7 @@ private:
 	int animationIndex = 0;
 	TimeAction animationSpeed = TimeAction(100);
 
-	std::map<const char*, Animation> animation;
+	std::map<std::string, Animation> animations;
 
 public:
 
@@ -51,17 +51,21 @@ public:
 		texture = TextureManager::LoadTexture(path);
 	}
 
-	SpriteComponent(const char* path, bool mAnimated) {
+	SpriteComponent(SDL_Texture* mTexture) {
 
-		texture = TextureManager::LoadTexture(path);
-		animated = mAnimated;
+		texture = mTexture;
 	}
 	
-	SpriteComponent(const char* path, bool mAnimated, bool mReversed) {
+	SpriteComponent(const char* path, bool mReversed) {
 
 		texture = TextureManager::LoadTexture(path);
 		reversed = mReversed;
-		animated = mAnimated;
+	}
+
+	SpriteComponent(SDL_Texture* mTexture, bool mReversed) {
+
+		texture = mTexture;
+		reversed = mReversed;
 	}
 
 	void init() override {
@@ -109,19 +113,20 @@ public:
 		TextureManager::DrawTexture(texture, srcRect, destRect, flip, position->angle);
 	}
 
-	void addAnimation(const char* aniName, int f, int i, int s) {
+	void addAnimation(std::string aniName, int f, int i, int s) {
 
 		Animation ani = Animation(f, i, s);
-		animation.emplace(aniName, ani);
+		animations.emplace(aniName, ani);
 	}
 
 	void playAnimation(const char* ani) {
 
-		animationFrames = animation[ani].frames;
-		animationIndex = animation[ani].index;
-
-		animationSpeed.setDuration(animation[ani].speed);
+		animationFrames = animations[ani].frames;
+		animationIndex = animations[ani].index;
+		animationSpeed.setDuration(animations[ani].speed);
 		animationSpeed.init();
+
+		animated = true;
 	}
 
 	void moveRightFrame() {
@@ -157,6 +162,6 @@ public:
 		SDL_DestroyTexture(texture);
 		texture = nullptr;
 		position = nullptr;
-		animation.clear();
+		animations.clear();
 	}
 };

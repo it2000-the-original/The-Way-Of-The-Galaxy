@@ -24,7 +24,7 @@ void LevelManager::spownObject(const char* tex, int position, int width, int hei
 
 		entity.addComponent<PositionComponent>(objectSpace, 1);
 		entity.getComponent<PositionComponent>().setSpeed(-speed, 0);
-		entity.addComponent<SpriteComponent>(tex, true);
+		entity.addComponent<SpriteComponent>(tex);
 		entity.getComponent<SpriteComponent>().setFlip(SDL_FLIP_HORIZONTAL);
 	}
 
@@ -34,7 +34,7 @@ void LevelManager::spownObject(const char* tex, int position, int width, int hei
 
 		entity.addComponent<PositionComponent>(objectSpace, 1);
 		entity.getComponent<PositionComponent>().setSpeed(speed, 0);
-		entity.addComponent<SpriteComponent>(tex, true);
+		entity.addComponent<SpriteComponent>(tex);
 	}
 
 	Explosion explosion = { "sprites//explosions//explosion.png", 40, 60 };
@@ -42,7 +42,7 @@ void LevelManager::spownObject(const char* tex, int position, int width, int hei
 	entity.getComponent<SpriteComponent>().addAnimation("base", 4, 0, 100);
 	entity.getComponent<SpriteComponent>().playAnimation("base");
 	entity.addComponent<ColliderComponent>(collider);
-	entity.addComponent<EnemyComponent>();
+	//entity.addComponent<EnemyComponent>();
 	entity.addComponent<ExplodeComponent>(explosion, 50, 50, 10);
 	entity.addGroup(groupEnemies);
 }

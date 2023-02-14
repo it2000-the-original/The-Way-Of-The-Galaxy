@@ -73,7 +73,7 @@ void Statusbar::init(Status status, bool animated) {
 	statusbar = &manager.addEntity();
 
 	statusbar->addComponent<PositionComponent>(statusbarSpace, 1);
-	statusbar->addComponent<SpriteComponent>(status.texture, animated, true);
+	statusbar->addComponent<SpriteComponent>(status.texture, true);
 	statusbar->addGroup(groupStatus);
 
 	fontPath = status.font;

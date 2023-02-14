@@ -4,7 +4,8 @@
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <vector>
-#include "AssetsManager.h"
+
+class AssetsManager;
 
 const int statusheight = 30;
 const int renderwidth = 1200;
