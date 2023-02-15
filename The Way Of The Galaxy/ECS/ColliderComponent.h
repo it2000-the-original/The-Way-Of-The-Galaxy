@@ -154,4 +154,10 @@ public:
 			float(position->position.y)
 		);
 	}
+
+	void setPolygon(Polygon polygon) {
+
+		srcPolygon = polygon;
+		destPolygon = polygon;
+	}
 };

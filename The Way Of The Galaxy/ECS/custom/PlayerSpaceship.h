@@ -3,7 +3,7 @@
 #include "TimeAction.h"
 #include <string>
 
-class PlayerComponent : public Component {
+class PlayerSpaceship : public Component {
 
 private:
 
@@ -29,13 +29,13 @@ public:
 	int energy = 100;
 	int missiles = 20;
 	
-	PlayerComponent() {
+	PlayerSpaceship() {
 		
 		reactLaserShoot = TimeAction(100);
 		reactMissileShoot = TimeAction(300);
 	}
 
-	PlayerComponent(int laserShotTime, int missileShotTime) {
+	PlayerSpaceship(int laserShotTime, int missileShotTime) {
 
 		reactLaserShoot = TimeAction(laserShotTime);
 		reactMissileShoot = TimeAction(missileShotTime);
@@ -78,8 +78,6 @@ public:
 		if      (weapons[SelectedWeapon] == "laser")   shotLaser();
 		else if (weapons[SelectedWeapon] == "missile") shotMissile();
 	}
-
-	
 
 	void checkForInputs() {
 

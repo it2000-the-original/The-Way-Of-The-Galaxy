@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 
+class AssetsManager;
+
 const int statusheight = 30;
 const int renderwidth = 1200;
 const int renderheight = 700;
@@ -49,6 +51,7 @@ public:
 
 	static SDL_Renderer* renderer;
 	static SDL_Event* event;
+	static AssetsManager* assets;
 
 	void init(const char* title, Window mWindow, bool fullscreen);
 

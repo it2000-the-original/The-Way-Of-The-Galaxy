@@ -139,11 +139,11 @@ class WeaponWidget : public Widget {
 
 private:
 
-	PlayerComponent* player;
+	PlayerSpaceship* player;
 
 public:
 
-	WeaponWidget(PlayerComponent* mPlayer) { player = mPlayer; }
+	WeaponWidget(PlayerSpaceship* mPlayer) { player = mPlayer; }
 
 	void update() override {
 		

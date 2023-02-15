@@ -1,0 +1,30 @@
+{
+  "texture": "sprites//spaceships//spaceship1.png",
+
+  "animations": [
+    {
+      "name": "base",
+      "index": 0,
+      "frames": 4,
+      "speed": 100
+    },
+    {
+      "name": "shot",
+      "index": 1,
+      "frames": 4,
+      "speed": 100
+    },
+    {
+      "name":  "damage",
+      "index": 2,
+      "frames": 4,
+      "speed": 100
+    }  
+  ],
+
+  "width": 70,
+  "height": 30,
+
+  "colliderId": 1,
+  "renderGroup": 1
+}

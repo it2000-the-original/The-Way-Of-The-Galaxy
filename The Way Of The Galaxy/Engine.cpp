@@ -4,6 +4,7 @@
 #include "BackgroundManager.h"
 #include "LevelManager.h"
 #include "Statusbar.h"
+#include "AssetsManager.h"
 #include <fstream>
 
 // Referrence of the manager class of ECS
@@ -20,9 +21,9 @@ Statusbar statusbar = Statusbar(manager);
 
 SDL_Renderer* Engine::renderer;
 SDL_Event* Engine::event;
+AssetsManager* Engine::assets;
 
 auto& player = manager.addEntity();
-auto& triangle = manager.addEntity();
 
 // Put the manager->groupedEntities vectors in the refereces variables to control
 // the render layers in the render() metod
@@ -42,7 +43,6 @@ LevelBackground bg1 = { "sprites//backgrounds//Space_Stars2.png", 2, 64, 64, 2 }
 // Defining initial positions of the entities
 
 SDL_Rect playerPosition = { 30, 350, 70, 30 };
-SDL_Rect trianglePosition = {500, 200, 300, 300};
 
 // Defining the statusbar
 
@@ -88,6 +88,8 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 
 		event = new SDL_Event();
 
+		assets = new AssetsManager(manager);
+
 		// Addind levels to the background
 		backgroundManager.addLevel(bg1);
 
@@ -112,8 +114,8 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 		player.addComponent<PositionComponent>(playerPosition, 1, 0, true);
 		player.addComponent<KeyboardController>();
 		player.addComponent<ColliderComponent>(playerId);
-		player.addComponent<SpriteComponent>("sprites//spaceships//spaceship1.png", true);
-		player.addComponent<PlayerComponent>();
+		player.addComponent<SpriteComponent>("sprites//spaceships//spaceship1.png");
+		player.addComponent<PlayerSpaceship>();
 
 		player.getComponent<PositionComponent>().setControlledSpeed(3, 3);
 		player.getComponent<SpriteComponent>().addAnimation("base", 4, 0, 100);
@@ -123,18 +125,12 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 
 		player.addGroup(groupPlayer);
 
-		triangle.addComponent<PositionComponent>(trianglePosition, 1);
-		triangle.addComponent<SpriteComponent>("sprites//spaceships//PolygonConcaveTest.png");
-		triangle.addComponent<ColliderComponent>(satId, polygons);
-
-		triangle.addGroup(groupEnemies);
-
 		statusbar.init(statusSetting, true);
 		statusbar.setAnimation(43, 0, 40);
 
-		auto& energyWidget = statusbar.addWidget<EnergyWidget>(&player.getComponent<PlayerComponent>().energy);
-		auto& missilesWidget = statusbar.addWidget<MissilesWidget>(&player.getComponent<PlayerComponent>().missiles);
-		auto& weaponWidget = statusbar.addWidget<WeaponWidget>(&player.getComponent<PlayerComponent>());
+		auto& energyWidget = statusbar.addWidget<EnergyWidget>(&player.getComponent<PlayerSpaceship>().energy);
+		auto& missilesWidget = statusbar.addWidget<MissilesWidget>(&player.getComponent<PlayerSpaceship>().missiles);
+		auto& weaponWidget = statusbar.addWidget<WeaponWidget>(&player.getComponent<PlayerSpaceship>());
 
 		energyWidget.setModel("999");
 		energyWidget.setColor(255, 255, 0, 180);
@@ -151,6 +147,15 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 		std::cout << IMG_GetError() << std::endl;
 
 		//levelManager.startLevel("levelmaps//test.json");
+
+		assets->addAsset("asset", "assets//asset.json");
+		assets->addAsset("asset2", "assets//asset2.json");
+
+		auto& entity = assets->loadAsset("asset", 100, 100);
+		auto& entity2 = assets->loadAsset("asset2", 500, 200);
+
+		entity.getComponent<SpriteComponent>().playAnimation("base");
+
 		isRunning = true;
 	}
 
