@@ -81,6 +81,9 @@
     <ClCompile Include="AssetsManager.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="Widget.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Engine.h">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="ECS\custom\PlayerSpaceship.h">
       <Filter>Custom Components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Widget.h">
+      <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,7 @@
 #pragma once
 #include "Components.h"
+#include "Widget.h"
 #include <string>
-
-// A function that return a string from a
-// int number that show all digits in relation to the model
-std::string stringNumber(std::string model, int number);
 
 struct Status {
 
@@ -15,38 +12,6 @@ struct Status {
 	int fontSize = 8;
 	int marginTop = 0;
 	int spacing = 5;
-};
-
-class Statusbar;
-
-class Widget {
-
-private:
-
-
-	int iconSize = 0;
-	int iconSpacing = 0;
-	bool active = true;
-
-public:
-
-	Entity* entity;
-	Statusbar* statusbar;
-	std::string model = "";
-	std::string prefix = "";
-
-	virtual void update() {}
-
-	void setIcon(const char* path, int size, int spacing, int margin); 
-	void setColor(int r, int g, int b, int a);
-	void setPrefix(std::string mPrefix);
-	void setModel(std::string mModel);
-	void setPosition(int x, int y);
-
-	int getWidth();
-	int getIconWidth();
-	bool isActive();
-	void destroy();
 };
 
 class Statusbar {
@@ -77,7 +42,7 @@ public:
 	// I cannot define a template function in the header file
 
 	template <typename T, typename... TArgs> T& addWidget(TArgs&&... mArgs) {
-		
+
 		T* w = new T(std::forward<TArgs>(mArgs)...);
 		widgets.emplace_back(std::move(w));
 
@@ -99,54 +64,4 @@ public:
 	}
 
 	void reloadPositions();
-};
-
-///////////////////////////////////////////// Defining different types of widgets........
-
-class EnergyWidget : public Widget {
-
-private:
-
-	int* energy;
-
-public:
-
-	EnergyWidget(int* mEnergy) { energy = mEnergy; }
-
-	void update() override { 
-		
-		entity->getComponent<TextComponent>().setText(prefix + stringNumber(model, *energy));
-	}
-};
-
-class MissilesWidget : public Widget {
-
-private:
-
-	int* missiles;
-
-public:
-
-	MissilesWidget(int* mMissiles) { missiles = mMissiles; }
-
-	void update() override {
-		
-		entity->getComponent<TextComponent>().setText(prefix + stringNumber(model, *missiles));
-	}
-};
-
-class WeaponWidget : public Widget {
-
-private:
-
-	PlayerSpaceship* player;
-
-public:
-
-	WeaponWidget(PlayerSpaceship* mPlayer) { player = mPlayer; }
-
-	void update() override {
-		
-		entity->getComponent<TextComponent>().setText(prefix + player->getSelectedWeapon());
-	}
 };
