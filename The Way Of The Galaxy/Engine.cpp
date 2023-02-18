@@ -93,24 +93,6 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 		// Addind levels to the background
 		backgroundManager.addLevel(bg1);
 
-		Polygon polygons = {
-			{
-				Point(0, 0),
-				Point(300, 124, true),
-				Point(153, 155)
-			},
-			{
-				Point(153, 155, true),
-				Point(300, 235),
-				Point(0, 300)
-			},
-			{
-				Point(153, 155, true),
-				Point(300, 124),
-				Point(300, 235, true)
-			}
-		};
-
 		player.addComponent<PositionComponent>(playerPosition, 1, 0, true);
 		player.addComponent<KeyboardController>();
 		player.addComponent<ColliderComponent>(playerId);
@@ -144,17 +126,15 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 		weaponWidget.setColor(255, 255, 0, 180);
 		weaponWidget.setPrefix("W: ");
 
+		//assets->addAsset("asset", "assets//asset.json");
+		//assets->addAsset("asset2", "assets//asset2.json");
+
 		std::cout << IMG_GetError() << std::endl;
 
-		//levelManager.startLevel("levelmaps//test.json");
+		//auto& entity = assets->loadAsset("asset", 100, 100);
+		//auto& entity2 = assets->loadAsset("asset2", 500, 200);
 
-		assets->addAsset("asset", "assets//asset.json");
-		assets->addAsset("asset2", "assets//asset2.json");
-
-		auto& entity = assets->loadAsset("asset", 100, 100);
-		auto& entity2 = assets->loadAsset("asset2", 500, 200);
-
-		entity.getComponent<SpriteComponent>().playAnimation("base");
+		//entity.getComponent<SpriteComponent>().playAnimation("base");
 
 		isRunning = true;
 	}
