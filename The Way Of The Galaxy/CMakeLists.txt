@@ -44,6 +44,7 @@ add_executable(TWOTG ${srcfiles})
 target_include_directories(TWOTG PRIVATE 
 	"${PROJECT_SOURCE_DIR}/include"
 	"${PROJECT_SOURCE_DIR}/ECS"
+	"${PROJECT_SOURCE_DIR}/ECS/custom"
 )
 
 target_link_libraries(TWOTG
