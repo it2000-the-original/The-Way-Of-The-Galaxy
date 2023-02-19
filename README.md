@@ -2,6 +2,8 @@
 # The-Way-Of-The-Galaxy
 A space shooter game written in C++ with the SDL2 library
 
+<img src="https://user-images.githubusercontent.com/93731405/219963991-8e1f9497-7bc9-432d-868e-6412d31585c8.png" width=100%/>
+
 The Way Of The Galaxy is an open source game, inspired to the 16bit games of the 80s 90s, but especially to [Konami Gradius (1985)](https://it.wikipedia.org/wiki/Gradius). Such game promises to be a graphical adventure, (not an arcade as Gradius) and at the same time, an action game that exploit hard the ability of the player, beyond that to have a defined history and to be organized in levels dipendent of each order.
 
 ## Technical terms
