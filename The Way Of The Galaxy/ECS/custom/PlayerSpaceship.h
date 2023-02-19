@@ -65,12 +65,15 @@ public:
 
 		checkForInputs();
 		correctPositionInTheArea();
-		
-		// Setting wall entityes
-		Collision::subtractCollisionMTV(&entity->getComponent<ColliderComponent>(), satId);
+	}
 
-		// After checking collisions with walls reset the position of the sprite.
-		sprite->resetPosition();
+	void onCollision2D(Collision2D collision) {
+
+		if (collision.colliderB == satId) {
+
+			position->position -= collision.penetration;
+			sprite->resetPosition();
+		}
 	}
 
 	void shot() {

@@ -152,7 +152,7 @@
   <ItemGroup>
     <ClCompile Include="AssetsManager.cpp" />
     <ClCompile Include="BackgroundManager.cpp" />
-    <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="CollisionsManager.cpp" />
     <ClCompile Include="ECS.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="LevelManager.cpp" />
@@ -167,7 +167,7 @@
     <ClInclude Include="ECS\BulletComponent.h" />
     <ClInclude Include="ECS\ColliderComponent.h" />
     <ClInclude Include="include\AssetsManager.h" />
-    <ClInclude Include="include\Collision.h" />
+    <ClInclude Include="include\CollisionsManager.h" />
     <ClInclude Include="include\Components.h" />
     <ClInclude Include="ECS\ECS.h" />
     <ClInclude Include="include\Engine.h" />

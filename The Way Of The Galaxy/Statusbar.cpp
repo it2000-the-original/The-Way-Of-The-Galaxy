@@ -1,12 +1,10 @@
 #include "Statusbar.h"
 
-Statusbar::Statusbar(Manager& mManager) : manager(mManager) {}
-
 void Statusbar::init(Status status, bool animated) {
 
 	SDL_Rect statusbarSpace = { 0, 0, 1200, status.height };
 
-	statusbar = &manager.addEntity();
+	statusbar = &Engine::manager.addEntity();
 
 	statusbar->addComponent<PositionComponent>(statusbarSpace, 1);
 	statusbar->addComponent<SpriteComponent>(status.texture, true);

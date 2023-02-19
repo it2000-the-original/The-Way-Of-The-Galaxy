@@ -5,7 +5,9 @@
 #include <iostream>
 #include <vector>
 
+class Manager;
 class AssetsManager;
+class CollisionsManager;
 
 const int statusheight = 30;
 const int renderwidth = 1200;
@@ -51,13 +53,16 @@ public:
 
 	static SDL_Renderer* renderer;
 	static SDL_Event* event;
-	static AssetsManager* assets;
+
+	static Manager manager;
+	static AssetsManager assets;
+	static CollisionsManager collisions;
 
 	void init(const char* title, Window mWindow, bool fullscreen);
 
 	void update();
 	void clean();
 	void render();
-	void closeEvent();
+	void close();
 	bool running();
 };

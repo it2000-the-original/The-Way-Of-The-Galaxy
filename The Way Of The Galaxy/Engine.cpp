@@ -5,36 +5,29 @@
 #include "LevelManager.h"
 #include "Statusbar.h"
 #include "AssetsManager.h"
+#include "CollisionsManager.h"
 #include <fstream>
 
-// Referrence of the manager class of ECS
-Manager manager;
-
-// A manager and a reader of the level files
-//LevelManager levelManager = LevelManager(manager);
-
-// A manager of the background with some functionalities
-BackgroundManager backgroundManager = BackgroundManager(manager);
-
-// A manager of the top statusbar with some informations fo the player
-Statusbar statusbar = Statusbar(manager);
+BackgroundManager backgroundManager;
+Statusbar statusbar;
 
 SDL_Renderer* Engine::renderer;
 SDL_Event* Engine::event;
-AssetsManager* Engine::assets;
 
-auto& player = manager.addEntity();
+Manager Engine::manager;
+AssetsManager Engine::assets;
+CollisionsManager Engine::collisions;
 
 // Put the manager->groupedEntities vectors in the refereces variables to control
 // the render layers in the render() metod
 
-auto& backgrounds = manager.getGroup(groupBackgrounds);
-auto& bullets = manager.getGroup(groupBullets);
-auto& enemies = manager.getGroup(groupEnemies);
-auto& players = manager.getGroup(groupPlayer);
-auto& explosions = manager.getGroup(groupExplosions);
-auto& pieces = manager.getGroup(groupPieces);
-auto& status = manager.getGroup(groupStatus);
+auto& backgrounds = Engine::manager.getGroup(groupBackgrounds);
+auto& bullets =     Engine::manager.getGroup(groupBullets);
+auto& enemies =     Engine::manager.getGroup(groupEnemies);
+auto& players =     Engine::manager.getGroup(groupPlayer);
+auto& explosions =  Engine::manager.getGroup(groupExplosions);
+auto& pieces =      Engine::manager.getGroup(groupPieces);
+auto& status =      Engine::manager.getGroup(groupStatus);
 
 // Defining levels of the background
 
@@ -88,10 +81,10 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 
 		event = new SDL_Event();
 
-		assets = new AssetsManager(manager);
-
 		// Addind levels to the background
 		backgroundManager.addLevel(bg1);
+
+		auto& player = manager.addEntity();
 
 		player.addComponent<PositionComponent>(playerPosition, 1, 0, true);
 		player.addComponent<KeyboardController>();
@@ -127,12 +120,12 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 		weaponWidget.setPrefix("W: ");
 
 		//assets->addAsset("asset", "assets//asset.json");
-		//assets->addAsset("asset2", "assets//asset2.json");
+		assets.addAsset("asset2", "assets//asset2.json");
 
 		std::cout << IMG_GetError() << std::endl;
 
 		//auto& entity = assets->loadAsset("asset", 100, 100);
-		//auto& entity2 = assets->loadAsset("asset2", 500, 200);
+		auto& entity2 = assets.loadAsset("asset2", 500, 200);
 
 		//entity.getComponent<SpriteComponent>().playAnimation("base");
 
@@ -147,15 +140,16 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 
 void Engine::update() {
 
-	Collision::refreshColliders();
+	collisions.refresh();
 	statusbar.refresh();
 	manager.refersh();
 
 	//levelManager.update();
 	backgroundManager.update();
 	statusbar.update();
-
 	manager.update();
+
+	collisions.update();
 }
 
 void Engine::render() {
@@ -173,7 +167,7 @@ void Engine::render() {
 	SDL_RenderPresent(renderer);
 }
 
-void Engine::closeEvent() {
+void Engine::close() {
 
 	SDL_PollEvent(event);
 

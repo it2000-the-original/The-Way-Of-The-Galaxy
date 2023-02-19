@@ -4,6 +4,8 @@
 #include <vector>
 #include <algorithm>
 
+#include "CollisionsManager.h"
+
 /* This is the header file that define all of the classes to manage for the
  * Entity Component System, in fact there is a Component class that acts as a polymorphism
  * to create other components, an entity class that define his components and a manager class
@@ -40,6 +42,9 @@ public:
 	virtual void update() {}
 	virtual void draw()   {}
 	virtual ~Component()  {}
+
+	// Collision checking method
+	virtual void onCollision2D(Collision2D collision) {}
 };
 
 class Entity {
@@ -49,13 +54,13 @@ private:
 	bool active = true;
 	bool GroupBitSet[maxGroups];
 
-	std::vector<Component*> components;
 	bool ComponentBitSet[maxComponents];
 	Component* ComponentArray[maxComponents];
 
 public:
 
 	Manager& manager;
+	std::vector<Component*> components;
 
 	Entity(Manager& mManager) : manager(mManager) {}
 

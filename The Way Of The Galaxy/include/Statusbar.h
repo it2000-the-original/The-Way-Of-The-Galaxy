@@ -18,7 +18,6 @@ class Statusbar {
 
 private:
 
-	Manager& manager;
 	Entity* statusbar;
 
 	int spacing;
@@ -30,8 +29,6 @@ private:
 public:
 
 	int fontSize;
-
-	Statusbar(Manager& mManager);
 
 	void init(Status status, bool animated);
 	void update();
@@ -46,7 +43,7 @@ public:
 		T* w = new T(std::forward<TArgs>(mArgs)...);
 		widgets.emplace_back(std::move(w));
 
-		auto& e = manager.addEntity();
+		auto& e = Engine::manager.addEntity();
 		e.addComponent<PositionComponent>(0, 0);
 		e.addComponent<TextComponent>("none", fontPath, fontSize);
 		e.addGroup(groupStatus);

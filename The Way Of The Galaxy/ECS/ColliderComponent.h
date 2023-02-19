@@ -1,8 +1,8 @@
 #pragma once
-#include <SDL2/SDL.h>
-#include "Components.h"
-#include "Collision.h"
 #include <string>
+#include <SDL2/SDL.h>
+#include "CollisionsManager.h"
+#include "Components.h"
 
 struct Point;                        // Pre-declaration of the Point struct for the 2 lines of code under here
 using Convex = std::vector<Point>;   // A std::vector of points that define a convex polygon
@@ -92,7 +92,7 @@ private:
 	PositionComponent* position;
 
 	Polygon srcPolygon;
-	bool polygon = false;
+	bool advanced = false;
 
 public:
 
@@ -108,7 +108,7 @@ public:
 	ColliderComponent(std::size_t mId, Polygon mPolygon) {
 
 		id = mId;
-		polygon = true;
+		advanced = true;
 		srcPolygon = mPolygon;
 		destPolygon = mPolygon;
 	}
@@ -122,7 +122,7 @@ public:
 
 		position = &entity->getComponent<PositionComponent>();
 
-		if (!polygon) {
+		if (!advanced) {
 
 			destPolygon = srcPolygon = { {
 
@@ -134,7 +134,7 @@ public:
 		}
 
 		// Adds the initialized collider in the colliders static vector
-		Collision::colliders.push_back(this);
+		Engine::collisions.colliders.push_back(this);
 	}
 
 	void update() override {
@@ -159,5 +159,8 @@ public:
 
 		srcPolygon = polygon;
 		destPolygon = polygon;
+		advanced = true;
 	}
+
+	bool isAdvanced() { return advanced; }
 };

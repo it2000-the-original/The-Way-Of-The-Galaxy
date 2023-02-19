@@ -1,10 +1,7 @@
-#include "Collision.h"
+#include "CollisionsManager.h"
 #include "Components.h"
 #include <math.h>
 #include <cmath>
-
-// Declaring static memeber of the class
-std::vector<ColliderComponent*> Collision::colliders;
 
 // Struct that define the status of a collision
 
@@ -19,59 +16,60 @@ float findMinimumPoint(std::vector<Point> points, Point axis);
 float findMaximumPoint(std::vector<Point> points, Point axis);
 SATstatus polygon_polygon_SAT(Convex polygonA, Convex polygonB);
 
-bool Collision::AABB(const SDL_Rect& recA, const SDL_Rect& recB) {
+Collision2D CollisionsManager::AABB(const ColliderComponent colA, const ColliderComponent colB) {
 
-	if (
-		recA.x + recA.w >= recB.x and
-		recB.x + recB.w >= recA.x and
-		recA.y + recA.h >= recB.y and
-		recB.y + recB.h >= recA.y
-		) {
+	Collision2D collision;
 
-		return true;
-	}
+	if (colA.collider.x + colA.collider.w >= colB.collider.x and
+		colB.collider.x + colB.collider.w >= colA.collider.x and
+		colA.collider.y + colA.collider.h >= colB.collider.y and
+		colB.collider.y + colB.collider.h >= colA.collider.y) {
 
-	return false;
-}
+		collision.collision = true;
 
-bool Collision::AABB(const ColliderComponent colA, const ColliderComponent colB) {
+		// Calculating various penetrations
+		int xpenetrationA = colA.collider.x + colA.collider.w - colB.collider.x;
+		int xpenetrationB = colB.collider.x + colB.collider.w - colA.collider.x;
+		int ypenetrationA = colA.collider.y + colA.collider.h - colB.collider.y;
+		int ypenetrationB = colB.collider.y + colB.collider.h - colA.collider.y;
 
-	if (AABB(colA.collider, colB.collider)) {
+		int xpenetration;
+		int ypenetration;
 
-		return true;
-	}
+		if (fabs(xpenetrationA) < fabs(xpenetrationB)) {
 
-	return false;
-}
-
-bool Collision::SAT(const ColliderComponent colA, const ColliderComponent colB) {
-
-	bool isInCollision = false;
-
-	if (AABB(colA, colB)) {
-
-		for (auto polygonA : colA.destPolygon)
-		for (auto polygonB : colB.destPolygon) {
-
-			SATstatus Astatus = polygon_polygon_SAT(polygonA, polygonB);
-			SATstatus Bstatus = polygon_polygon_SAT(polygonB, polygonA);
-
-			if (Astatus.collision and Bstatus.collision) {
-
-				isInCollision = true;
-				break;
-			}
+			xpenetration = xpenetrationA;
 		}
+
+		else xpenetration = -xpenetrationB;
+
+		if (fabs(ypenetrationA) < fabs(ypenetrationB)) {
+
+			ypenetration = ypenetrationA;
+		}
+
+		else ypenetration = -ypenetrationB;
+
+		if (fabs(xpenetration) <= fabs(ypenetration)) {
+
+			collision.penetration.x = xpenetration;
+		}
+
+		else collision.penetration.y = ypenetration;
+
+		collision.colliderA = colA.id;
+		collision.colliderB = colB.id;
 	}
 
-	return isInCollision;
+	return collision;
 }
 
-Vector2D Collision::MTV(const ColliderComponent colA, const ColliderComponent colB) {
+Collision2D CollisionsManager::SAT(const ColliderComponent colA, const ColliderComponent colB) {
 
+	Collision2D collision;
 	Point MTV = Point(0, 0);
 
-	if (AABB(colA, colB)) {
+	if (AABB(colA, colB).collision) {
 
 		for (auto polygonA : colA.destPolygon)
 		for (auto polygonB : colB.destPolygon) {
@@ -82,6 +80,8 @@ Vector2D Collision::MTV(const ColliderComponent colA, const ColliderComponent co
 			SATstatus Bstatus = polygon_polygon_SAT(polygonB, polygonA);
 
 			if (Astatus.collision and Bstatus.collision) {
+
+				collision.collision = true;
 
 				if (Astatus.penetration < Bstatus.penetration) {
 
@@ -103,42 +103,55 @@ Vector2D Collision::MTV(const ColliderComponent colA, const ColliderComponent co
 		}
 	}
 	
-	return Vector2D(round(MTV.x), round(MTV.y));
+	collision.penetration = Vector2D(round(MTV.x), round(MTV.y));
+
+	collision.colliderA = colA.id;
+	collision.colliderB = colB.id;
+
+	return collision;
 }
 
+Collision2D CollisionsManager::areInCollision(ColliderComponent colA, ColliderComponent colB) {
 
-void Collision::checkCollisionSAT(ColliderComponent* collider, std::size_t id, Function func) {
+	Collision2D collision;
 
-	for (auto cc : Collision::colliders) {
+	if (!colA.isAdvanced() and !colB.isAdvanced()) {
 
-		if (cc->id == id) {
+		collision = AABB(colA, colB);
+		return collision;
+	}
 
-			if (Collision::SAT(*collider, *cc)) func();
+	collision = SAT(colA, colB);
+	return collision;
+}
+
+void CollisionsManager::update() {
+
+	for (int i = 0; i < colliders.size(); i++) {
+
+		for (int j = 0; j < colliders.size(); j++) {
+
+			Collision2D collision = areInCollision(*colliders[i], *colliders[j]);
+
+			if (i != j and collision.collision) {
+
+				for (auto& c : colliders[i]->entity->components) {
+
+					c->onCollision2D(collision);
+				}
+			}
 		}
 	}
 }
 
-
-void Collision::subtractCollisionMTV(ColliderComponent* collider, std::size_t id) {
-
-	for (auto cc : Collision::colliders) {
-
-		if (cc->id == id) {
-
-			// Subtracting the mtv between collider and cc from collider
-			collider->entity->getComponent<PositionComponent>().position -= Collision::MTV(*collider, *cc);
-		}
-	}
-}
-
-void Collision::refreshColliders() {
+void CollisionsManager::refresh() {
 
 	colliders.erase(std::remove_if(std::begin(colliders), std::end(colliders), [](ColliderComponent* mCollider) {
 
 		return !mCollider->entity->isActive();
-		}),
+	}),
 
-		std::end(colliders));
+	std::end(colliders));
 }
 
 /////////////////////////// External functions

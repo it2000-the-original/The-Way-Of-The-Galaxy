@@ -33,12 +33,10 @@ class BackgroundManager {
 
 private:
 
-	Manager& manager;
 	Background background;
 
 public:
 
-	BackgroundManager(Manager& mManager);
 	void addLevel(LevelBackground level);
 	void clear();
 	void update();

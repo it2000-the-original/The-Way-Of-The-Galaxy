@@ -36,12 +36,9 @@ class AssetsManager {
 
 private:
 
-    Manager& manager;
     Assets assets;
 
 public:
-
-    AssetsManager(Manager& mManager);
 
     Asset addAsset(std::string name, std::string path);
     Asset getAsset(std::string name);

@@ -1,7 +1,5 @@
 #include "BackgroundManager.h"
 
-BackgroundManager::BackgroundManager(Manager& mManager) : manager(mManager) {}
-
 void BackgroundManager::addLevel(LevelBackground sprite) {
 
 	Level level;
@@ -18,7 +16,7 @@ void BackgroundManager::addLevel(LevelBackground sprite) {
 
 			SDL_Rect backgroundSpace = { actualXposition, actualYposition, sprite.width, sprite.height };
 
-			auto* entity = &manager.addEntity();
+			auto* entity = &Engine::manager.addEntity();
 
 			entity->addComponent<PositionComponent>(backgroundSpace, sprite.scale);
 			entity->addComponent<SpriteComponent>(sprite.path);

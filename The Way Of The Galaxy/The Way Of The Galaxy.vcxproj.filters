@@ -57,7 +57,7 @@
     <ClCompile Include="BackgroundManager.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
+    <ClCompile Include="CollisionsManager.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="ECS.cpp">
@@ -113,7 +113,7 @@
     <ClInclude Include="ECS\BulletComponent.h">
       <Filter>Entity Component System</Filter>
     </ClInclude>
-    <ClInclude Include="include\Collision.h">
+    <ClInclude Include="include\CollisionsManager.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="ECS\ColliderComponent.h">

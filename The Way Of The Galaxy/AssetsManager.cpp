@@ -7,8 +7,6 @@ void addPolygon(json data, Asset& asset);
 void loadAnimations(Asset asset, Entity& entity);
 void loadPolygon(Asset asset, Entity& entity);
 
-AssetsManager::AssetsManager(Manager& mManager) : manager(mManager) {}
-
 Asset AssetsManager::addAsset(std::string name, std::string path) {
 
 	Asset asset;
@@ -67,7 +65,7 @@ Entity& AssetsManager::loadAsset(std::string name) {
 
 	SDL_Rect entityRect = { 0, 0, asset.width, asset.height };
 
-	auto& entity = manager.addEntity();
+	auto& entity = Engine::manager.addEntity();
 
 	entity.addComponent<PositionComponent>(entityRect, 1);
 	entity.addComponent<SpriteComponent>(asset.texture);
@@ -86,7 +84,7 @@ Entity& AssetsManager::loadAsset(std::string name, int x, int y) {
 
 	SDL_Rect entityRect = { x, y, asset.width, asset.height };
 
-	auto& entity = manager.addEntity();
+	auto& entity = Engine::manager.addEntity();
 
 	entity.addComponent<PositionComponent>(entityRect, 1);
 	entity.addComponent<SpriteComponent>(asset.texture);
