@@ -9,8 +9,11 @@
 //                                      |___/                                                               |___/ 
 
 #include <iostream>
-#include "Engine.h"
 #include <time.h>
+#include <boost/filesystem.hpp>
+#include "Engine.h"
+
+void setExecutablePath(char* argv[]);
 
 const int FPS = 60;
 const Uint32 frameDelay = 1000 / FPS;
@@ -24,9 +27,11 @@ Window window = {
 
 int main(int argc, char* argv[]) {
 
+	setExecutablePath(argv);
+
 	Uint32 frameStart;
 	Uint32 frameTime;
-	
+
 	// Initialize the random functions
 	srand(time(NULL));
 
@@ -55,4 +60,15 @@ int main(int argc, char* argv[]) {
 	engine->clean();
 
 	return 0;
+}
+
+void setExecutablePath(char* argv[]) {
+
+	// This function use boost to set the path of the executable as current path
+
+	namespace fs = boost::filesystem;
+	fs::path path = fs::system_complete(fs::path(argv[0]));
+
+	// Set the current path
+	fs::current_path(path.parent_path().string());
 }

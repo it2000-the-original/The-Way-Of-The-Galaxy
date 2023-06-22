@@ -5,18 +5,6 @@
 #include "Components.h"
 #include <vector>
 
-// Struct that define a srolling 
-// level of the background
-
-struct LevelBackground {
-
-	const char* path;
-	int speed = 5;
-	int width = 100;
-	int height = 100;
-	int scale = 1;
-};
-
 // Struct that define a level 
 // of the background
 
@@ -37,7 +25,7 @@ private:
 
 public:
 
-	void addLevel(LevelBackground level);
+	void addLevel(std::string assetName, int speed);
 	void clear();
 	void update();
 };

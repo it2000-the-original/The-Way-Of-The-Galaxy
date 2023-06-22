@@ -16,22 +16,22 @@ float findMinimumPoint(std::vector<Point> points, Point axis);
 float findMaximumPoint(std::vector<Point> points, Point axis);
 SATstatus polygon_polygon_SAT(Convex polygonA, Convex polygonB);
 
-Collision2D CollisionsManager::AABB(const ColliderComponent colA, const ColliderComponent colB) {
+Collision2D CollisionsManager::AABB(const ColliderComponent* colA, const ColliderComponent* colB) {
 
 	Collision2D collision;
 
-	if (colA.collider.x + colA.collider.w >= colB.collider.x and
-		colB.collider.x + colB.collider.w >= colA.collider.x and
-		colA.collider.y + colA.collider.h >= colB.collider.y and
-		colB.collider.y + colB.collider.h >= colA.collider.y) {
+	if (colA->collider.x + colA->collider.w >= colB->collider.x and
+		colB->collider.x + colB->collider.w >= colA->collider.x and
+		colA->collider.y + colA->collider.h >= colB->collider.y and
+		colB->collider.y + colB->collider.h >= colA->collider.y) {
 
 		collision.collision = true;
 
 		// Calculating various penetrations
-		int xpenetrationA = colA.collider.x + colA.collider.w - colB.collider.x;
-		int xpenetrationB = colB.collider.x + colB.collider.w - colA.collider.x;
-		int ypenetrationA = colA.collider.y + colA.collider.h - colB.collider.y;
-		int ypenetrationB = colB.collider.y + colB.collider.h - colA.collider.y;
+		int xpenetrationA = colA->collider.x + colA->collider.w - colB->collider.x;
+		int xpenetrationB = colB->collider.x + colB->collider.w - colA->collider.x;
+		int ypenetrationA = colA->collider.y + colA->collider.h - colB->collider.y;
+		int ypenetrationB = colB->collider.y + colB->collider.h - colA->collider.y;
 
 		int xpenetration;
 		int ypenetration;
@@ -52,27 +52,27 @@ Collision2D CollisionsManager::AABB(const ColliderComponent colA, const Collider
 
 		if (fabs(xpenetration) <= fabs(ypenetration)) {
 
-			collision.penetration.x = xpenetration;
+			collision.penetration.x = float(xpenetration);
 		}
 
-		else collision.penetration.y = ypenetration;
+		else collision.penetration.y = float(ypenetration);
 
-		collision.colliderA = colA.id;
-		collision.colliderB = colB.id;
+		collision.colliderA = colA->id;
+		collision.colliderB = colB->id;
 	}
 
 	return collision;
 }
 
-Collision2D CollisionsManager::SAT(const ColliderComponent colA, const ColliderComponent colB) {
+Collision2D CollisionsManager::SAT(const ColliderComponent* colA, const ColliderComponent* colB) {
 
 	Collision2D collision;
 	Point MTV = Point(0, 0);
 
 	if (AABB(colA, colB).collision) {
 
-		for (auto polygonA : colA.destPolygon)
-		for (auto polygonB : colB.destPolygon) {
+		for (auto polygonA : colA->destPolygon)
+		for (auto polygonB : colB->destPolygon) {
 
 			for (int i = 0; i < polygonA.size(); i++) polygonA[i] -= MTV;
 
@@ -105,17 +105,17 @@ Collision2D CollisionsManager::SAT(const ColliderComponent colA, const ColliderC
 	
 	collision.penetration = Vector2D(round(MTV.x), round(MTV.y));
 
-	collision.colliderA = colA.id;
-	collision.colliderB = colB.id;
+	collision.colliderA = colA->id;
+	collision.colliderB = colB->id;
 
 	return collision;
 }
 
-Collision2D CollisionsManager::areInCollision(ColliderComponent colA, ColliderComponent colB) {
+Collision2D CollisionsManager::areInCollision(ColliderComponent* colA, ColliderComponent* colB) {
 
 	Collision2D collision;
 
-	if (!colA.isAdvanced() and !colB.isAdvanced()) {
+	if (!colA->isAdvanced() and !colB->isAdvanced()) {
 
 		collision = AABB(colA, colB);
 		return collision;
@@ -131,7 +131,7 @@ void CollisionsManager::update() {
 
 		for (int j = 0; j < colliders.size(); j++) {
 
-			Collision2D collision = areInCollision(*colliders[i], *colliders[j]);
+			Collision2D collision = areInCollision(colliders[i], colliders[j]);
 
 			if (i != j and collision.collision) {
 
@@ -203,7 +203,7 @@ SATstatus polygon_polygon_SAT(Convex polygonA, Convex polygonB) {
 			axis = Point(-(polygonA[0].y - polygonA[i].y), polygonA[0].x - polygonA[i].x);
 		}
 
-		float magnitude = sqrt(pow(axis.x, 2) + pow(axis.y, 2));
+		float magnitude = float(sqrt(pow(axis.x, 2) + pow(axis.y, 2)));
 
 		if (magnitude != 0) axis *= Point(1 / magnitude, 1 / magnitude);
 

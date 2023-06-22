@@ -18,7 +18,7 @@ void Widget::setIcon(const char* path, int size, int spacing, int margin) {
 
 void Widget::setColor(int r, int g, int b, int a) {
 
-	SDL_Color color = { r, g, b, a };
+	SDL_Color color = { Uint8(r), Uint8(g), Uint8(b), Uint8(a) };
 	entity->getComponent<TextComponent>().setColor(color);
 }
 
@@ -44,7 +44,7 @@ int Widget::getWidth() {
 	// Get the width of the widget exluding the icon
 
 	std::string widgetString = prefix + model;
-	return widgetString.size() * statusbar->fontSize / 2;
+	return int(widgetString.size() * statusbar->fontSize / 2);
 }
 
 int Widget::getIconWidth() {
@@ -61,8 +61,6 @@ void Widget::destroy() { active = false; }
 
 ///////////////////////////////////////////// Defining different types of widgets........
 
-// Energy Widget
-
 EnergyWidget::EnergyWidget(int* mEnergy) { energy = mEnergy; }
 
 void EnergyWidget::update() {
@@ -70,16 +68,12 @@ void EnergyWidget::update() {
 	entity->getComponent<TextComponent>().setText(prefix + stringNumber(model, *energy));
 }
 
-// Missiles Widget
-
 MissilesWidget::MissilesWidget(int* mMissiles) { missiles = mMissiles; }
 
 void MissilesWidget::update() {
 
 	entity->getComponent<TextComponent>().setText(prefix + stringNumber(model, *missiles));
 }
-
-// Weapon Widget
 
 WeaponWidget::WeaponWidget(PlayerSpaceship* mPlayer) { player = mPlayer; }
 

@@ -7,7 +7,7 @@ private:
 
 	Uint32 initialTime;
 	Uint32 duration;
-	bool active;
+	bool active = true;
 
 public:
 

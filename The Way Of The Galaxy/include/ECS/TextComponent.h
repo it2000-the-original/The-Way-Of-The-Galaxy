@@ -1,7 +1,7 @@
 #pragma once
-#include "Components.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "PositionComponent.h"
 
 // A struct created to reduce the
 // number of parameters in the constructor
@@ -70,16 +70,16 @@ public:
 		position = &entity->getComponent<PositionComponent>();
 
 		// Setting the destination rectangle
-		destRect.x = position->position.x;
-		destRect.y = position->position.y;
+		destRect.x = int(position->position.x);
+		destRect.y = int(position->position.y);
 		destRect.h = fontSize * position->scale;
-		destRect.w = fontSize * text.size() / 2;
+		destRect.w = fontSize * int(text.size()) / 2;
 	}
 
 	void update() override {
 
-		destRect.x = position->position.x;
-		destRect.y = position->position.y;
+		destRect.x = int(position->position.x);
+		destRect.y = int(position->position.y);
 
 		if (icon) {
 
@@ -106,7 +106,7 @@ public:
 		SDL_DestroyTexture(texture);
 
 		text = mText;
-		destRect.w = fontSize * text.size() / 2;
+		destRect.w = fontSize * int(text.size()) / 2;
 		texture = TextureManager::LoadTexture(font, color, text.c_str());
 	}
 

@@ -1,0 +1,63 @@
+{
+  "texture": "assets/textures/spaceships/spaceship1.png",
+
+  "width": 70,
+  "height": 30,
+	"scale": 1,
+
+	"hasCollider": true,
+  "colliderId": 0,
+
+  "renderGroup": 1,
+
+  "autodestroy": false,
+
+  "transform": true,
+  
+  "hasComponent": true,
+  "component": 0,
+
+  "animated": true,
+
+  "animations": [
+    {
+      "name": "base",
+      "index": 0,
+      "frames": 4,
+      "speed": 25
+    },
+    {
+      "name": "shot",
+      "index": 1,
+      "frames": 4,
+      "speed": 25
+    },
+    {
+      "name": "damage",
+      "index": 2,
+      "frames": 4,
+      "speed": 25
+    }
+  ],
+
+  "advancedHitbox": false,
+
+  "polygon": [
+    [
+      {"x": 0, "y": 0, "internal": false},
+      {"x": 0, "y": 0, "internal": false},
+      {"x": 0, "y": 0, "internal": false}
+    ]
+  ],
+
+  "explode": false,
+
+  "explosion": {
+
+    "texture": "path/to/explosion/spritesheet",
+    "width": 32,
+    "height": 32,
+    "frames": 10,
+    "duration": 100
+  }
+}

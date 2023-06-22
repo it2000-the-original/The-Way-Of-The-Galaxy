@@ -1,8 +1,9 @@
 #pragma once
-#include "Components.h"
+#include "PositionComponent.h"
+
 #include "Engine.h"
 
-class BulletComponent : public Component {
+class AutodestroyComponent : public Component {
 
 private:
 
@@ -10,9 +11,9 @@ private:
 
 public:
 
-	BulletComponent() {}
+	AutodestroyComponent() {}
 
-	~BulletComponent() {
+	~AutodestroyComponent() {
 		
 		position = nullptr;
 	}

@@ -1,0 +1,24 @@
+{
+	"assetsList": [
+		{
+			"name": "playerSpaceship",
+			"path": "assets/playerSpaceship.json"
+		},
+		{
+			"name": "asset2",
+			"path": "assets/asset2.json"
+		},
+		{
+			"name": "laser",
+			"path": "assets/laser.json"
+		},
+		{
+			"name": "missile",
+			"path": "assets/missile.json"
+		},
+		{
+			"name": "background1_level1",
+			"path": "assets/background1_level1.json"
+		}
+	]
+}

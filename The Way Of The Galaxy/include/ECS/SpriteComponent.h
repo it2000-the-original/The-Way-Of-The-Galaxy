@@ -34,8 +34,9 @@ private:
 	SDL_Rect destRect;
 
 	bool animated = false;
-	bool reversed = false;
+	bool destroyTexture = false;
 
+	bool animationVerticalScroll = false;
 	int animationFrames = 1;
 	int animationIndex = 0;
 	TimeAction animationSpeed = TimeAction(100);
@@ -49,6 +50,7 @@ public:
 	SpriteComponent(const char* path) {
 
 		texture = TextureManager::LoadTexture(path);
+		destroyTexture = true;
 	}
 
 	SpriteComponent(SDL_Texture* mTexture) {
@@ -56,16 +58,17 @@ public:
 		texture = mTexture;
 	}
 	
-	SpriteComponent(const char* path, bool mReversed) {
+	SpriteComponent(const char* path, bool mAnimationVerticalScroll) {
 
 		texture = TextureManager::LoadTexture(path);
-		reversed = mReversed;
+		animationVerticalScroll = mAnimationVerticalScroll;
+		destroyTexture = true;
 	}
 
-	SpriteComponent(SDL_Texture* mTexture, bool mReversed) {
+	SpriteComponent(SDL_Texture* mTexture, bool mAnimationVerticalScroll) {
 
 		texture = mTexture;
-		reversed = mReversed;
+		animationVerticalScroll = mAnimationVerticalScroll;
 	}
 
 	void init() override {
@@ -95,20 +98,20 @@ public:
 
 			if (animationSpeed.check()) {
 
-				if (!reversed) moveRightFrame();
+				if (!animationVerticalScroll) moveRightFrame();
 				else moveDownFrame();
 				animationSpeed.init();
 			}
 
-			if (!reversed) srcRect.y = srcRect.h * animationIndex;
+			if (!animationVerticalScroll) srcRect.y = srcRect.h * animationIndex;
 			else srcRect.x = srcRect.w * animationIndex;
 		}
-		
-		destRect.x = position->position.x;
-		destRect.y = position->position.y;
 	}
 
 	void draw() override {
+
+		destRect.x = int(position->position.x);
+		destRect.y = int(position->position.y);
 
 		TextureManager::DrawTexture(texture, srcRect, destRect, flip, position->angle);
 	}
@@ -121,12 +124,14 @@ public:
 
 	void playAnimation(const char* ani) {
 
-		animationFrames = animations[ani].frames;
-		animationIndex = animations[ani].index;
-		animationSpeed.setDuration(animations[ani].speed);
-		animationSpeed.init();
+		if (animations.find(ani) != animations.end()) {
 
-		animated = true;
+			animationFrames = animations[ani].frames;
+			animationIndex = animations[ani].index;
+			animationSpeed.setDuration(animations[ani].speed);
+			animationSpeed.init();
+			animated = true;
+		}
 	}
 
 	void moveRightFrame() {
@@ -153,15 +158,14 @@ public:
 		// This could be usefull if the position
 		// is changed after the update of the component
 
-		destRect.x = position->position.x;
-		destRect.y = position->position.y;
+		destRect.x = int(position->position.x);
+		destRect.y = int(position->position.y);
 	}
 
 	~SpriteComponent() {
 
+		if (destroyTexture)
 		SDL_DestroyTexture(texture);
-		texture = nullptr;
-		position = nullptr;
 		animations.clear();
 	}
 };

@@ -1,11 +1,13 @@
 #include "TimeAction.h"
 
-TimeAction::TimeAction() { duration = 1000; }
+TimeAction::TimeAction() { 
+	
+	duration = 1000;
+}
 
 TimeAction::TimeAction(Uint32 mDuration) { 
 	
 	duration = mDuration;
-	active = true;
 }
 
 void TimeAction::init() {

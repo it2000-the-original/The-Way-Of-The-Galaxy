@@ -13,7 +13,7 @@ private:
 	int actualBlock;
 	bool running;
 	Uint32 initialTime;
-	int blockTime;
+	Uint32 blockTime;
 
 public:
 

@@ -1,5 +1,4 @@
 #pragma once
-#include "Components.h"
 #include "TimeAction.h"
 
 class ExplosionComponent : public Component {

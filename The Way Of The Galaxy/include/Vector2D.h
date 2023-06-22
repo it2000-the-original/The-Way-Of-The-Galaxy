@@ -5,7 +5,7 @@ class Vector2D {
 
 public:
 
-	int x, y;
+	float x, y;
 
 	Vector2D();
 	Vector2D(float mX, float mY);

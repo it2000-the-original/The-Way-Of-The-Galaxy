@@ -2,7 +2,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include "CollisionsManager.h"
-#include "Components.h"
+#include "PositionComponent.h"
 
 struct Point;                        // Pre-declaration of the Point struct for the 2 lines of code under here
 using Convex = std::vector<Point>;   // A std::vector of points that define a convex polygon

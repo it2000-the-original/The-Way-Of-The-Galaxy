@@ -7,7 +7,7 @@ void LevelManager::startLevel(const char* levelPath) {
 
 	std::ifstream file(levelPath);
 	levelData = nlohmann::json::parse(file);
-	levelBlocksSize = levelData["level_blocks"].size();
+	levelBlocksSize = int(levelData["level_blocks"].size());
 	actualBlock = 0;
 	initialTime = SDL_GetTicks();
 	blockTime = 0;
@@ -37,13 +37,13 @@ void LevelManager::spownObject(const char* tex, int position, int width, int hei
 		entity.addComponent<SpriteComponent>(tex);
 	}
 
-	Explosion explosion = { "sprites//explosions//explosion.png", 40, 60 };
+	//Explosion explosion = { "sprites//explosions//explosion.png", 40, 60 };
 	
 	entity.getComponent<SpriteComponent>().addAnimation("base", 4, 0, 100);
 	entity.getComponent<SpriteComponent>().playAnimation("base");
 	entity.addComponent<ColliderComponent>(collider);
 	//entity.addComponent<EnemyComponent>();
-	entity.addComponent<ExplodeComponent>(explosion, 50, 50, 10);
+	//entity.addComponent<ExplodeComponent>(explosion, 50, 50, 10);
 	entity.addGroup(groupEnemies);
 }
 

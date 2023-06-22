@@ -1,0 +1,13 @@
+{
+	"texture": "assets/textures/lasers/laser.png",
+
+	"width": 8,
+	"height": 2,
+	"scale": 1,
+
+	"hasCollider": true,
+	"colliderId": 2,
+
+	"renderGroup": 0,
+	"autodestroy": true
+}

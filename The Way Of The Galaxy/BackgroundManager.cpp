@@ -1,11 +1,14 @@
 #include "BackgroundManager.h"
+#include "AssetsManager.h"
 
-void BackgroundManager::addLevel(LevelBackground sprite) {
+void BackgroundManager::addLevel(std::string assetName, int speed) {
 
 	Level level;
 
-	int xrepeat = renderwidth / (sprite.width * sprite.scale) + 2;
-	int yrepeat = renderheight / (sprite.height * sprite.scale) + 1;
+	Asset asset = Engine::assets.getAsset(assetName);
+
+	int xrepeat = renderwidth / (asset.width * asset.scale) + 2;
+	int yrepeat = renderheight / (asset.height * asset.scale) + 1;
 
 	int actualXposition = NULL;
 	int actualYposition = statusheight;
@@ -14,21 +17,15 @@ void BackgroundManager::addLevel(LevelBackground sprite) {
 
 		for (int j = 0; j < yrepeat; j++) {
 
-			SDL_Rect backgroundSpace = { actualXposition, actualYposition, sprite.width, sprite.height };
-
-			auto* entity = &Engine::manager.addEntity();
-
-			entity->addComponent<PositionComponent>(backgroundSpace, sprite.scale);
-			entity->addComponent<SpriteComponent>(sprite.path);
-			entity->getComponent<PositionComponent>().setSpeed(-sprite.speed, 0);
-			entity->addGroup(groupBackgrounds);
+			auto* entity = &Engine::assets.loadAsset(assetName, actualXposition, actualYposition);
+			entity->getComponent<PositionComponent>().setSpeed(-speed, 0);
 
 			level.entities.emplace_back(entity);
-			actualYposition += sprite.height * sprite.scale;
+			actualYposition += asset.height * asset.scale;
 		}
 		
 		actualYposition = NULL;
-		actualXposition += sprite.width * sprite.scale;
+		actualXposition += asset.width * asset.scale;
 	}
 
 	level.xrepeat = xrepeat;

@@ -38,13 +38,13 @@ class Component {
 public:
 
 	Entity* entity;         
-	virtual void init()   {}
-	virtual void update() {}
-	virtual void draw()   {}
-	virtual ~Component()  {}
+	virtual void init();
+	virtual void update();
+	virtual void draw();
+	virtual ~Component();
 
 	// Collision checking method
-	virtual void onCollision2D(Collision2D collision) {}
+	virtual void onCollision2D(Collision2D collision);
 };
 
 class Entity {
@@ -62,20 +62,12 @@ public:
 	Manager& manager;
 	std::vector<Component*> components;
 
-	Entity(Manager& mManager) : manager(mManager) {}
+	Entity(Manager& mManager);
 
-	void update() {
-
-		for (auto& c : components) c->update();
-	}
-
-	void draw() {
-
-		for (auto& c : components) c->draw();
-	}
-
-	bool isActive() { return active; }
-	void destroy() { active = false; }
+	void update();
+	void draw();
+	bool isActive();
+	void destroy();
 
 	template <typename T> const bool hasComponent() {
 
@@ -118,32 +110,11 @@ public:
 		return *static_cast<T*>(ptr);
 	}
 
-	bool hasGroup(int mGroup) {
-
-		return GroupBitSet[mGroup];
-	}
-
-	// you can find the definition of this function in ECS.cpp
-
+	bool hasGroup(int mGroup);
 	void addGroup(int mGroup);
+	void delGroup(int mGroup);
 
-	void delGroup(int mGroup) {
-
-		GroupBitSet[mGroup] = false;
-	}
-
-	~Entity() {
-
-		// Delete from the memory all components of components vector
-
-		for (int i = components.size() - 1; i >= 0; i--) {
-
-			delete components[i];
-			components.erase(components.begin() + i);
-		}
-
-		std::cout << "Removed entity" << std::endl;
-	}
+	~Entity();
 };
 
 class Manager {
@@ -157,86 +128,15 @@ private:
 
 	std::vector<Entity*> groupedEntities[maxGroups];
 
-	void refreshInactiveEntities() {
-
-		// Refresh and delete every inactive entity in the entities vector
-
-		entities.erase(std::remove_if(std::begin(entities), std::end(entities), [](Entity* mEntity) {
-
-			if (!mEntity->isActive()) {
-
-				delete mEntity;
-				return true;
-			}
-
-			else {
-
-				return false;
-			}
-
-			}), std::end(entities));
-	}
-
-	void refreshGroupedEntities() {
-
-		// Remove and destroy every entity from a group of entities that
-		// is inactive or doesn't make part of the group where it is
-
-		for (auto i = 0; i < maxGroups; i++) {
-
-			auto& v = groupedEntities[i];
-
-			v.erase(std::remove_if(std::begin(v), std::end(v), [i](Entity* mEntity) {
-
-				if (!mEntity->hasGroup(i)) return true;
-				else if (!mEntity->isActive())  return true;
-
-				return false;
-
-				}), std::end(v));
-		}
-	}
+	void refreshInactiveEntities();
+	void refreshGroupedEntities();
 
 public:
 
-	void update() {
-
-		// I must use this method to update all entities because the number
-		// of elements in the entities vector is not constant during this phase,
-		// this is because in some components they could be methods tha during the
-		// update can add or remove components, generating conflicts with the other form
-
-		for (int i = 0; i < entities.size(); i++) entities[i]->update();
-	}
-
-	void draw() {
-
-		for (auto& e : entities) e->draw();
-	}
-
-	void refersh() {
-
-		refreshGroupedEntities();
-		refreshInactiveEntities();
-	}
-
-	void addToGroup(Entity* mEntity, int mGroup) {
-
-		groupedEntities[mGroup].emplace_back(mEntity);
-	}
-
-	std::vector<Entity*>& getGroup(int mGroup) {
-
-		return groupedEntities[mGroup];
-	}
-
-	Entity& addEntity() {
-
-		Entity* e = new Entity(*this);
-		entities.emplace_back(std::move(e));
-		
-		std::cout << "Added entity" << std::endl;
-
-		return *e;
-	}
+	void update();
+	void draw();
+	void refersh();
+	void addToGroup(Entity* mEntity, int mGroup);
+	std::vector<Entity*>& getGroup(int mGroup);
+	Entity& addEntity();
 };

@@ -12,24 +12,34 @@ using Animations = std::vector<AssetAnimation>;
 
 struct Asset {
 
-    SDL_Texture* texture = nullptr;
+	SDL_Texture* texture = nullptr;
+	SDL_Texture* explosionTexture = nullptr;
 
-    int width = 0;
-    int height = 0;
+	int width = 0;
+	int height = 0;
+	int scale = 1;
 
-    int colliderId = 0;
-    int groupId = 0;
+	std::size_t colliderId = 0;
+	std::size_t groupId = 0;
+	std::size_t componentId = 0;
 
-    Animations animations;
-    Polygon polygon;
+	Explosion explosion;
+	Animations animations;
+	Polygon polygon;
+
+	bool hasComponent = false;
+	bool autodestroy = false;
+	bool hasCollider = false;
+	bool transform = false;
+	bool explode = false;
 };
 
 struct AssetAnimation {
 
-    std::string name;
-    int frames;
-    int index;
-    int speed;
+	std::string name;
+	int frames;
+	int index;
+	int speed;
 };
 
 class AssetsManager {
@@ -40,6 +50,7 @@ private:
 
 public:
 
+    void addAssets(std::string path);
     Asset addAsset(std::string name, std::string path);
     Asset getAsset(std::string name);
     Entity& loadAsset(std::string name);

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -89,12 +89,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>ECS/custom;ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Programmazione\VisualStudio\boost_1_82_0;include/ECS/custom;include/ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <DisableSpecificWarnings>26495;26800;26451</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SDL2maind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Programmazione\VisualStudio\boost_1_82_0\stage\lib;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -105,7 +109,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>ECS/custom;ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Programmazione\VisualStudio\boost_1_82_0;include/ECS/custom;include/ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <DisableSpecificWarnings>26495;26800;26451</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -113,6 +120,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Programmazione\VisualStudio\boost_1_82_0\stage\lib;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -121,13 +129,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>ECS/custom;ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>26812;26451;26495;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>D:\Programmazione\VisualStudio\boost_1_82_0;D:\Programmazione\VisualStudio\boost_1_82_0;include/ECS/custom;include/ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>26495;26800;26451</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\Programmazione\VisualStudio\boost_1_82_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2maind.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -139,7 +149,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>ECS/custom;ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Programmazione\VisualStudio\boost_1_82_0;D:\Programmazione\VisualStudio\boost_1_82_0;include/ECS/custom;include/ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <DisableSpecificWarnings>26495;26800;26451</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,6 +160,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Programmazione\VisualStudio\boost_1_82_0\stage\lib;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -157,6 +171,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ECS\PlayerSpaceship.cpp" />
     <ClCompile Include="Statusbar.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TimeAction.cpp" />
@@ -164,50 +179,172 @@
     <ClCompile Include="Widget.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ECS\BulletComponent.h" />
-    <ClInclude Include="ECS\ColliderComponent.h" />
+    <ClInclude Include="include\ECS\AutodestroyComponent.h" />
+    <ClInclude Include="include\ECS\ColliderComponent.h" />
     <ClInclude Include="include\AssetsManager.h" />
     <ClInclude Include="include\CollisionsManager.h" />
-    <ClInclude Include="include\Components.h" />
-    <ClInclude Include="ECS\ECS.h" />
+    <ClInclude Include="include\ECS\Components.h" />
+    <ClInclude Include="include\ECS.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\BackgroundManager.h" />
-    <ClInclude Include="ECS\ExplodeComponent.h" />
-    <ClInclude Include="ECS\ExplosionComponent.h" />
-    <ClInclude Include="ECS\KeyboardController.h" />
+    <ClInclude Include="include\ECS\ExplodeComponent.h" />
+    <ClInclude Include="include\ECS\ExplosionComponent.h" />
     <ClInclude Include="include\LevelManager.h" />
-    <ClInclude Include="ECS\MissileComponent.h" />
-    <ClInclude Include="ECS\custom\PlayerSpaceship.h" />
-    <ClInclude Include="ECS\PositionComponent.h" />
+    <ClInclude Include="include\ECS\MissileComponent.h" />
+    <ClInclude Include="include\ECS\custom\PlayerSpaceship.h" />
+    <ClInclude Include="include\ECS\PositionComponent.h" />
     <ClInclude Include="include\Random.h" />
-    <ClInclude Include="ECS\SpriteComponent.h" />
+    <ClInclude Include="include\ECS\SpriteComponent.h" />
     <ClInclude Include="include\Statusbar.h" />
     <ClInclude Include="include\TextureManager.h" />
     <ClInclude Include="include\TimeAction.h" />
     <ClInclude Include="include\Vector2D.h" />
-    <ClInclude Include="ECS\TextComponent.h" />
+    <ClInclude Include="include\ECS\TextComponent.h" />
     <ClInclude Include="include\Widget.h" />
+    <ClInclude Include="include\ECS\TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="sprites\backgrounds\Space_Stars2.png" />
-    <Image Include="sprites\explosions\explosion.png" />
-    <Image Include="sprites\icons\energyIcon.png" />
-    <Image Include="sprites\icons\missileIcon.png" />
-    <Image Include="sprites\lasers\laser.png" />
-    <Image Include="sprites\missiles\missile.png" />
-    <Image Include="sprites\other\pieces.png" />
-    <Image Include="sprites\spaceships\PolygonConcaveTest.png" />
-    <Image Include="sprites\spaceships\PolygonConvexTest.png" />
-    <Image Include="sprites\spaceships\spaceship1.png" />
+    <CopyFileToFolders Include="assets\textures\backgrounds\Space_Stars2.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/assets/textures/backgrounds</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets/textures/backgrounds</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets/textures/backgrounds</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets/textures/backgrounds</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets\textures\explosions\explosion.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/assets/textures/explosions</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets/textures/explosions</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets/textures/explosions</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets/textures/explosions</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="statusbar\icons\energyIcon.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/statusbar/icons</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/statusbar/icons</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/statusbar/icons</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/statusbar/icons</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="statusbar\icons\missileIcon.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/statusbar/icons</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/statusbar/icons</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/statusbar/icons</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/statusbar/icons</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets\textures\lasers\laser.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets/textures/lasers</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets/textures/lasers</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/assets/textures/lasers</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets/textures/lasers</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets\textures\missiles\missile.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets/textures/missiles</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets/textures/missiles</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/assets/textures/missiles</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets/textures/missiles</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets\textures\scraps\pieces.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets/textures/scraps</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets/textures/scraps</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/assets/textures/scraps</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets/textures/scraps</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets\textures\spaceships\PolygonConcaveTest.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets/textures/spaceships</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets/textures/spaceships</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/assets/textures/spaceships</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets/textures/spaceships</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets\textures\spaceships\PolygonConvexTest.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets/textures/spaceships</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets/textures/spaceships</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/assets/textures/spaceships</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets/textures/spaceships</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets\textures\spaceships\spaceship1.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets/textures/spaceships</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets/textures/spaceships</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/assets/textures/spaceships</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets/textures/spaceships</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="statusbar\statusbar.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/statusbar</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/statusbar</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/statusbar</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/statusbar</DestinationFolders>
+    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="sprites\fonts\character.ttf" />
-    <Font Include="sprites\fonts\pixelfonts.ttf" />
-    <Font Include="sprites\fonts\wayfers.ttf" />
+    <CopyFileToFolders Include="statusbar\fonts\character.ttf">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/statusbar/fonts</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/statusbar/fonts</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/statusbar/fonts</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/statusbar/fonts</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="statusbar\fonts\pixelfonts.ttf">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/statusbar/fonts</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/statusbar/fonts</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/statusbar/fonts</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/statusbar/fonts</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="statusbar\fonts\wayfers.ttf">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/statusbar/fonts</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/statusbar/fonts</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/statusbar/fonts</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/statusbar/fonts</DestinationFolders>
+    </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\asset2.json" />
-    <None Include="assets\asset.json" />
+    <CopyFileToFolders Include="assets\asset2.json">
+      <DeploymentContent>false</DeploymentContent>
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets\playerSpaceship.json">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assetsList.json">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets\laser.json">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets\missile.json">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets\assetTemplate.json">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets\background1_level1.json">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets</DestinationFolders>
+    </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

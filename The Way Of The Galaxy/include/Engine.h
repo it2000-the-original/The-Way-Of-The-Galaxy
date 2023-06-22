@@ -34,6 +34,12 @@ enum GroupLabels : std::size_t {
 	groupStatus
 };
 
+enum ComponentIds : std::size_t {
+
+	playerSpaceship,
+	missile
+};
+
 struct Window {
 
 	int xposition = 100;

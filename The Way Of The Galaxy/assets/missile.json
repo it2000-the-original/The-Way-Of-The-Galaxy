@@ -1,0 +1,40 @@
+{
+	"texture": "assets/textures/missiles/missile.png",
+
+	"width": 12,
+	"height": 5,
+	"scale": 1,
+
+	"hasCollider": true,
+	"colliderId": 4,
+
+	"renderGroup": 0,
+
+	"autodestroy": true,
+	"transform": false,
+
+	"hasComponent": true,
+	"component": 1,
+
+	"animated": true,
+
+	"animations": [
+		{
+			"name": "base",
+			"index": 0,
+			"frames": 4,
+			"speed": 10
+		}
+	],
+
+	"explode": true,
+
+	"explosion": {
+
+		"texture": "assets/textures/explosions/explosion.png",
+		"width": 64,
+		"height": 64,
+		"frames": 40,
+		"duration": 50
+	}
+}

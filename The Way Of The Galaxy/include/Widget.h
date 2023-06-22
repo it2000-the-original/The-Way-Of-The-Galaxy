@@ -39,6 +39,9 @@ public:
 
 class EnergyWidget : public Widget {
 
+	// A widget that show the Health rate
+	// of the player
+
 private:
 
 	int* energy;
@@ -51,6 +54,9 @@ public:
 
 class MissilesWidget : public Widget {
 
+	// A widget that show the 
+	// remaning missiles of the player
+
 private:
 
 	int* missiles;
@@ -62,6 +68,9 @@ public:
 };
 
 class WeaponWidget : public Widget {
+
+	// A widget that show the selected
+	// weapon by the player
 
 private:
 

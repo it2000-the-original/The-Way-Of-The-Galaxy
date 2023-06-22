@@ -19,9 +19,9 @@ public:
 
 	std::vector<ColliderComponent*> colliders;
 
-	Collision2D AABB(const ColliderComponent colA, const ColliderComponent colB);
-	Collision2D SAT(const ColliderComponent colA, const ColliderComponent colB);
-	Collision2D areInCollision(ColliderComponent colA, ColliderComponent colB);
+	Collision2D AABB(const ColliderComponent* colA, const ColliderComponent* colB);
+	Collision2D SAT(const ColliderComponent* colA, const ColliderComponent* colB);
+	Collision2D areInCollision(ColliderComponent* colA, ColliderComponent* colB);
 
 	void update();
 	void refresh();

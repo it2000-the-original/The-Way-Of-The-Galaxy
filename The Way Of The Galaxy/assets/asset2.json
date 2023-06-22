@@ -1,11 +1,16 @@
 {
-	"texture": "sprites//spaceships//PolygonConcaveTest.png",
+	"texture": "assets/textures/spaceships/PolygonConcaveTest.png",
 
 	"width": 300,
 	"height": 300,
+	"scale": 1,
 
+	"hasCollider": true,
 	"colliderId": 5,
+
 	"renderGroup": 1,
+
+	"advancedHitbox": true,
 
 	"polygon": [
 		[

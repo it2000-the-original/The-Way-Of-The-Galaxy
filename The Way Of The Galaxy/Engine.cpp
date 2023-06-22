@@ -29,19 +29,11 @@ auto& explosions =  Engine::manager.getGroup(groupExplosions);
 auto& pieces =      Engine::manager.getGroup(groupPieces);
 auto& status =      Engine::manager.getGroup(groupStatus);
 
-// Defining levels of the background
-
-LevelBackground bg1 = { "sprites//backgrounds//Space_Stars2.png", 2, 64, 64, 2 };
-
-// Defining initial positions of the entities
-
-SDL_Rect playerPosition = { 30, 350, 70, 30 };
-
 // Defining the statusbar
 
 Status statusSetting = {
-	"sprites//statusbar.png",
-	"sprites//fonts//pixelfonts.ttf",
+	"statusbar//statusbar.png",
+	"statusbar//fonts//pixelfonts.ttf",
 	statusheight,
 	20, 4, 20
 };
@@ -81,24 +73,26 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 
 		event = new SDL_Event();
 
-		// Addind levels to the background
-		backgroundManager.addLevel(bg1);
+		// Adding assets
+		assets.addAssets("assetsList.json");
 
+		// Adding levels to the background
+		backgroundManager.addLevel("background1_level1", 2);
+
+		auto& player = assets.loadAsset("playerSpaceship", 30, 350);
+		//auto& entity2 = assets.loadAsset("asset2", 500, 200);
+
+		/*SDL_Rect playerPosition = {30, 350, 70, 30};
 		auto& player = manager.addEntity();
-
-		player.addComponent<PositionComponent>(playerPosition, 1, 0, true);
-		player.addComponent<KeyboardController>();
+		player.addComponent<PositionComponent>(playerPosition, 1);
+		player.addComponent<TransformComponent>();
 		player.addComponent<ColliderComponent>(playerId);
-		player.addComponent<SpriteComponent>("sprites//spaceships//spaceship1.png");
-		player.addComponent<PlayerSpaceship>();
-
-		player.getComponent<PositionComponent>().setControlledSpeed(3, 3);
+		player.addComponent<SpriteComponent>("assets//textures//spaceships//spaceship1.png");
 		player.getComponent<SpriteComponent>().addAnimation("base", 4, 0, 100);
 		player.getComponent<SpriteComponent>().addAnimation("shot", 4, 1, 100);
 		player.getComponent<SpriteComponent>().addAnimation("damage", 4, 2, 100);
-		player.getComponent<SpriteComponent>().playAnimation("base");
-
-		player.addGroup(groupPlayer);
+		player.addComponent<PlayerSpaceship>();
+		player.addGroup(groupPlayer);*/
 
 		statusbar.init(statusSetting, true);
 		statusbar.setAnimation(43, 0, 40);
@@ -109,25 +103,17 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 
 		energyWidget.setModel("999");
 		energyWidget.setColor(255, 255, 0, 180);
-		energyWidget.setIcon("sprites//icons//energyIcon.png", 12, 6, 5);
+		energyWidget.setIcon("statusbar//icons//energyIcon.png", 12, 6, 5);
 
 		missilesWidget.setModel("999");
 		missilesWidget.setColor(255, 255, 0, 180);
-		missilesWidget.setIcon("sprites//icons//missileIcon.png", 12, 6, 5);
+		missilesWidget.setIcon("statusbar//icons//missileIcon.png", 12, 6, 5);
 
 		weaponWidget.setModel("missile");
 		weaponWidget.setColor(255, 255, 0, 180);
 		weaponWidget.setPrefix("W: ");
 
-		//assets->addAsset("asset", "assets//asset.json");
-		assets.addAsset("asset2", "assets//asset2.json");
-
 		std::cout << IMG_GetError() << std::endl;
-
-		//auto& entity = assets->loadAsset("asset", 100, 100);
-		auto& entity2 = assets.loadAsset("asset2", 500, 200);
-
-		//entity.getComponent<SpriteComponent>().playAnimation("base");
 
 		isRunning = true;
 	}

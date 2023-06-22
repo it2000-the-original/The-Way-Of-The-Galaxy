@@ -1,0 +1,62 @@
+{
+	"texture": "assets/textures/backgrounds/Space_Stars2.png",
+
+	"width": 64,
+	"height": 64,
+	"scale": 2,
+
+	"hasCollider": false,
+	"colliderId": 6,
+
+	"renderGroup": 5,
+
+	"controlled": false,
+	"autodestroy": false,
+
+	"hasComponent": false,
+	"component": 0,
+
+	"animated": false,
+
+	"animations": [
+		{
+			"name": "animation",
+			"index": 0,
+			"frames": 0,
+			"speed": 0
+		}
+	],
+
+	"advancedHitbox": false,
+
+	"polygon": [
+		[
+			{
+				"x": 0,
+				"y": 0,
+				"internal": false
+			},
+			{
+				"x": 0,
+				"y": 0,
+				"internal": false
+			},
+			{
+				"x": 0,
+				"y": 0,
+				"internal": false
+			}
+		]
+	],
+
+	"explode": false,
+
+	"explosion": {
+
+		"texture": "path/to/explosion/spritesheet",
+		"width": 32,
+		"height": 32,
+		"frames": 10,
+		"duration": 100
+	}
+}
