@@ -71,4 +71,6 @@ void setExecutablePath(char* argv[]) {
 
 	// Set the current path
 	fs::current_path(path.parent_path().string());
+
+	std::cout << "The executable path is: " << fs::current_path() << std::endl;
 }

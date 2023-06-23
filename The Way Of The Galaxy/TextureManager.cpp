@@ -30,7 +30,7 @@ void TextureManager::DrawTexture(SDL_Texture* tex, SDL_Rect srcRect, SDL_Rect de
 
 void TextureManager::DrawTexture(SDL_Texture* tex, SDL_Rect srcRect, SDL_Rect destRect, SDL_RendererFlip flip) {
 
-	SDL_RenderCopyEx(Engine::renderer, tex, &srcRect, &destRect, NULL, NULL, flip);
+	SDL_RenderCopyEx(Engine::renderer, tex, &srcRect, &destRect, 0, NULL, flip);
 }
 
 void TextureManager::DrawTexture(SDL_Texture* tex, SDL_Rect srcRect, SDL_Rect destRect, SDL_RendererFlip flip, double angle) {

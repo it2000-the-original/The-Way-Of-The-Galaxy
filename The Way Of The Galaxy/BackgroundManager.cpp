@@ -10,7 +10,7 @@ void BackgroundManager::addLevel(std::string assetName, int speed) {
 	int xrepeat = renderwidth / (asset.width * asset.scale) + 2;
 	int yrepeat = renderheight / (asset.height * asset.scale) + 1;
 
-	int actualXposition = NULL;
+	int actualXposition = 0;
 	int actualYposition = statusheight;
 	
 	for (int i = 0; i < xrepeat; i++) {
@@ -24,7 +24,7 @@ void BackgroundManager::addLevel(std::string assetName, int speed) {
 			actualYposition += asset.height * asset.scale;
 		}
 		
-		actualYposition = NULL;
+		actualYposition = 0;
 		actualXposition += asset.width * asset.scale;
 	}
 
