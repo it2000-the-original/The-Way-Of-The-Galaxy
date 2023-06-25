@@ -32,6 +32,8 @@ void BackgroundManager::addLevel(std::string assetName, int speed) {
 	level.yrepeat = yrepeat;
 
 	background.emplace_back(level);
+
+	std::cout << "Added background level " << assetName << std::endl;
 }
 
 void BackgroundManager::update() {

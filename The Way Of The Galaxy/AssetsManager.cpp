@@ -20,7 +20,7 @@ void loadComponent(Asset asset, Entity& entity);
 
 void AssetsManager::addAssets(std::string path) {
 
-	// This functions add all assets indicated on a specifi file
+	// This function add all assets indicated on a specific file
 
 	json data;
 
@@ -75,6 +75,8 @@ void AssetsManager::addAssets(std::string path) {
 		std::cerr << "Assets Error: missing argument assetsList" << std::endl;
 		return;
 	}
+
+	std::cout << "Added assets from " << path << " succesfuly" << std::endl;
 }
 
 Asset AssetsManager::addAsset(std::string name, std::string path) {
@@ -128,6 +130,8 @@ Asset AssetsManager::addAsset(std::string name, std::string path) {
 	addComponent(data, asset);
 	
 	assets.emplace(name, asset);
+
+	std::cout << "Added asset " << name << " succesfuly" << std::endl;
 
 	return asset;
 }
@@ -183,8 +187,6 @@ Entity& AssetsManager::loadAsset(std::string name, int x, int y) {
 	return entity;
 }
 
-////////////////////////////////////////////////////////// External functions......
-
 void addAnimations(json data, Asset& asset) {
 	
 	// This function load all animations defined
@@ -222,7 +224,7 @@ void addAnimations(json data, Asset& asset) {
 
 void addCollider(json data, Asset& asset) {
 
-	// Thih function define if the asset has a collider
+	// This function define if the asset has a collider
 
 	if (data.contains("hasCollider")) {
 
@@ -426,8 +428,8 @@ void loadPolygon(Asset asset, Entity& entity) {
 
 void loadTransform(Asset asset, Entity& entity) {
 
-	// This function add the KeyboardController to the entity
-	// if the controlled variable is true
+	// This function add the TransformComponent to the entity
+	// if the transform variable is true
 
 	if (asset.transform) {
 
@@ -437,7 +439,7 @@ void loadTransform(Asset asset, Entity& entity) {
 
 void loadAutodestroy(Asset asset, Entity& entity) {
 
-	// This function add AytodestroyComponent to the entity
+	// This function add AutodestroyComponent to the entity
 
 	if (asset.autodestroy) {
 

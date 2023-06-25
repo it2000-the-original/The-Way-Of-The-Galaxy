@@ -82,6 +82,7 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 		auto& player = assets.loadAsset("playerSpaceship", 30, 350);
 		//auto& entity2 = assets.loadAsset("asset2", 500, 200);
 
+		// Uncommet this lines to omit the assetsManager for the player
 		/*SDL_Rect playerPosition = {30, 350, 70, 30};
 		auto& player = manager.addEntity();
 		player.addComponent<PositionComponent>(playerPosition, 1);
@@ -174,7 +175,7 @@ void Engine::clean() {
 	std::cout << "renderer destroyed successfuly" << std::endl;
 
 	SDL_DestroyWindow(window);
-	std::cout << "window destroied successfuly" << std::endl;
+	std::cout << "window destroyed successfuly" << std::endl;
 
 	IMG_Quit();
 	TTF_Quit();
