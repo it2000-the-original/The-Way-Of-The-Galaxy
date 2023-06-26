@@ -56,7 +56,6 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 			std::cout << "Window created succesfuly" << std::endl;
 		}
 
-		SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d");
 		renderer = SDL_CreateRenderer(window, -1, 0);
 
 		if (renderer) {
