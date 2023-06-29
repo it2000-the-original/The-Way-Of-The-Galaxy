@@ -32,15 +32,15 @@ If you are on Linux, the only way to compile, is with cmake and unfortunately, *
 
 **Ubuntu:** 
 ```
-sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev nlohmann-json3 pugixml
+sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev nlohmann-json3 pugixml libboost-filesystem-dev
 ```
 **Arch Linux:**
 ```
-sudo pacman -S sdl2 sdl2_image sdl2_ttf nlohmann-json pugixml
+sudo pacman -S sdl2 sdl2_image sdl2_ttf nlohmann-json pugixml boost
 ```
 **Fedora:**
 ```
-sudo dnf install SDL2-devel SDL2_image-devel SDL2_ttf-devel json-devel pugixml
+sudo dnf install SDL2-devel SDL2_image-devel SDL2_ttf-devel json-devel pugixml boost
 ```
 If you want to compile for x86, you need to install the equivalent packages for x86 and you must add the cmake arg `-DCMAKE_CXX_FLAGS="-m32"`
 
@@ -50,15 +50,15 @@ In the Windows builds (x86 and x64 Release Visual Studio) all the dynamics libra
 
 **Ubuntu 22.04:**
 ```
-sudo apt install libsdl2-2.0-0 libsdl2-image-2.0-0 libsdl2-ttf-2.0-0
+sudo apt install libsdl2-2.0-0 libsdl2-image-2.0-0 libsdl2-ttf-2.0-0 libboost-filesystem1.74.0
 ```
 **Arch Linux:**
 ```
-sudo pacman -S sdl2 sdl2_image sdl2_ttf
+sudo pacman -S sdl2 sdl2_image sdl2_ttf boost-libs
 ```
 **Fedora:**
 ```
-sudo dnf install SDL2 SDL2_image SDL2_ttf
+sudo dnf install SDL2 SDL2_image SDL2_ttf boost
 ```
 
 ## Screenshots
