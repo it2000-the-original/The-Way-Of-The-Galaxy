@@ -8,7 +8,7 @@ void BackgroundManager::addLevel(std::string assetName, int speed) {
 	Asset asset = Engine::assets.getAsset(assetName);
 
 	int xrepeat = renderwidth / (asset.width * asset.scale) + 2;
-	int yrepeat = renderheight / (asset.height * asset.scale) + 1;
+	int yrepeat = (renderheight - statusheight) / (asset.height * asset.scale) + 1;
 
 	int actualXposition = 0;
 	int actualYposition = statusheight;
@@ -24,7 +24,7 @@ void BackgroundManager::addLevel(std::string assetName, int speed) {
 			actualYposition += asset.height * asset.scale;
 		}
 		
-		actualYposition = 0;
+		actualYposition = statusheight;
 		actualXposition += asset.width * asset.scale;
 	}
 

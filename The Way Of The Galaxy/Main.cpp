@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
 
 		engine->update();
 		engine->render();
-		engine->close();
+		engine->events();
 
 		frameTime = SDL_GetTicks() - frameStart;
 		

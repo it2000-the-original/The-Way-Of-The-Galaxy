@@ -29,22 +29,13 @@ auto& explosions =  Engine::manager.getGroup(groupExplosions);
 auto& pieces =      Engine::manager.getGroup(groupPieces);
 auto& status =      Engine::manager.getGroup(groupStatus);
 
-// Defining the statusbar
-
-Status statusSetting = {
-	"statusbar//statusbar.png",
-	"statusbar//fonts//pixelfonts.ttf",
-	statusheight,
-	20, 4, 20
-};
-
 void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 
-	int flags = SDL_WINDOW_RESIZABLE;
+	int flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN;
 
 	if (fullscreen) {
 
-		flags = SDL_WINDOW_FULLSCREEN;
+		flags = SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN;
 	}
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
@@ -54,9 +45,10 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 		if (window) {
 
 			std::cout << "Window created succesfuly" << std::endl;
+			SDL_SetWindowMinimumSize(window, 600, 350);
 		}
 
-		renderer = SDL_CreateRenderer(window, -1, 0);
+		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
 
 		if (renderer) {
 
@@ -78,8 +70,11 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 		// Adding levels to the background
 		backgroundManager.addLevel("background1_level1", 2);
 
+		// Load statusbar settings
+		statusbar = Statusbar("statusbar//statusbarSettings.json");
+
 		auto& player = assets.loadAsset("playerSpaceship", 30, 350);
-		//auto& entity2 = assets.loadAsset("asset2", 500, 200);
+		auto& entity2 = assets.loadAsset("asset2", 500, 200);
 
 		// Uncommet this lines to omit the assetsManager for the player
 		/*SDL_Rect playerPosition = {30, 350, 70, 30};
@@ -94,8 +89,7 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 		player.addComponent<PlayerSpaceship>();
 		player.addGroup(groupPlayer);*/
 
-		statusbar.init(statusSetting, true);
-		statusbar.setAnimation(43, 0, 40);
+		statusbar.init();
 
 		auto& energyWidget = statusbar.addWidget<EnergyWidget>(&player.getComponent<PlayerSpaceship>().energy);
 		auto& missilesWidget = statusbar.addWidget<MissilesWidget>(&player.getComponent<PlayerSpaceship>().missiles);
@@ -111,7 +105,7 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 
 		weaponWidget.setModel("missile");
 		weaponWidget.setColor(255, 255, 0, 180);
-		weaponWidget.setPrefix("W: ");
+		weaponWidget.setPrefix("W:");
 
 		std::cout << IMG_GetError() << std::endl;
 
@@ -120,6 +114,7 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 
 	else {
 
+		std::cout << SDL_GetError() << std::endl;
 		isRunning = false;
 	}
 }
@@ -153,14 +148,45 @@ void Engine::render() {
 	SDL_RenderPresent(renderer);
 }
 
-void Engine::close() {
+void Engine::events() {
 
 	SDL_PollEvent(event);
 
 	switch (event->type) {
 
 	case SDL_QUIT:
+
 		isRunning = false;
+		break;
+
+	case SDL_WINDOWEVENT:
+
+		if (event->window.event == SDL_WINDOWEVENT_RESIZED) {
+
+			float scaleFactorX = float(event->window.data1) / float(renderwidth);
+			float scaleFactorY = float(event->window.data2) / float(renderheight);
+
+			if (scaleFactorX < scaleFactorY)
+				SDL_RenderSetScale(renderer, scaleFactorX, scaleFactorX);
+			else
+				SDL_RenderSetScale(renderer, scaleFactorY, scaleFactorY);
+		}
+
+		break;
+
+	case SDL_KEYDOWN:
+
+		if (event->key.keysym.sym == SDLK_F11) {
+
+			int flags = SDL_GetWindowFlags(window);
+			int fullscreen = flags&SDL_WINDOW_FULLSCREEN;
+
+			if (fullscreen == SDL_WINDOW_FULLSCREEN)
+				SDL_SetWindowFullscreen(window, !SDL_WINDOW_FULLSCREEN);
+			else
+				SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+		}
+		
 		break;
 
 	default:

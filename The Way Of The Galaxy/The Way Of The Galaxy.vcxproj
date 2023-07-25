@@ -176,6 +176,7 @@
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ECS\PlayerSpaceship.cpp" />
+    <ClCompile Include="Point.cpp" />
     <ClCompile Include="Statusbar.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TimeAction.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="include\ECS\TextComponent.h" />
     <ClInclude Include="include\Widget.h" />
     <ClInclude Include="include\ECS\TransformComponent.h" />
+    <ClInclude Include="include\Point.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="assets\textures\backgrounds\Space_Stars2.png">
@@ -348,6 +350,15 @@
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/assets</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/assets</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="statusbar\statusbarSettings.json">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/statusbar</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/statusbar</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/statusbar</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/statusbar</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -25,11 +25,12 @@ private:
 
 	TTF_Font* font;
 	std::string text;
-	int fontSize;
 	SDL_Color color = { 255, 255, 255 };
 
 	bool icon = false;
 	bool iconRight = false;
+	bool destroyFont = true;
+
 	int iconSize;
 
 	int iconSpacing;
@@ -44,9 +45,7 @@ public:
 	TextComponent(std::string mText, const char* mFont, int mFontSize) {
 
 		text = mText;
-		fontSize = mFontSize;
-
-		font = TTF_OpenFont(mFont, fontSize);
+		font = TTF_OpenFont(mFont, mFontSize);
 		texture = TextureManager::LoadTexture(font, color, text.c_str());
 	}
 
@@ -54,9 +53,24 @@ public:
 
 		text = mText;
 		color = mColor;
-		fontSize = mFontSize;
+		font = TTF_OpenFont(mFont, mFontSize);
+		texture = TextureManager::LoadTexture(font, color, text.c_str());
+	}
 
-		font = TTF_OpenFont(mFont, fontSize);
+	TextComponent(std::string mText, TTF_Font* mFont) {
+
+		text = mText;
+		font = mFont;
+		destroyFont = false;
+		texture = TextureManager::LoadTexture(font, color, text.c_str());
+	}
+
+	TextComponent(std::string mText, TTF_Font* mFont, SDL_Color mColor) {
+
+		text = mText;
+		font = mFont;
+		color = mColor;
+		destroyFont = false;
 		texture = TextureManager::LoadTexture(font, color, text.c_str());
 	}
 
@@ -72,8 +86,8 @@ public:
 		// Setting the destination rectangle
 		destRect.x = int(position->position.x);
 		destRect.y = int(position->position.y);
-		destRect.h = fontSize * position->scale;
-		destRect.w = fontSize * int(text.size()) / 2;
+
+		TTF_SizeText(font, text.c_str(), &destRect.w, &destRect.h);
 	}
 
 	void update() override {
@@ -106,7 +120,7 @@ public:
 		SDL_DestroyTexture(texture);
 
 		text = mText;
-		destRect.w = fontSize * int(text.size()) / 2;
+		TTF_SizeText(font, text.c_str(), &destRect.w, &destRect.h);
 		texture = TextureManager::LoadTexture(font, color, text.c_str());
 	}
 
@@ -138,6 +152,6 @@ public:
 	~TextComponent() {
 
 		SDL_DestroyTexture(texture);
-		TTF_CloseFont(font);
+		if (destroyFont) TTF_CloseFont(font);
 	}
 };

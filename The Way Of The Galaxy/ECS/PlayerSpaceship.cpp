@@ -48,14 +48,20 @@ void PlayerSpaceship::update() {
 
 	checkForInputs();
 	correctPositionInTheArea();
+
+	std::cout << position->velocity << std::endl;
 }
 
 void PlayerSpaceship::onCollision2D(Collision2D collision) {
 
 	if (collision.colliderB == satId) {
 
+		collision.penetration.Round(3);
+
 		position->position -= collision.penetration;
-		sprite->resetPosition();
+		position->velocity -= collision.penetration;
+
+		transform->setExternalMotion(collision.penetration * -1);
 	}
 }
 
@@ -147,6 +153,9 @@ void PlayerSpaceship::correctPositionInTheArea() {
 
 	position->position.x -= status.xdistance;
 	position->position.y -= status.ydistance;
+
+	if (!status.x) position->velocity.x = 0;
+	if (!status.y) position->velocity.y = 0;
 }
 
 void PlayerSpaceship::switchWeapon() {

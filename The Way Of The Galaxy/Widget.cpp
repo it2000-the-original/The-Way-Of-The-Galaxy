@@ -43,8 +43,14 @@ int Widget::getWidth() {
 
 	// Get the width of the widget exluding the icon
 
+	int width = 0;
+	int height = 0;
+
 	std::string widgetString = prefix + model;
-	return int(widgetString.size() * statusbar->fontSize / 2);
+
+	TTF_SizeText(font, widgetString.c_str(), &width, &height);
+
+	return width;
 }
 
 int Widget::getIconWidth() {

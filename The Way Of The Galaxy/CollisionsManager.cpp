@@ -12,8 +12,9 @@ struct SATstatus {
 	float penetrationAngle;
 };
 
-float findMinimumPoint(std::vector<Point> points, Point axis);
-float findMaximumPoint(std::vector<Point> points, Point axis);
+float getProjection(Vector2D axis, Point point);
+float findMinimumPoint(std::vector<Point> points, Vector2D axis);
+float findMaximumPoint(std::vector<Point> points, Vector2D axis);
 SATstatus polygon_polygon_SAT(Convex polygonA, Convex polygonB);
 
 Collision2D CollisionsManager::AABB(const ColliderComponent* colA, const ColliderComponent* colB) {
@@ -67,14 +68,18 @@ Collision2D CollisionsManager::AABB(const ColliderComponent* colA, const Collide
 Collision2D CollisionsManager::SAT(const ColliderComponent* colA, const ColliderComponent* colB) {
 
 	Collision2D collision;
-	Point MTV = Point(0, 0);
+	Vector2D MTV;
 
 	if (AABB(colA, colB).collision) {
 
 		for (auto polygonA : colA->destPolygon)
 		for (auto polygonB : colB->destPolygon) {
 
-			for (int i = 0; i < polygonA.size(); i++) polygonA[i] -= MTV;
+			for (int i = 0; i < signed(polygonA.size()); i++) {
+
+				polygonA[i].x -= MTV.x;
+				polygonA[i].y -= MTV.y;
+			}
 
 			SATstatus Astatus = polygon_polygon_SAT(polygonA, polygonB);
 			SATstatus Bstatus = polygon_polygon_SAT(polygonB, polygonA);
@@ -85,7 +90,7 @@ Collision2D CollisionsManager::SAT(const ColliderComponent* colA, const Collider
 
 				if (Astatus.penetration < Bstatus.penetration) {
 
-					MTV += Point(
+					MTV += Vector2D(
 						-Astatus.penetration * sin(Astatus.penetrationAngle),
 						-Astatus.penetration * cos(Astatus.penetrationAngle)
 					);
@@ -93,7 +98,7 @@ Collision2D CollisionsManager::SAT(const ColliderComponent* colA, const Collider
 
 				else {
 
-					MTV += Point(
+					MTV += Vector2D(
 						Bstatus.penetration * sin(Bstatus.penetrationAngle),
 						Bstatus.penetration * cos(Bstatus.penetrationAngle)
 					);
@@ -103,7 +108,7 @@ Collision2D CollisionsManager::SAT(const ColliderComponent* colA, const Collider
 		}
 	}
 	
-	collision.penetration = Vector2D(round(MTV.x), round(MTV.y));
+	collision.penetration = MTV;
 
 	collision.colliderA = colA->id;
 	collision.colliderB = colB->id;
@@ -127,9 +132,9 @@ Collision2D CollisionsManager::areInCollision(ColliderComponent* colA, ColliderC
 
 void CollisionsManager::update() {
 
-	for (int i = 0; i < colliders.size(); i++) {
+	for (int i = 0; i < signed(colliders.size()); i++) {
 
-		for (int j = 0; j < colliders.size(); j++) {
+		for (int j = 0; j < signed(colliders.size()); j++) {
 
 			Collision2D collision = areInCollision(colliders[i], colliders[j]);
 
@@ -156,26 +161,31 @@ void CollisionsManager::refresh() {
 
 /////////////////////////// External functions
 
-float findMinimumPoint(std::vector<Point> points, Point axis) {
+float getProjection(Vector2D axis, Point point) { 
+	
+	return axis.x * point.x + axis.y * point.y;
+}
 
-	float minPoint = axis.getProjection(points[0]);
+float findMinimumPoint(std::vector<Point> points, Vector2D axis) {
 
-	for (int i = 1; i < points.size(); i++) {
+	float minPoint = getProjection(axis, points[0]);
 
-		float dot = axis.getProjection(points[i]);
+	for (int i = 1; i < signed(points.size()); i++) {
+
+		float dot = getProjection(axis, points[i]);
 		if (dot < minPoint) minPoint = dot;
 	}
 
 	return minPoint;
 }
 
-float findMaximumPoint(std::vector<Point> points, Point axis) {
+float findMaximumPoint(std::vector<Point> points, Vector2D axis) {
 
-	float maxPoint = axis.getProjection(points[0]);
+	float maxPoint = getProjection(axis, points[0]);
 
-	for (int i = 1; i < points.size(); i++) {
+	for (int i = 1; i < signed(points.size()); i++) {
 
-		float dot = axis.getProjection(points[i]);
+		float dot = getProjection(axis, points[i]);
 		if (dot > maxPoint) maxPoint = dot;
 	}
 
@@ -189,23 +199,23 @@ SATstatus polygon_polygon_SAT(Convex polygonA, Convex polygonB) {
 
 	status.collision = true;
 
-	for (int i = 0; i < polygonA.size(); i++) {
+	for (int i = 0; i < signed(polygonA.size()); i++) {
 
-		Point axis;
+		Vector2D axis;
 
-		if (i < polygonA.size() - 1) {
+		if (i < signed(polygonA.size()) - 1) {
 
-			axis = Point(-(polygonA[i + 1].y - polygonA[i].y), polygonA[i + 1].x - polygonA[i].x);
+			axis = Vector2D(-(polygonA[i + 1].y - polygonA[i].y), polygonA[i + 1].x - polygonA[i].x);
 		}
 
 		else {
 
-			axis = Point(-(polygonA[0].y - polygonA[i].y), polygonA[0].x - polygonA[i].x);
+			axis = Vector2D(-(polygonA[0].y - polygonA[i].y), polygonA[0].x - polygonA[i].x);
 		}
 
 		float magnitude = float(sqrt(pow(axis.x, 2) + pow(axis.y, 2)));
 
-		if (magnitude != 0) axis *= Point(1 / magnitude, 1 / magnitude);
+		if (magnitude != 0) axis *= Vector2D(1 / magnitude, 1 / magnitude);
 
 		float polygonApmax = findMaximumPoint(polygonA, axis);
 		float polygonApmin = findMinimumPoint(polygonA, axis);

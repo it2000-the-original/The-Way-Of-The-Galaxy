@@ -79,6 +79,16 @@ Vector2D& Vector2D::operator/=(const Vector2D vec) {
 	return Divide(vec);
 }
 
+bool Vector2D::operator!=(const Vector2D vec) {
+
+	return x != vec.x and y != vec.y;
+}
+
+bool Vector2D::operator==(const Vector2D vec) {
+
+	return x == vec.x and y == vec.y;
+}
+
 Vector2D& Vector2D::operator*(const int i) {
 
 	x *= i;
@@ -90,6 +100,13 @@ Vector2D& Vector2D::Zero() {
 
 	x = 0;
 	y = 0;
+	return *this;
+}
+
+Vector2D& Vector2D::Round(int precision) {
+
+	x = round(x * pow(10, precision)) / pow(10, precision);
+	y = round(y * pow(10, precision)) / pow(10, precision);
 	return *this;
 }
 

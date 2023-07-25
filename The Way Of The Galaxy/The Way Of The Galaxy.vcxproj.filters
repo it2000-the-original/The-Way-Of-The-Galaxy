@@ -96,6 +96,9 @@
     <ClCompile Include="ECS\PlayerSpaceship.cpp">
       <Filter>File di origine\Entity Component System</Filter>
     </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Engine.h">
@@ -167,6 +170,9 @@
     <ClInclude Include="include\ECS\TransformComponent.h">
       <Filter>File di intestazione\Entity Component System</Filter>
     </ClInclude>
+    <ClInclude Include="include\Point.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="assets\textures\backgrounds\Space_Stars2.png">
@@ -231,6 +237,9 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="assets\textures\spaceships\spaceship1.png">
       <Filter>File di risorse\Textures\Spaceships</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="statusbar\statusbarSettings.json">
+      <Filter>File di risorse\Statusbar</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>

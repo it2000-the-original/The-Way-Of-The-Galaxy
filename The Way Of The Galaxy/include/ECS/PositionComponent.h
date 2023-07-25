@@ -12,8 +12,8 @@ struct statusPosition {
 	bool yd = false;
 	bool xy = false;
 
-	int xdistance = 0;
-	int ydistance = 0;
+	float xdistance = 0;
+	float ydistance = 0;
 };
 
 class PositionComponent : public Component {
@@ -70,10 +70,12 @@ public:
 
 	void update() override {
 
+		position.Round(3);
+		velocity.Round(3);
+
 		previousPosition = position;
 		angle += rotationSpeed;
-		position.x += trunc(velocity.x);
-		position.y += trunc(velocity.y);
+		position += velocity;
 	}
 
 	void setPosition(int x, int y) {
@@ -110,10 +112,10 @@ public:
 
 		if (status.x == true and status.y == true) status.xy = true;
 
-		if      (!status.x and status.xl) status.xdistance = int(position.x) - renderwidth;
-		else if (!status.x and status.xr) status.xdistance = int(position.x) + width * scale;
-		if      (!status.y and status.yu) status.ydistance = int(position.y) - renderheight;
-		else if (!status.y and status.yd) status.ydistance = int(position.y) + height * scale - statusheight;
+		if      (!status.x and status.xl) status.xdistance = position.x - renderwidth;
+		else if (!status.x and status.xr) status.xdistance = position.x + width * scale;
+		if      (!status.y and status.yu) status.ydistance = position.y - renderheight;
+		else if (!status.y and status.yd) status.ydistance = position.y + height * scale - statusheight;
 
 		return status;
 	}
@@ -136,10 +138,10 @@ public:
 
 		if (status.x == true and status.y == true) status.xy = true;
 
-		if      (!status.x and status.xl) status.xdistance = int(position.x) + width * scale - renderwidth;
-		else if (!status.x and status.xr) status.xdistance = int(position.x);
-		if      (!status.y and status.yu) status.ydistance = int(position.y) + height * scale - renderheight;
-		else if (!status.y and status.yd) status.ydistance = int(position.y) - statusheight;
+		if      (!status.x and status.xl) status.xdistance = position.x + width * scale - renderwidth;
+		else if (!status.x and status.xr) status.xdistance = position.x;
+		if      (!status.y and status.yu) status.ydistance = position.y + height * scale - renderheight;
+		else if (!status.y and status.yd) status.ydistance = position.y - statusheight;
 
 		return status;
 	}

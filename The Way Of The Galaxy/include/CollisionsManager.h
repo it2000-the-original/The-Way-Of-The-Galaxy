@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include "Vector2D.h"
+#include "Point.h"
 #include <vector>
 
 class ColliderComponent;

@@ -9,7 +9,8 @@ class Manager;
 class AssetsManager;
 class CollisionsManager;
 
-const int statusheight = 30;
+inline int statusheight = 0;
+
 const int renderwidth = 1200;
 const int renderheight = 700;
 
@@ -69,6 +70,6 @@ public:
 	void update();
 	void clean();
 	void render();
-	void close();
+	void events();
 	bool running();
 };

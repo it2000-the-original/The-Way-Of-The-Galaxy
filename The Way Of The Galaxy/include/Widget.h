@@ -16,6 +16,7 @@ public:
 
 	Entity* entity;
 	Statusbar* statusbar;
+	TTF_Font* font;
 
 	std::string model = "";
 	std::string prefix = "";
