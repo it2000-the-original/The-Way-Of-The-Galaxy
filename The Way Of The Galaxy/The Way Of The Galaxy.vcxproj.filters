@@ -55,6 +55,9 @@
     <Filter Include="File di risorse\Textures\Scraps">
       <UniqueIdentifier>{98457aeb-b777-4a8e-affa-aff570405cc5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File di origine\Entity Component System\Custom Components">
+      <UniqueIdentifier>{ad88a2b6-95d0-4da8-8510-ac17ebbb87e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -67,9 +70,6 @@
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="CollisionsManager.cpp">
-      <Filter>File di origine</Filter>
-    </ClCompile>
-    <ClCompile Include="ECS.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="LevelManager.cpp">
@@ -93,11 +93,41 @@
     <ClCompile Include="Widget.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="ECS\PlayerSpaceship.cpp">
-      <Filter>File di origine\Entity Component System</Filter>
-    </ClCompile>
     <ClCompile Include="Point.cpp">
       <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\custom\PlayerSpaceship.cpp">
+      <Filter>File di origine\Entity Component System\Custom Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\PositionComponent.cpp">
+      <Filter>File di origine\Entity Component System</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\SpriteComponent.cpp">
+      <Filter>File di origine\Entity Component System</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\TextComponent.cpp">
+      <Filter>File di origine\Entity Component System</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\AutodestroyComponent.cpp">
+      <Filter>File di origine\Entity Component System</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\ColliderComponent.cpp">
+      <Filter>File di origine\Entity Component System</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\ExplodeComponent.cpp">
+      <Filter>File di origine\Entity Component System</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\ExplosionComponent.cpp">
+      <Filter>File di origine\Entity Component System</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\MissileComponent.cpp">
+      <Filter>File di origine\Entity Component System</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\TransformComponent.cpp">
+      <Filter>File di origine\Entity Component System</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS\ECS.cpp">
+      <Filter>File di origine\Entity Component System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +201,18 @@
       <Filter>File di intestazione\Entity Component System</Filter>
     </ClInclude>
     <ClInclude Include="include\Point.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ECS\custom\CustomComponents.h">
+      <Filter>File di intestazione\Entity Component System\Custom Components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Explosion.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Animation.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Polygon.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

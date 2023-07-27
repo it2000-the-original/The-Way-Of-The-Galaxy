@@ -1,6 +1,6 @@
 #pragma once
 #include <nlohmann/json.hpp>
-#include "Components.h"
+#include "ECS/Components.h"
 
 class LevelManager {
 

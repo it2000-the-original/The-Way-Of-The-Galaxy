@@ -1,4 +1,5 @@
 #include "LevelManager.h"
+#include "Engine.h"
 #include <fstream>
 
 LevelManager::LevelManager(Manager& mManager) : manager(mManager) {}

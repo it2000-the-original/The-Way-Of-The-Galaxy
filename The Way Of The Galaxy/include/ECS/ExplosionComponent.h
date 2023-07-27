@@ -1,29 +1,17 @@
 #pragma once
+#include "ECS.h"
 #include "TimeAction.h"
 
 class ExplosionComponent : public Component {
 
 private:
 
-	TimeAction explosionDuration = TimeAction(100);
+	TimeAction explosionDuration;
 
 public:
 
-	ExplosionComponent(int mExplosionDuration) {
+	ExplosionComponent(int mExplosionDuration);
 
-		explosionDuration.setDuration(mExplosionDuration);
-	}
-
-	void init() override {
-	
-		explosionDuration.init();
-	}
-
-	void update() override {
-
-		if (explosionDuration.check()) {
-
-			entity->destroy();
-		}
-	}
+	void init() override;
+	void update() override;
 };

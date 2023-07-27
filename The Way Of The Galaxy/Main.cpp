@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 	Uint32 frameTime;
 
 	// Initialize the random functions
-	srand(time(NULL));
+	srand(unsigned(time(NULL)));
 
 	Engine* engine = new Engine();
 

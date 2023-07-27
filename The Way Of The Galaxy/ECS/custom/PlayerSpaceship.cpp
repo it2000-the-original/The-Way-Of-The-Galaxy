@@ -1,4 +1,4 @@
-#include "PlayerSpaceship.h"
+#include "ECS/custom/PlayerSpaceship.h"
 #include "AssetsManager.h"
 
 PlayerSpaceship::PlayerSpaceship() {
@@ -48,8 +48,6 @@ void PlayerSpaceship::update() {
 
 	checkForInputs();
 	correctPositionInTheArea();
-
-	std::cout << position->velocity << std::endl;
 }
 
 void PlayerSpaceship::onCollision2D(Collision2D collision) {

@@ -1,6 +1,9 @@
 #pragma once
-#include "PositionComponent.h"
-#include "TimeAction.h"
+#include "ECS.h"
+
+class PositionComponent;
+class SpriteComponent;
+class Vector2D;
 
 class MissileComponent : public Component {
 	
@@ -14,48 +17,12 @@ public:
 
 	int damage;
 
-	MissileComponent() {
-		
-		damage = 5;
-	}
+	MissileComponent();
+	MissileComponent(int mDamage);
+	MissileComponent(int mDamage, float mAcceleration);
 
-	MissileComponent(int mDamage) {
-		
-		damage = mDamage;
-	}
+	void init() override;
+	void update() override;
 
-	MissileComponent(int mDamage, float mAcceleration) {
-
-		damage = mDamage;
-		acceleration = Vector2D(mAcceleration, 0);
-	}
-
-	void init() override {
-
-		if (!entity->hasComponent<PositionComponent>()) {
-
-			entity->addComponent<PositionComponent>();
-		}
-
-		if (!entity->hasComponent<SpriteComponent>()) {
-
-			entity->addComponent<SpriteComponent>();
-		}
-
-		position = &entity->getComponent<PositionComponent>();
-
-		sprite = &entity->getComponent<SpriteComponent>();
-
-		sprite->playAnimation("base");
-	}
-
-	void update() override {
-
-		position->velocity += acceleration;
-	}
-
-	void setAcceleration(float mAcceleration) {
-
-		acceleration = Vector2D(mAcceleration, 0);
-	}
+	void setAcceleration(float mAcceleration);
 };

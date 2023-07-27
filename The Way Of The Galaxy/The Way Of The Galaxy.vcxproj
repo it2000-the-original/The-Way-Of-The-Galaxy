@@ -93,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Programmazione\VisualStudio\boost_1_82_0;include/ECS/custom;include/ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <DisableSpecificWarnings>26495;26800;26451</DisableSpecificWarnings>
@@ -113,7 +113,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Programmazione\VisualStudio\boost_1_82_0;include/ECS/custom;include/ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <DisableSpecificWarnings>26495;26800;26451</DisableSpecificWarnings>
@@ -133,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Programmazione\VisualStudio\boost_1_82_0;D:\Programmazione\VisualStudio\boost_1_82_0;include/ECS/custom;include/ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>26495;26800;26451</DisableSpecificWarnings>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -153,7 +153,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Programmazione\VisualStudio\boost_1_82_0;D:\Programmazione\VisualStudio\boost_1_82_0;include/ECS/custom;include/ECS;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <DisableSpecificWarnings>26495;26800;26451</DisableSpecificWarnings>
@@ -170,20 +170,37 @@
   <ItemGroup>
     <ClCompile Include="AssetsManager.cpp" />
     <ClCompile Include="BackgroundManager.cpp" />
+    <ClCompile Include="ECS\ColliderComponent.cpp" />
     <ClCompile Include="CollisionsManager.cpp" />
-    <ClCompile Include="ECS.cpp" />
+    <ClCompile Include="ECS\ECS.cpp" />
+    <ClCompile Include="ECS\AutodestroyComponent.cpp" />
+    <ClCompile Include="ECS\PositionComponent.cpp" />
+    <ClCompile Include="ECS\SpriteComponent.cpp" />
+    <ClCompile Include="ECS\TextComponent.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="ECS\ExplodeComponent.cpp" />
+    <ClCompile Include="ECS\ExplosionComponent.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="ECS\PlayerSpaceship.cpp" />
+    <ClCompile Include="ECS\custom\PlayerSpaceship.cpp" />
+    <ClCompile Include="ECS\MissileComponent.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Statusbar.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TimeAction.cpp" />
+    <ClCompile Include="ECS\TransformComponent.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="Widget.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Animation.h" />
+    <ClInclude Include="include\Explosion.h" />
+    <ClInclude Include="include\ECS\custom\CustomComponents.h" />
     <ClInclude Include="include\ECS\AutodestroyComponent.h" />
     <ClInclude Include="include\ECS\ColliderComponent.h" />
     <ClInclude Include="include\AssetsManager.h" />
@@ -208,6 +225,7 @@
     <ClInclude Include="include\Widget.h" />
     <ClInclude Include="include\ECS\TransformComponent.h" />
     <ClInclude Include="include\Point.h" />
+    <ClInclude Include="include\Polygon.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="assets\textures\backgrounds\Space_Stars2.png">

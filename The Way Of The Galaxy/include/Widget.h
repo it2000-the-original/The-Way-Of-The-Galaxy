@@ -1,6 +1,7 @@
 #pragma once
-#include "Components.h"
 #include <string>
+#include "ECS/Components.h"
+#include "ECS/custom/CustomComponents.h"
 
 class Statusbar;
 

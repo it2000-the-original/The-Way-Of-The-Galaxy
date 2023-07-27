@@ -1,7 +1,7 @@
 #pragma once
-#include "PositionComponent.h"
+#include "ECS.h"
 
-#include "Engine.h"
+class PositionComponent;
 
 class AutodestroyComponent : public Component {
 
@@ -11,26 +11,10 @@ private:
 
 public:
 
-	AutodestroyComponent() {}
+	AutodestroyComponent();
 
-	~AutodestroyComponent() {
-		
-		position = nullptr;
-	}
+	void init() override;
+	void update() override;
 
-	void init() override {
-
-		if (!entity->hasComponent<PositionComponent>()) {
-
-			entity->addComponent<PositionComponent>();
-		}
-
-		position = &entity->getComponent<PositionComponent>();
-	}
-	
-	void update() override {
-
-		// Chek if the posion is in the render area.
-		if (!position->isOnRender().xy) entity->destroy();
-	}
+	~AutodestroyComponent();
 };

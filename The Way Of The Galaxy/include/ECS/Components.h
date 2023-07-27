@@ -4,7 +4,6 @@
  * you must include every component in this file and never
  * include a single component without include Components.h. */
 
-#include "ECS.h"
 #include "PositionComponent.h"    // The component that define the position int the render area.
 #include "SpriteComponent.h"      // The component that define the image to render of a entity.
 #include "TextComponent.h"        // An alternative to SpriteComponent to define a text instad of an image.
@@ -14,4 +13,3 @@
 #include "ExplodeComponent.h"     // The component to use to allows the component to explode and to define the size, the duration and the texture of the explosion.
 #include "MissileComponent.h"     // The component to use for the missiles, created to accelerate the entity and contain the damage to subtract to the hitted entity.
 #include "TransformComponent.h"   // A component to manage the movements of the sprite
-#include "PlayerSpaceship.h"      // A specific component created to define all elements of the player entity.

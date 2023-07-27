@@ -1,4 +1,5 @@
 #include "Statusbar.h"
+#include "TextureManager.h"
 
 using namespace nlohmann;
 

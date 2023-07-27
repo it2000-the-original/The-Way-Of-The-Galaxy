@@ -2,7 +2,7 @@
 #include <SDL2/SDL.h>
 #include "Engine.h"
 #include "TextureManager.h"
-#include "Components.h"
+#include "ECS/Components.h"
 #include <vector>
 
 // Struct that define a level 

@@ -1,4 +1,6 @@
 #include "AssetsManager.h"
+#include "TextureManager.h"
+#include "ECS/custom/CustomComponents.h"
 
 using namespace nlohmann;
 

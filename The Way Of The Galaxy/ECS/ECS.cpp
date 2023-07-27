@@ -56,7 +56,7 @@ Entity::~Entity() {
 
 	// Delete from the memory all components of components vector
 
-	for (int i = components.size() - 1; i >= 0; i--) {
+	for (int i = int(components.size()) - 1; i >= 0; i--) {
 
 		delete components[i];
 		components.erase(components.begin() + i);

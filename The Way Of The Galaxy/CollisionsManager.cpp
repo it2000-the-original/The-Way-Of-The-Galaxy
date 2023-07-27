@@ -1,5 +1,5 @@
 #include "CollisionsManager.h"
-#include "Components.h"
+#include "ECS/Components.h"
 #include <math.h>
 #include <cmath>
 

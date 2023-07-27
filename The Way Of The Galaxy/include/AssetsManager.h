@@ -1,8 +1,11 @@
 #include <map>
 #include <fstream>
+#include <SDL2/SDL.h>
 #include <nlohmann/json.hpp>
-#include "Components.h"
-#include "TextureManager.h"
+#include "Explosion.h"
+#include "Animation.h"
+#include "Polygon.h"
+#include "ECS.h"
 
 struct Asset;
 struct AssetAnimation;
