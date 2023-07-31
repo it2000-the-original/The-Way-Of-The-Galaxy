@@ -12,7 +12,7 @@
 # and cross platform, to compile, you need to install the:
 # SDL2, SDL2_image, SDL2_ttf, nlohmann_json packages....
 
-cmake_minimum_required (VERSION 3.0.0)
+cmake_minimum_required (VERSION 3.5)
 
 project("The Way Of The Galaxy" VERSION 0.0.2)
 
@@ -40,13 +40,12 @@ link_directories("${Boost_LIBRARY_DIRS}")
 # Setting group files
 file(GLOB srcfiles "${PROJECT_SOURCE_DIR}/The Way Of The Galaxy/*.cpp")
 file(GLOB components "${PROJECT_SOURCE_DIR}/The Way Of The Galaxy/ECS/*.cpp")
+file(GLOB customComponents "${PROJECT_SOURCE_DIR}/The Way Of The Galaxy/ECS/custom/*.cpp")
 
-add_executable(TWOTG ${srcfiles} ${components})
+add_executable(TWOTG ${srcfiles} ${components} ${customComponents})
 
 target_include_directories(TWOTG PRIVATE 
 	"${PROJECT_SOURCE_DIR}/The Way Of The Galaxy/include"
-	"${PROJECT_SOURCE_DIR}/The Way Of The Galaxy/include/ECS"
-	"${PROJECT_SOURCE_DIR}/The Way Of The Galaxy/include/ECS/custom"
 )
 
 target_link_libraries(TWOTG
