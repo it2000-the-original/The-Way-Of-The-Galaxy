@@ -123,21 +123,25 @@ void TransformComponent::removeVelocityExcesses() {
 
 	if (position->velocity.x > velocity.x) {
 
+		position->velocity.y = position->velocity.y * velocity.x / position->velocity.x;
 		position->velocity.x = velocity.x;
 	}
 
 	else if (position->velocity.x < -velocity.x) {
 
+		position->velocity.y = position->velocity.y * -velocity.x / position->velocity.x;
 		position->velocity.x = -velocity.x;
 	}
 
 	if (position->velocity.y > velocity.y) {
 
+		position->velocity.x = position->velocity.x * velocity.y / position->velocity.y;
 		position->velocity.y = velocity.y;
 	}
 
 	else if (position->velocity.y < -velocity.y) {
 
+		position->velocity.x = position->velocity.x * velocity.y / position->velocity.y;
 		position->velocity.y = -velocity.y;
 	}
 }
