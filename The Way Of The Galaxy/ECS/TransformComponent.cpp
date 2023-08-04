@@ -141,7 +141,7 @@ void TransformComponent::removeVelocityExcesses() {
 
 	else if (position->velocity.y < -velocity.y) {
 
-		position->velocity.x = position->velocity.x * velocity.y / position->velocity.y;
+		position->velocity.x = position->velocity.x * -velocity.y / position->velocity.y;
 		position->velocity.y = -velocity.y;
 	}
 }
