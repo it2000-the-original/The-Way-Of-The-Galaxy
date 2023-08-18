@@ -114,12 +114,12 @@ statusPosition PositionComponent::isCompletelyOnRender() {
 	return status;
 }
 
-SDL_Rect PositionComponent::getCenterPoint() {
+Point PositionComponent::getCenterPoint() {
 
-	return {
-		int(position.x) + width * scale / 2,
-		int(position.y) + height * scale / 2
-	};
+	return Point(
+		position.x + width * scale / 2,
+		position.y + height * scale / 2
+	);
 }
 
 Vector2D PositionComponent::getActualMovement() {

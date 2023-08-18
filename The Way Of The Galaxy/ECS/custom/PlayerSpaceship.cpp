@@ -119,6 +119,8 @@ void PlayerSpaceship::checkForInputs() {
 	if (KeyboardState[SDL_SCANCODE_A] or KeyboardState[SDL_SCANCODE_LEFT])  transform->moveLeft();
 	if (KeyboardState[SDL_SCANCODE_W] or KeyboardState[SDL_SCANCODE_UP]) 	transform->moveUp();
 	if (KeyboardState[SDL_SCANCODE_S] or KeyboardState[SDL_SCANCODE_DOWN])  transform->moveDown();
+	if (KeyboardState[SDL_SCANCODE_E]) position->angle += 1;
+	if (KeyboardState[SDL_SCANCODE_Q]) position->angle -= 1;
 
 	if (KeyboardState[SDL_SCANCODE_X]) reactDamage();
 

@@ -49,6 +49,6 @@ public:
 	void setRotationSpeed(int mRotationSpeed);
 	statusPosition isOnRender();
 	statusPosition isCompletelyOnRender();
-	SDL_Rect getCenterPoint();
+	Point getCenterPoint();
 	Vector2D getActualMovement();
 };

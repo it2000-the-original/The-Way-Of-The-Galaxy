@@ -136,13 +136,16 @@ void CollisionsManager::update() {
 
 		for (int j = 0; j < signed(colliders.size()); j++) {
 
-			Collision2D collision = areInCollision(colliders[i], colliders[j]);
+			if (i != j) {
 
-			if (i != j and collision.collision) {
+				Collision2D collision = areInCollision(colliders[i], colliders[j]);
 
-				for (auto& c : colliders[i]->entity->components) {
+				if (collision.collision) {
 
-					c->onCollision2D(collision);
+					for (auto& c : colliders[i]->entity->components) {
+
+						c->onCollision2D(collision);
+					}
 				}
 			}
 		}
