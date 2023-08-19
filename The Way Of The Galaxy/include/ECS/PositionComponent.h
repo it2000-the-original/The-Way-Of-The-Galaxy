@@ -51,4 +51,5 @@ public:
 	statusPosition isCompletelyOnRender();
 	Point getCenterPoint();
 	Vector2D getActualMovement();
+	SDL_Rect getVisualRectangle();
 };

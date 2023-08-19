@@ -30,9 +30,4 @@ public:
 
 	void setPolygon(Polygon polygon);
 	bool isAdvanced();
-
-	Point findMinXPoint(Polygon points);
-	Point findMinYPoint(Polygon points);
-	Point findMaxXPoint(Polygon points);
-	Point findMaxYPoint(Polygon points);
 };
