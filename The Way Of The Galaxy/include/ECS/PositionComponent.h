@@ -14,8 +14,8 @@ struct statusPosition {
 	bool yd = false;
 	bool xy = false;
 
-	float xdistance = 0;
-	float ydistance = 0;
+	int xdistance = 0;
+	int ydistance = 0;
 };
 
 class PositionComponent : public Component {

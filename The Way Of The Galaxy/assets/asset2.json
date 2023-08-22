@@ -10,7 +10,7 @@
 
 	"renderGroup": 1,
 
-	"advancedHitbox": true,
+	"advancedHitbox": false,
 
 	"polygon": [
 		[

@@ -137,53 +137,53 @@ SDL_Rect PositionComponent::getVisualRectangle() {
 
 		SDL_Rect rectangle;
 
-		float firstDiagonalAngle = atan2(height, width);
+		float firstDiagonalAngle = float(atan2(height, width));
 		float secondDiagonalAngle = -firstDiagonalAngle;
-		float diagonalSize = sqrt(pow(width * scale, 2) + pow(height * scale, 2));
+		float diagonalSize = float(sqrt(pow(width * scale, 2) + pow(height * scale, 2)));
 
-		firstDiagonalAngle += angle * 3.1415 / 180;
-		secondDiagonalAngle += angle * 3.1415 / 180;
+		firstDiagonalAngle += float(angle * 3.1415 / 180);
+		secondDiagonalAngle += float(angle * 3.1415 / 180);
 
 		if (fabs(diagonalSize * cos(firstDiagonalAngle)) > 
 			fabs(diagonalSize * cos(secondDiagonalAngle))) {
 
-			rectangle.w = fabs(diagonalSize * cos(firstDiagonalAngle));
+			rectangle.w = int(fabs(diagonalSize * cos(firstDiagonalAngle)));
 		}
 
 		else {
 
-			rectangle.w = fabs(diagonalSize * cos(secondDiagonalAngle));
+			rectangle.w = int(fabs(diagonalSize * cos(secondDiagonalAngle)));
 		}
 
 		if (fabs(diagonalSize * sin(firstDiagonalAngle)) > 
 			fabs(diagonalSize * sin(secondDiagonalAngle))) {
 
-			rectangle.h = fabs(diagonalSize * sin(firstDiagonalAngle));
+			rectangle.h = int(fabs(diagonalSize * sin(firstDiagonalAngle)));
 		}
 
 		else {
 
-			rectangle.h = fabs(diagonalSize * sin(secondDiagonalAngle));
+			rectangle.h = int(fabs(diagonalSize * sin(secondDiagonalAngle)));
 		}
 
 		if (rectangle.w > width * scale) {
 
-			rectangle.x = position.x - (rectangle.w - width * scale) / 2;
+			rectangle.x = int(position.x - (rectangle.w - width * scale) / 2);
 		}
 
 		else {
 
-			rectangle.x = position.x + (width * scale - rectangle.w) / 2;
+			rectangle.x = int(position.x + (width * scale - rectangle.w) / 2);
 		}
 
 		if (rectangle.h > height * scale) {
 
-			rectangle.y = position.y - (rectangle.h - height * scale) / 2;
+			rectangle.y = int(position.y - (rectangle.h - height * scale) / 2);
 		}
 
 		else {
 
-			rectangle.y = position.y + (height * scale - rectangle.h) / 2;
+			rectangle.y = int(position.y + (height * scale - rectangle.h) / 2);
 		}
 
 		std::cout << rectangle.w << " " << rectangle.h << std::endl;
@@ -191,5 +191,5 @@ SDL_Rect PositionComponent::getVisualRectangle() {
 		return rectangle;
 	}
 
-	return {position.x, position.y, width * scale, height * scale};
+	return {int(position.x), int(position.y), width * scale, height * scale};
 }
