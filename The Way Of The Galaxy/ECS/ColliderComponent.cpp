@@ -30,9 +30,9 @@ void ColliderComponent::init() {
 		destPolygon = srcPolygon = { {
 
 			Point(0.0, 0.0),
-			Point(float(position->width), 0.0),
-			Point(float(position->width), float(position->height)),
-			Point(0.0, float(position->height))
+			Point(position->width, 0.0),
+			Point(position->width, position->height),
+			Point(0.0, position->height)
 		} };
 	}
 
@@ -47,27 +47,27 @@ void ColliderComponent::update() {
 	for (int j = 0; j < signed(destPolygon[i].size()); j++) {
 
 		destPolygon[i][j] = srcPolygon[i][j] + Point(
-			float(position->position.x),
-			float(position->position.y)
+			position->position.x,
+			position->position.y
 		);
 
 		// Rotating the point around the center point
 
 		Point centerPoint = position->getCenterPoint();
 
-		float distance = sqrt(
+		double distance = sqrt(
 			pow(destPolygon[i][j].x - centerPoint.x, 2) + 
 			pow(destPolygon[i][j].y - centerPoint.y, 2)
 		);
 
-		float angle = atan2(
+		double angle = atan2(
 			destPolygon[i][j].y - centerPoint.y,
 			destPolygon[i][j].x - centerPoint.x
 		);
 
-		angle += float(position->angle * 3.1415 / 180);
-		destPolygon[i][j].x = centerPoint.x + distance * float(cos(angle));
-		destPolygon[i][j].y = centerPoint.y + distance * float(sin(angle));
+		angle += position->angle * 3.1415 / 180;
+		destPolygon[i][j].x = centerPoint.x + distance * cos(angle);
+		destPolygon[i][j].y = centerPoint.y + distance * sin(angle);
 	}
 
 	// Updating the position of collider...

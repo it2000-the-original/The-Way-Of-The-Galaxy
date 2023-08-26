@@ -2,6 +2,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include "Polygon.h"
+#include "Rectangle.h"
 #include "ECS.h"
 
 struct Point;
@@ -19,7 +20,7 @@ private:
 public:
 
 	std::size_t id;
-	SDL_Rect collider;
+	Rectangle collider;
 	Polygon destPolygon;
 
 	ColliderComponent(std::size_t mId);

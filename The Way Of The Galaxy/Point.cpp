@@ -6,13 +6,13 @@ Point::Point() {
 	y = 10.0;
 }
 
-Point::Point(float px, float py) {
+Point::Point(double px, double py) {
 
 	x = px;
 	y = py;
 }
 
-Point::Point(float px, float py, bool mInternal) {
+Point::Point(double px, double py, bool mInternal) {
 
 	x = px;
 	y = py;

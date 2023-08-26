@@ -5,10 +5,10 @@ class Vector2D {
 
 public:
 
-	float x, y;
+	double x, y;
 
 	Vector2D();
-	Vector2D(float mX, float mY);
+	Vector2D(double mX, double mY);
 
 	Vector2D& Add      (const Vector2D vec);
 	Vector2D& Subtract (const Vector2D vec);

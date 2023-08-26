@@ -26,40 +26,13 @@ void TransformComponent::update() {
 	if (rxmoved and lxmoved) rxmoved = lxmoved = false;
 	if (dymoved and uymoved) dymoved = uymoved = false;
 
-	// Decellerate the mote if isn't pressed a key to maintain it
-
-	if (!rxmoved and !lxmoved and !dymoved and !uymoved) {
-
-		linearDecelleration();
-	}
-
-	else {
-
-		bool nox = false; // decellerate x axis
-		bool noy = false; // decellerate y axis
-
-		if (externalMotion != Vector2D(0, 0)) {
-
-			if (rxmoved or lxmoved) {
-
-				if (position->velocity.y * externalMotion.y > 0) noy = true;
-			}
-
-			else {
-
-				if (position->velocity.x * externalMotion.x > 0) nox = true;
-			}
-		}
-
-		if (!nox) xAxisDecelleration();
-		if (!noy) yAxisDecelleration();
-
-		removeVelocityExcesses();
-	}
+	linearDecelleration();
 
 	externalMotion = Vector2D(0, 0);
 
 	rxmoved = lxmoved = dymoved = uymoved = false;
+
+	wall = false;
 }
 
 void TransformComponent::setAcceleration(Vector2D mAcceleration) {
@@ -192,26 +165,113 @@ void TransformComponent::yAxisDecelleration() {
 	}
 }
 
-void TransformComponent::linearDecelleration() {
+void TransformComponent::noControlledXAxisDecelleration() {
 
-	// Calculating the direction of the velocity and the module of it, and of the acceleration
+	if (position->velocity.x > 0) {
 
-	float velocityAngle = atan2(position->velocity.y, position->velocity.x);
-	float accelerationModule = float(sqrt(pow(acceleration.x, 2) + pow(acceleration.y, 2)));
-	float velocityModule = float(sqrt(pow(position->velocity.x, 2) + pow(position->velocity.y, 2)));
+		if (position->velocity.x < acceleration.x) {
 
-	if (velocityModule < accelerationModule) {
+			position->velocity.x = 0;
+		}
 
-		position->velocity.Zero();
+		else position->velocity.x -= acceleration.x;
 	}
 
-	else {
+	else if (position->velocity.x < 0) {
 
-		velocityModule -= accelerationModule;
+		if (position->velocity.x > -acceleration.x) {
 
-		position->velocity = Vector2D(
-			velocityModule * cos(velocityAngle),
-			velocityModule * sin(velocityAngle)
-		).Round(3);
+			position->velocity.x = 0;
+		}
+
+		else position->velocity.x += acceleration.x;
+	}
+}
+
+void TransformComponent::noControlledYAxisDecelleration() {
+
+	if (position->velocity.y > 0) {
+
+		if (position->velocity.y < acceleration.y) {
+
+			position->velocity.y = 0;
+		}
+
+		else position->velocity.y -= acceleration.y;
+	}
+
+	else if (position->velocity.y < 0) {
+
+		if (position->velocity.y > -acceleration.y) {
+
+			position->velocity.y = 0;
+		}
+
+		else position->velocity.y += acceleration.y;
+	}
+}
+
+void TransformComponent::linearDecelleration() {
+
+	// Decelerate the entity gradualy and linearly
+
+	if (!rxmoved and !lxmoved and !uymoved and !dymoved) {
+
+		double xFractionalDecelleration = fabs(position->velocity.x) / acceleration.x;
+		double yFractionalDecelleration = fabs(position->velocity.y) / acceleration.y;
+
+		if (xFractionalDecelleration > yFractionalDecelleration) {
+
+			noControlledXAxisDecelleration();
+
+			if (position->velocity.x == 0) {
+
+				position->velocity.y = 0;
+			}
+
+			else {
+
+				if (position->velocity.y > 0) {
+
+					position->velocity.y -= position->velocity.y / xFractionalDecelleration;
+				}
+
+				else if (position->velocity.y) {
+
+					position->velocity.y -= position->velocity.y / xFractionalDecelleration;
+				}
+			}
+		}
+
+		else {
+
+			noControlledYAxisDecelleration();
+
+			if (position->velocity.y == 0) {
+
+				position->velocity.x = 0;
+			}
+
+			else {
+
+				if (position->velocity.x > 0) {
+
+					position->velocity.x -= position->velocity.x / yFractionalDecelleration;
+				}
+
+				else if (position->velocity.x) {
+
+					position->velocity.x -= position->velocity.x / yFractionalDecelleration;
+				}
+			}
+		}
+		
+		position->velocity.Round(3);
+	}
+
+	else if (!wall) {
+		
+		xAxisDecelleration();
+		yAxisDecelleration();
 	}
 }

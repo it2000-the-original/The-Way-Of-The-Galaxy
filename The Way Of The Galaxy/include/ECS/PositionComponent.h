@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL2/SDL.h>
+#include "Rectangle.h"
 #include "ECS.h"
 
 class Vector2D;
@@ -14,15 +15,11 @@ struct statusPosition {
 	bool yd = false;
 	bool xy = false;
 
-	int xdistance = 0;
-	int ydistance = 0;
+	double xdistance = 0;
+	double ydistance = 0;
 };
 
 class PositionComponent : public Component {
-
-private:
-
-	Vector2D previousPosition = Vector2D();
 
 public:
 
@@ -50,6 +47,5 @@ public:
 	statusPosition isOnRender();
 	statusPosition isCompletelyOnRender();
 	Point getCenterPoint();
-	Vector2D getActualMovement();
-	SDL_Rect getVisualRectangle();
+	Rectangle getVisualRectangle();
 };

@@ -6,7 +6,7 @@ Vector2D::Vector2D() {
 	x = y = 0;
 }
 
-Vector2D::Vector2D(float mX, float mY) {
+Vector2D::Vector2D(double mX, double mY) {
 
 	x = mX;
 	y = mY;

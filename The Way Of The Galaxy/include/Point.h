@@ -2,7 +2,7 @@
 
 struct Point {
 
-	float x, y;
+	double x, y;
 	bool internal = false;
 
 	/* The internal variable is used to know in case of a convex decomposition
@@ -11,8 +11,8 @@ struct Point {
 	 * the MTV (Minimal Translation Vector) and to avoid bad effects. */
 
 	Point();
-	Point(float px, float py);
-	Point(float px, float py, bool mInternal);
+	Point(double px, double py);
+	Point(double px, double py, bool mInternal);
 
 	// operators methods to apply
 

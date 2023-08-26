@@ -8,13 +8,13 @@
 struct SATstatus {
 
 	bool collision;
-	float penetration;
-	float penetrationAngle;
+	double penetration;
+	double penetrationAngle;
 };
 
-float getProjection(Vector2D axis, Point point);
-float findMinimumPoint(std::vector<Point> points, Vector2D axis);
-float findMaximumPoint(std::vector<Point> points, Vector2D axis);
+double getProjection(Vector2D axis, Point point);
+double findMinimumPoint(std::vector<Point> points, Vector2D axis);
+double findMaximumPoint(std::vector<Point> points, Vector2D axis);
 SATstatus polygon_polygon_SAT(Convex polygonA, Convex polygonB);
 
 Collision2D CollisionsManager::AABB(const ColliderComponent* colA, const ColliderComponent* colB) {
@@ -29,13 +29,13 @@ Collision2D CollisionsManager::AABB(const ColliderComponent* colA, const Collide
 		collision.collision = true;
 
 		// Calculating various penetrations
-		int xpenetrationA = colA->collider.x + colA->collider.w - colB->collider.x;
-		int xpenetrationB = colB->collider.x + colB->collider.w - colA->collider.x;
-		int ypenetrationA = colA->collider.y + colA->collider.h - colB->collider.y;
-		int ypenetrationB = colB->collider.y + colB->collider.h - colA->collider.y;
+		double xpenetrationA = colA->collider.x + colA->collider.w - colB->collider.x;
+		double xpenetrationB = colB->collider.x + colB->collider.w - colA->collider.x;
+		double ypenetrationA = colA->collider.y + colA->collider.h - colB->collider.y;
+		double ypenetrationB = colB->collider.y + colB->collider.h - colA->collider.y;
 
-		int xpenetration;
-		int ypenetration;
+		double xpenetration;
+		double ypenetration;
 
 		if (fabs(xpenetrationA) < fabs(xpenetrationB)) {
 
@@ -164,31 +164,31 @@ void CollisionsManager::refresh() {
 
 /////////////////////////// External functions
 
-float getProjection(Vector2D axis, Point point) { 
+double getProjection(Vector2D axis, Point point) { 
 	
 	return axis.x * point.x + axis.y * point.y;
 }
 
-float findMinimumPoint(std::vector<Point> points, Vector2D axis) {
+double findMinimumPoint(std::vector<Point> points, Vector2D axis) {
 
-	float minPoint = getProjection(axis, points[0]);
+	double minPoint = getProjection(axis, points[0]);
 
 	for (int i = 1; i < signed(points.size()); i++) {
 
-		float dot = getProjection(axis, points[i]);
+		double dot = getProjection(axis, points[i]);
 		if (dot < minPoint) minPoint = dot;
 	}
 
 	return minPoint;
 }
 
-float findMaximumPoint(std::vector<Point> points, Vector2D axis) {
+double findMaximumPoint(std::vector<Point> points, Vector2D axis) {
 
-	float maxPoint = getProjection(axis, points[0]);
+	double maxPoint = getProjection(axis, points[0]);
 
 	for (int i = 1; i < signed(points.size()); i++) {
 
-		float dot = getProjection(axis, points[i]);
+		double dot = getProjection(axis, points[i]);
 		if (dot > maxPoint) maxPoint = dot;
 	}
 
@@ -216,14 +216,14 @@ SATstatus polygon_polygon_SAT(Convex polygonA, Convex polygonB) {
 			axis = Vector2D(-(polygonA[0].y - polygonA[i].y), polygonA[0].x - polygonA[i].x);
 		}
 
-		float magnitude = float(sqrt(pow(axis.x, 2) + pow(axis.y, 2)));
+		double magnitude = sqrt(pow(axis.x, 2) + pow(axis.y, 2));
 
 		if (magnitude != 0) axis *= Vector2D(1 / magnitude, 1 / magnitude);
 
-		float polygonApmax = findMaximumPoint(polygonA, axis);
-		float polygonApmin = findMinimumPoint(polygonA, axis);
-		float polygonBpmax = findMaximumPoint(polygonB, axis);
-		float polygonBpmin = findMinimumPoint(polygonB, axis);
+		double polygonApmax = findMaximumPoint(polygonA, axis);
+		double polygonApmin = findMinimumPoint(polygonA, axis);
+		double polygonBpmax = findMaximumPoint(polygonB, axis);
+		double polygonBpmin = findMinimumPoint(polygonB, axis);
 
 		if (polygonApmax < polygonBpmin or polygonApmin > polygonBpmax) {
 
@@ -236,7 +236,7 @@ SATstatus polygon_polygon_SAT(Convex polygonA, Convex polygonB) {
 
 		else if (!polygonA[i].internal) {
 
-			float penetration = fabs(polygonApmin - polygonBpmax);
+			double penetration = fabs(polygonApmin - polygonBpmax);
 
 			if (firstPenetration or penetration < status.penetration) {
 

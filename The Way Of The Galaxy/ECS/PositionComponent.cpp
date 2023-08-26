@@ -38,10 +38,6 @@ void PositionComponent::init() {
 
 void PositionComponent::update() {
 
-	position.Round(3);
-	velocity.Round(3);
-
-	previousPosition = position;
 	angle += rotationSpeed;
 	position += velocity;
 }
@@ -69,7 +65,7 @@ statusPosition PositionComponent::isOnRender() {
 	// the render area and to get distance to the margin in x and y
 
 	statusPosition status;
-	SDL_Rect rectangle = getVisualRectangle();
+	Rectangle rectangle = getVisualRectangle();
 
 	if (rectangle.x >= -rectangle.w)                status.xl = true;
 	if (rectangle.x <= renderwidth)                 status.xr = true;
@@ -96,7 +92,7 @@ statusPosition PositionComponent::isCompletelyOnRender() {
 	// the render area and to get distance to the margin in x and y
 
 	statusPosition status;
-	SDL_Rect rectangle = getVisualRectangle();
+	Rectangle rectangle = getVisualRectangle();
 
 	if (rectangle.x >= 0)                          status.xl = true;
 	if (rectangle.x <= renderwidth - rectangle.w)  status.xr = true;
@@ -124,18 +120,13 @@ Point PositionComponent::getCenterPoint() {
 	);
 }
 
-Vector2D PositionComponent::getActualMovement() {
-
-	return position - previousPosition;
-}
-
-SDL_Rect PositionComponent::getVisualRectangle() {
+Rectangle PositionComponent::getVisualRectangle() {
 
 	if (angle != 0) {
 
 		// Calculate width and height of an inclinated rectangle
 
-		SDL_Rect rectangle;
+		Rectangle rectangle;
 
 		float firstDiagonalAngle = float(atan2(height, width));
 		float secondDiagonalAngle = -firstDiagonalAngle;
@@ -147,49 +138,47 @@ SDL_Rect PositionComponent::getVisualRectangle() {
 		if (fabs(diagonalSize * cos(firstDiagonalAngle)) > 
 			fabs(diagonalSize * cos(secondDiagonalAngle))) {
 
-			rectangle.w = int(fabs(diagonalSize * cos(firstDiagonalAngle)));
+			rectangle.w = fabs(diagonalSize * cos(firstDiagonalAngle));
 		}
 
 		else {
 
-			rectangle.w = int(fabs(diagonalSize * cos(secondDiagonalAngle)));
+			rectangle.w = fabs(diagonalSize * cos(secondDiagonalAngle));
 		}
 
 		if (fabs(diagonalSize * sin(firstDiagonalAngle)) > 
 			fabs(diagonalSize * sin(secondDiagonalAngle))) {
 
-			rectangle.h = int(fabs(diagonalSize * sin(firstDiagonalAngle)));
+			rectangle.h = fabs(diagonalSize * sin(firstDiagonalAngle));
 		}
 
 		else {
 
-			rectangle.h = int(fabs(diagonalSize * sin(secondDiagonalAngle)));
+			rectangle.h = fabs(diagonalSize * sin(secondDiagonalAngle));
 		}
 
 		if (rectangle.w > width * scale) {
 
-			rectangle.x = int(position.x - (rectangle.w - width * scale) / 2);
+			rectangle.x = position.x - (rectangle.w - width * scale) / 2;
 		}
 
 		else {
 
-			rectangle.x = int(position.x + (width * scale - rectangle.w) / 2);
+			rectangle.x = position.x + (width * scale - rectangle.w) / 2;
 		}
 
 		if (rectangle.h > height * scale) {
 
-			rectangle.y = int(position.y - (rectangle.h - height * scale) / 2);
+			rectangle.y = position.y - (rectangle.h - height * scale) / 2;
 		}
 
 		else {
 
-			rectangle.y = int(position.y + (height * scale - rectangle.h) / 2);
+			rectangle.y = position.y + (height * scale - rectangle.h) / 2;
 		}
-
-		std::cout << rectangle.w << " " << rectangle.h << std::endl;
 
 		return rectangle;
 	}
 
-	return {int(position.x), int(position.y), width * scale, height * scale};
+	return {position.x, position.y, double(width * scale), double(height * scale)};
 }

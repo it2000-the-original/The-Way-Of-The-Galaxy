@@ -26,6 +26,8 @@ private:
 
 public:
 
+	bool wall = false; // Define if the entity are touching a wall
+
 	TransformComponent();
 	TransformComponent(Vector2D mVelocity, Vector2D mAcceleration);
 
@@ -42,7 +44,11 @@ public:
 
 	void setExternalMotion(Vector2D motion);
 	void removeVelocityExcesses();
+
 	void xAxisDecelleration();
 	void yAxisDecelleration();
+	void noControlledXAxisDecelleration();
+	void noControlledYAxisDecelleration();
+
 	void linearDecelleration();
 };

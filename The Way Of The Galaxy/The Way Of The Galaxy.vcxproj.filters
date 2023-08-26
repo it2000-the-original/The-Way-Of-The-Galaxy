@@ -215,6 +215,9 @@
     <ClInclude Include="include\Polygon.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="include\Rectangle.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="assets\textures\backgrounds\Space_Stars2.png">
