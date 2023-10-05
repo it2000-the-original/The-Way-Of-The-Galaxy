@@ -86,3 +86,9 @@ Point Point::operator/=(Point p) {
 	
 	return Divide(p);
 }
+
+bool Point::operator==(Point point) {
+
+	return (x == point.x and y == point.y) or
+	(parentX == point.x and parentY == point.y);
+}

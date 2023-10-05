@@ -4,6 +4,7 @@ struct Point {
 
 	double x, y;
 	bool internal = false;
+	double parentX, parentY;
 
 	/* The internal variable is used to know in case of a convex decomposition
 	 * of a polygon, to know if a point is at the start of a side condivided
@@ -32,4 +33,6 @@ struct Point {
 	Point operator-=(Point p);
 	Point operator*=(Point p);
 	Point operator/=(Point p);
+
+    bool operator==(Point point);
 };
