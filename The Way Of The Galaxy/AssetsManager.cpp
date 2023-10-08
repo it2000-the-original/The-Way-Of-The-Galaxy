@@ -258,28 +258,25 @@ void addPolygon(json data, Asset& asset) {
 
 			if (data["advancedHitbox"].get<bool>()) {
 
-				for (auto mConvex : data["polygon"]) {
+				Polygon polygon;
 
-					Convex convex;
+				for (auto mPoint : data["polygon"]) {
 
-					for (auto mPoint : mConvex) {
+					Point point;
 
-						Point point;
+					// Loading point values
+					point.x = mPoint["x"].get<float>();
+					point.y = mPoint["y"].get<float>();
 
-						// Loading point values
-						point.x = mPoint["x"].get<float>();
-						point.y = mPoint["y"].get<float>();
+					if (mPoint.contains("internal"))
+						point.internal = mPoint["internal"].get<bool>();
 
-						if (mPoint.contains("internal"))
-							point.internal = mPoint["internal"].get<bool>();
+					else point.internal = false;
 
-						else point.internal = false;
-
-						convex.push_back(point);
-					}
-
-					asset.polygon.push_back(convex);
+					polygon.push_back(point);
 				}
+
+				asset.polygon = polygon;
 			}
 		}
 
@@ -287,7 +284,6 @@ void addPolygon(json data, Asset& asset) {
 
 			// Found a problem with the values of the point
 			std::cerr << "Polygon Error: invalid or inexistent value " << ex.what() << std::endl;
-			asset.polygon.clear();
 			return;
 		}
 

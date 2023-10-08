@@ -1,6 +1,6 @@
 #include "ConvexDecomposition.h"
 
-Polygon decompose(std::vector<Point> polygon) {
+std::vector<Polygon> decompose(Polygon polygon) {
 
     std::vector<cxd::Vertex> vertices = Point_Vertex_Conversion(polygon);
 
@@ -13,7 +13,7 @@ Polygon decompose(std::vector<Point> polygon) {
 
     // Convert output to my values
 
-    Polygon polygons = ConcavePolygon_Polygon_Conversion(subConvexs);
+    std::vector<Polygon> polygons = ConcavePolygon_Polygon_Conversion(subConvexs);
 
     findParentPoints(polygons, polygon);
     findInternalPoints(polygons, polygon);
@@ -21,11 +21,11 @@ Polygon decompose(std::vector<Point> polygon) {
     return polygons;
 }
 
-std::vector<cxd::Vertex> Point_Vertex_Conversion(std::vector<Point> polygon) {
+std::vector<cxd::Vertex> Point_Vertex_Conversion(Polygon polygon) {
 
     std::vector<cxd::Vertex> vertices;
 
-    for (auto point : polygon) {
+    for (const auto& point : polygon) {
 
         vertices.push_back(cxd::Vec2({point.x, point.y}));
     }
@@ -33,18 +33,19 @@ std::vector<cxd::Vertex> Point_Vertex_Conversion(std::vector<Point> polygon) {
     return vertices;
 }
 
-Polygon ConcavePolygon_Polygon_Conversion(std::vector<cxd::ConcavePolygon> subConvexs) {
+std::vector<Polygon> ConcavePolygon_Polygon_Conversion(std::vector<cxd::ConcavePolygon> subConvexs) {
 
-    Polygon polygons;
+    std::vector<Polygon> polygons;
 
     for (auto subConvex : subConvexs) {
 
-        std::vector<Point> polygon;
+        Polygon polygon;
+
         std::vector<cxd::Vertex> subConvexVertices = subConvex.getVertices();
 
-        for (auto vertex : subConvexVertices) {
+        for (int i = subConvexVertices.size(); i--; i <= 0) {
 
-            polygon.insert(std::begin(polygon), Point(vertex.position.x, vertex.position.y));
+            polygon.insert(std::begin(polygon), Point(subConvexVertices[i].position.x, subConvexVertices[i].position.y));
         }
 
         polygons.push_back(polygon);
@@ -53,7 +54,7 @@ Polygon ConcavePolygon_Polygon_Conversion(std::vector<cxd::ConcavePolygon> subCo
     return polygons;
 }
 
-void findInternalPoints(Polygon& polygons, std::vector<Point> polygon) {
+void findInternalPoints(std::vector<Polygon>& polygons, Polygon polygon) {
 
     for (int i = 0; i < polygons.size(); i++)
     for (int j = 0; j < polygons[i].size(); j++)
@@ -101,7 +102,7 @@ void findInternalPoints(Polygon& polygons, std::vector<Point> polygon) {
     }
 }
 
-void findParentPoints(Polygon& polygons, std::vector<Point> polygon) {
+void findParentPoints(std::vector<Polygon>& polygons, Polygon polygon) {
 
     for (int i = 0; i < polygons.size(); i++) {
 
@@ -117,9 +118,9 @@ void findParentPoints(Polygon& polygons, std::vector<Point> polygon) {
     }
 }
 
-bool exist(Point point, std::vector<Point> polygon) {
+bool exist(Point point, Polygon polygon) {
 
-    for (auto _point : polygon) {
+    for (const auto& _point : polygon) {
 
         if (point == _point) return true;
     }

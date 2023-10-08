@@ -170,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="AssetsManager.cpp" />
     <ClCompile Include="BackgroundManager.cpp" />
+    <ClCompile Include="ConvexDecomposition.cpp" />
     <ClCompile Include="ECS\ColliderComponent.cpp" />
     <ClCompile Include="CollisionsManager.cpp" />
     <ClCompile Include="ECS\ECS.cpp" />
@@ -199,6 +200,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Animation.h" />
+    <ClInclude Include="include\ConcavePolygon.h" />
+    <ClInclude Include="include\ConvexDecomposition.h" />
     <ClInclude Include="include\Explosion.h" />
     <ClInclude Include="include\ECS\custom\CustomComponents.h" />
     <ClInclude Include="include\ECS\AutodestroyComponent.h" />

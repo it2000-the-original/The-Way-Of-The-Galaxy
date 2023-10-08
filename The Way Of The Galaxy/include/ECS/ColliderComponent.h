@@ -14,14 +14,14 @@ private:
 
 	PositionComponent* position;
 
-	Polygon srcPolygon;
+	std::vector<Polygon> srcPolygon;
 	bool advanced = false;
 
 public:
 
 	std::size_t id;
 	Rectangle collider;
-	Polygon destPolygon;
+	std::vector<Polygon> destPolygon;
 
 	ColliderComponent(std::size_t mId);
 	ColliderComponent(std::size_t mId, Polygon mPolygon);

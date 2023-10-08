@@ -1,3 +1,4 @@
+#include "ConvexDecomposition.h"
 #include "CollisionsManager.h"
 #include "ECS/Components.h"
 #include "Engine.h"
@@ -12,8 +13,7 @@ ColliderComponent::ColliderComponent(std::size_t mId, Polygon mPolygon) {
 
 	id = mId;
 	advanced = true;
-	srcPolygon = mPolygon;
-	destPolygon = mPolygon;
+	srcPolygon = destPolygon = decompose(mPolygon);
 }
 
 void ColliderComponent::init() {
@@ -77,8 +77,7 @@ void ColliderComponent::update() {
 
 void ColliderComponent::setPolygon(Polygon polygon) {
 
-	srcPolygon = polygon;
-	destPolygon = polygon;
+	srcPolygon = destPolygon = decompose(polygon);
 	advanced = true;
 }
 

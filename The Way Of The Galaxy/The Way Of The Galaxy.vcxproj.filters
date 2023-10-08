@@ -129,6 +129,9 @@
     <ClCompile Include="ECS\ECS.cpp">
       <Filter>File di origine\Entity Component System</Filter>
     </ClCompile>
+    <ClCompile Include="ConvexDecomposition.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Engine.h">
@@ -216,6 +219,12 @@
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="include\Rectangle.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConcavePolygon.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConvexDecomposition.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

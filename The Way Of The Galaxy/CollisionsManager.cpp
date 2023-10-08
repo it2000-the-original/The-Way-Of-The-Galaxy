@@ -15,7 +15,7 @@ struct SATstatus {
 double getProjection(Vector2D axis, Point point);
 double findMinimumPoint(std::vector<Point> points, Vector2D axis);
 double findMaximumPoint(std::vector<Point> points, Vector2D axis);
-SATstatus polygon_polygon_SAT(Convex polygonA, Convex polygonB);
+SATstatus polygon_polygon_SAT(Polygon polygonA, Polygon polygonB);
 
 Collision2D CollisionsManager::AABB(const ColliderComponent* colA, const ColliderComponent* colB) {
 
@@ -195,7 +195,7 @@ double findMaximumPoint(std::vector<Point> points, Vector2D axis) {
 	return maxPoint;
 }
 
-SATstatus polygon_polygon_SAT(Convex polygonA, Convex polygonB) {
+SATstatus polygon_polygon_SAT(Polygon polygonA, Polygon polygonB) {
 
 	SATstatus status;
 	bool firstPenetration = true;

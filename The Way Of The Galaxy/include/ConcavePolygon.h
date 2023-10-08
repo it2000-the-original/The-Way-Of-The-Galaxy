@@ -1,3 +1,4 @@
+#pragma warning(disable: 4244 4267 4305)
 #ifndef CONCAVE_POLY_H
 #define CONCAVE_POLY_H
 
