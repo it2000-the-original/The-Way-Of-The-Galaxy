@@ -1,3 +1,4 @@
+#include "ConvexDecomposition.h"
 #include "CollisionsManager.h"
 #include "ECS/Components.h"
 #include "Engine.h"
@@ -12,8 +13,7 @@ ColliderComponent::ColliderComponent(std::size_t mId, Polygon mPolygon) {
 
 	id = mId;
 	advanced = true;
-	srcPolygon = mPolygon;
-	destPolygon = mPolygon;
+	srcPolygon = destPolygon = decompose(mPolygon);
 }
 
 void ColliderComponent::init() {
@@ -30,9 +30,9 @@ void ColliderComponent::init() {
 		destPolygon = srcPolygon = { {
 
 			Point(0.0, 0.0),
-			Point(float(position->width), 0.0),
-			Point(float(position->width), float(position->height)),
-			Point(0.0, float(position->height))
+			Point(position->width, 0.0),
+			Point(position->width, position->height),
+			Point(0.0, position->height)
 		} };
 	}
 
@@ -42,30 +42,46 @@ void ColliderComponent::init() {
 
 void ColliderComponent::update() {
 
-	// Updating the position of collider...
-	collider.x = static_cast<int>(position->position.x);
-	collider.y = static_cast<int>(position->position.y);
-	collider.w = position->width * position->scale;
-	collider.h = position->height * position->scale;
-
 	// Updating the position of the polygons...
 	for (int i = 0; i < signed(destPolygon.size()); i++)
-	for (int j = 0; j < signed(destPolygon[i].size()); j++)
+	for (int j = 0; j < signed(destPolygon[i].size()); j++) {
 
-	destPolygon[i][j] = srcPolygon[i][j] + Point(
-		float(position->position.x),
-		float(position->position.y)
-	);
+		destPolygon[i][j] = srcPolygon[i][j] + Point(
+			position->position.x,
+			position->position.y
+		);
+
+		// Rotating the point around the center point
+
+		Point centerPoint = position->getCenterPoint();
+
+		double distance = sqrt(
+			pow(destPolygon[i][j].x - centerPoint.x, 2) + 
+			pow(destPolygon[i][j].y - centerPoint.y, 2)
+		);
+
+		double angle = atan2(
+			destPolygon[i][j].y - centerPoint.y,
+			destPolygon[i][j].x - centerPoint.x
+		);
+
+		angle += position->angle * 3.1415 / 180;
+		destPolygon[i][j].x = centerPoint.x + distance * cos(angle);
+		destPolygon[i][j].y = centerPoint.y + distance * sin(angle);
+	}
+
+	// Updating the position of collider...
+
+	collider = position->getVisualRectangle();
 }
 
 void ColliderComponent::setPolygon(Polygon polygon) {
 
-	srcPolygon = polygon;
-	destPolygon = polygon;
+	srcPolygon = destPolygon = decompose(polygon);
 	advanced = true;
 }
 
 bool ColliderComponent::isAdvanced() {
 	
-	return advanced;
+	return advanced or position->angle;
 }

@@ -13,20 +13,10 @@
 	"advancedHitbox": true,
 
 	"polygon": [
-		[
-			{ "x": 0,   "y": 0,   "internal": false },
-			{ "x": 300, "y": 124, "internal": true  },
-			{ "x": 153, "y": 155, "internal": false }
-		],
-		[
-			{ "x": 153, "y": 155, "internal": true  },
-			{ "x": 300, "y": 235, "internal": false },
-			{ "x": 0,   "y": 300, "internal": false }
-		],
-		[
-			{ "x": 153, "y": 155, "internal": true  },
-			{ "x": 300, "y": 124, "internal": false },
-			{ "x": 300, "y": 235, "internal": true  }
-		]
+		{ "x": 0,   "y": 0,   "internal": false },
+		{ "x": 300, "y": 124, "internal": true  },
+		{ "x": 300, "y": 235, "internal": false },
+		{ "x": 0,   "y": 300, "internal": false },
+		{ "x": 153, "y": 155, "internal": true  }
 	]
 }

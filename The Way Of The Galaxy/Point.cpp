@@ -6,13 +6,13 @@ Point::Point() {
 	y = 10.0;
 }
 
-Point::Point(float px, float py) {
+Point::Point(double px, double py) {
 
 	x = px;
 	y = py;
 }
 
-Point::Point(float px, float py, bool mInternal) {
+Point::Point(double px, double py, bool mInternal) {
 
 	x = px;
 	y = py;
@@ -85,4 +85,10 @@ Point Point::operator*=(Point p) {
 Point Point::operator/=(Point p) {
 	
 	return Divide(p);
+}
+
+bool Point::operator==(Point point) {
+
+	return (x == point.x and y == point.y) or
+	(parentX == point.x and parentY == point.y);
 }

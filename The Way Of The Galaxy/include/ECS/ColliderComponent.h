@@ -2,6 +2,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include "Polygon.h"
+#include "Rectangle.h"
 #include "ECS.h"
 
 struct Point;
@@ -13,14 +14,14 @@ private:
 
 	PositionComponent* position;
 
-	Polygon srcPolygon;
+	std::vector<Polygon> srcPolygon;
 	bool advanced = false;
 
 public:
 
 	std::size_t id;
-	SDL_Rect collider;
-	Polygon destPolygon;
+	Rectangle collider;
+	std::vector<Polygon> destPolygon;
 
 	ColliderComponent(std::size_t mId);
 	ColliderComponent(std::size_t mId, Polygon mPolygon);

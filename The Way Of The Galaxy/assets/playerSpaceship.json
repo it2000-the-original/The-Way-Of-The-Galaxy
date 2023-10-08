@@ -43,11 +43,9 @@
   "advancedHitbox": false,
 
   "polygon": [
-    [
-      {"x": 0, "y": 0, "internal": false},
-      {"x": 0, "y": 0, "internal": false},
-      {"x": 0, "y": 0, "internal": false}
-    ]
+    {"x": 0, "y": 0, "internal": false},
+    {"x": 0, "y": 0, "internal": false},
+    {"x": 0, "y": 0, "internal": false}
   ],
 
   "explode": false,

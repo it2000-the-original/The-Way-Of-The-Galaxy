@@ -48,6 +48,7 @@ void PlayerSpaceship::update() {
 
 	checkForInputs();
 	correctPositionInTheArea();
+
 }
 
 void PlayerSpaceship::onCollision2D(Collision2D collision) {
@@ -56,10 +57,10 @@ void PlayerSpaceship::onCollision2D(Collision2D collision) {
 
 		collision.penetration.Round(3);
 
-		position->position -= collision.penetration;
 		position->velocity -= collision.penetration;
+		position->position -= collision.penetration;
 
-		transform->setExternalMotion(collision.penetration * -1);
+		transform->wall = true;
 	}
 }
 
@@ -119,6 +120,8 @@ void PlayerSpaceship::checkForInputs() {
 	if (KeyboardState[SDL_SCANCODE_A] or KeyboardState[SDL_SCANCODE_LEFT])  transform->moveLeft();
 	if (KeyboardState[SDL_SCANCODE_W] or KeyboardState[SDL_SCANCODE_UP]) 	transform->moveUp();
 	if (KeyboardState[SDL_SCANCODE_S] or KeyboardState[SDL_SCANCODE_DOWN])  transform->moveDown();
+	if (KeyboardState[SDL_SCANCODE_E]) position->angle += 1;
+	if (KeyboardState[SDL_SCANCODE_Q]) position->angle -= 1;
 
 	if (KeyboardState[SDL_SCANCODE_X]) reactDamage();
 
@@ -149,11 +152,10 @@ void PlayerSpaceship::correctPositionInTheArea() {
 
 	statusPosition status = position->isCompletelyOnRender();
 
-	position->position.x -= status.xdistance;
-	position->position.y -= status.ydistance;
-
-	if (!status.x) position->velocity.x = 0;
-	if (!status.y) position->velocity.y = 0;
+	position->position.x -= round(status.xdistance * pow(10, 3)) / pow(10, 3);
+	position->position.y -= round(status.ydistance * pow(10, 3)) / pow(10, 3);
+	position->velocity.x -= round(status.xdistance * pow(10, 3)) / pow(10, 3);
+	position->velocity.y -= round(status.ydistance * pow(10, 3)) / pow(10, 3);
 }
 
 void PlayerSpaceship::switchWeapon() {
