@@ -38,6 +38,7 @@ void AssetsManager::addAssets(std::string path) {
 	try {
 
 		data = json::parse(file);
+		file.close();
 	}
 
 	catch (json::parse_error& ex) {
@@ -98,6 +99,8 @@ Asset AssetsManager::addAsset(std::string name, std::string path) {
 	try {
 
 		data = json::parse(file);
+		
+		file.close();
 
 		std::string texturepath = data["texture"].get<std::string>();
 
@@ -147,7 +150,7 @@ Entity& AssetsManager::loadAsset(std::string name) {
 
 	Asset asset = getAsset(name);
 
-	SDL_Rect entityRect = { 0, 0, asset.width, asset.height };
+	Rectangle entityRect = { 0, 0, asset.width, asset.height };
 
 	auto& entity = Engine::manager.addEntity();
 
@@ -170,7 +173,7 @@ Entity& AssetsManager::loadAsset(std::string name, int x, int y) {
 
 	Asset asset = getAsset(name);
 
-	SDL_Rect entityRect = { x, y, asset.width, asset.height };
+	Rectangle entityRect = { x, y, asset.width, asset.height };
 
 	auto& entity = Engine::manager.addEntity();
 

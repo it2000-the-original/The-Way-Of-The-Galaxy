@@ -1,0 +1,9 @@
+{
+	"tilemapsList": [
+		{
+			"name": "TilemapTest1",
+			"tileset": "Space Station Tileset",
+			"CSV": "tilemaps/TilemapTest1.csv"
+		}
+	]
+}

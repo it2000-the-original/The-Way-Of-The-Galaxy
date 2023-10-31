@@ -42,13 +42,29 @@ void ColliderComponent::init() {
 
 void ColliderComponent::update() {
 
+	// Updating the position of collider...
+
+	collider = position->getVisualRectangle();
+
 	// Updating the position of the polygons...
+
+	updatePolygon();
+}
+
+void ColliderComponent::setPolygon(Polygon polygon) {
+
+	srcPolygon = destPolygon = decompose(polygon);
+	advanced = true;
+}
+
+void ColliderComponent::updatePolygon() {
+
 	for (int i = 0; i < signed(destPolygon.size()); i++)
 	for (int j = 0; j < signed(destPolygon[i].size()); j++) {
 
 		destPolygon[i][j] = srcPolygon[i][j] + Point(
-			position->position.x,
-			position->position.y
+			collider.x,
+			collider.y
 		);
 
 		// Rotating the point around the center point
@@ -56,7 +72,7 @@ void ColliderComponent::update() {
 		Point centerPoint = position->getCenterPoint();
 
 		double distance = sqrt(
-			pow(destPolygon[i][j].x - centerPoint.x, 2) + 
+			pow(destPolygon[i][j].x - centerPoint.x, 2) +
 			pow(destPolygon[i][j].y - centerPoint.y, 2)
 		);
 
@@ -69,19 +85,9 @@ void ColliderComponent::update() {
 		destPolygon[i][j].x = centerPoint.x + distance * cos(angle);
 		destPolygon[i][j].y = centerPoint.y + distance * sin(angle);
 	}
-
-	// Updating the position of collider...
-
-	collider = position->getVisualRectangle();
-}
-
-void ColliderComponent::setPolygon(Polygon polygon) {
-
-	srcPolygon = destPolygon = decompose(polygon);
-	advanced = true;
 }
 
 bool ColliderComponent::isAdvanced() {
 	
-	return advanced or position->angle;
+	return advanced; //or position->angle;
 }

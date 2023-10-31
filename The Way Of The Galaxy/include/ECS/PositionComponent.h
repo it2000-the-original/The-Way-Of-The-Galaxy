@@ -35,14 +35,14 @@ public:
 
 	PositionComponent();
 	PositionComponent(int x, int y);
-	PositionComponent(SDL_Rect space, int s);
-	PositionComponent(SDL_Rect space, int s, int a);
+	PositionComponent(Rectangle space, int s);
+	PositionComponent(Rectangle space, int s, int a);
 
 	void init() override;
 	void update() override;
 
-	void setPosition(int x, int y);
-	void setSpeed(int x, int y);
+	void setPosition(double x, double y);
+	void setSpeed(double x, double y);
 	void setRotationSpeed(int mRotationSpeed);
 	statusPosition isOnRender();
 	statusPosition isCompletelyOnRender();

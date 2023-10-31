@@ -33,6 +33,7 @@ void PlayerSpaceship::init() {
 	position = &entity->getComponent<PositionComponent>();
 	transform = &entity->getComponent<TransformComponent>();
 	sprite = &entity->getComponent<SpriteComponent>();
+	collider = &entity->getComponent<ColliderComponent>();
 
 	sprite->playAnimation("base");
 
@@ -49,16 +50,35 @@ void PlayerSpaceship::update() {
 	checkForInputs();
 	correctPositionInTheArea();
 
+	//std::cout << position->velocity << std::endl;
 }
 
 void PlayerSpaceship::onCollision2D(Collision2D collision) {
 
-	if (collision.colliderB == satId) {
+	if (collision.colliderB == wallId) {
 
 		collision.penetration.Round(3);
 
-		position->velocity -= collision.penetration;
+		Vector2D normal(cos(collision.angle), sin(collision.angle));
+		Vector2D anormal(-normal.y, normal.x);
+
+		double parallel = position->velocity.x * normal.x + position->velocity.y * normal.y;
+		double perpendicular = position->velocity.x * anormal.x + position->velocity.y * anormal.y;
+
+		if (perpendicular > 0) {
+			position->velocity.x = parallel * normal.x;
+			position->velocity.y = parallel * normal.y;
+		}
+
 		position->position -= collision.penetration;
+
+		collider->collider = position->getVisualRectangle();
+		collider->updatePolygon();
+
+		if (!position->isCompletelyOnRender().xy) {
+
+			entity->destroy();
+		}
 
 		transform->wall = true;
 	}
@@ -152,10 +172,11 @@ void PlayerSpaceship::correctPositionInTheArea() {
 
 	statusPosition status = position->isCompletelyOnRender();
 
-	position->position.x -= round(status.xdistance * pow(10, 3)) / pow(10, 3);
-	position->position.y -= round(status.ydistance * pow(10, 3)) / pow(10, 3);
-	position->velocity.x -= round(status.xdistance * pow(10, 3)) / pow(10, 3);
-	position->velocity.y -= round(status.ydistance * pow(10, 3)) / pow(10, 3);
+	position->position.x -= status.xdistance;
+	position->position.y -= status.ydistance;
+
+	if (!status.x) position->velocity.x = 0;
+	if (!status.y) position->velocity.y = 0;
 }
 
 void PlayerSpaceship::switchWeapon() {

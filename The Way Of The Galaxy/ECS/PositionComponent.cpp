@@ -10,23 +10,23 @@ PositionComponent::PositionComponent(int x, int y) {
 	position.y = float(y);
 }
 
-PositionComponent::PositionComponent(SDL_Rect space, int s) {
+PositionComponent::PositionComponent(Rectangle space, int s) {
 
-	position.x = float(space.x);
-	position.y = float(space.y);
+	position.x = space.x;
+	position.y = space.y;
 
-	width = space.w;
-	height = space.h;
+	width = int(space.w);
+	height = int(space.h);
 	scale = s;
 }
 
-PositionComponent::PositionComponent(SDL_Rect space, int s, int a) {
+PositionComponent::PositionComponent(Rectangle space, int s, int a) {
 
-	position.x = float(space.x);
-	position.y = float(space.y);
+	position.x = space.x;
+	position.y = space.y;
 
-	width = space.w;
-	height = space.h;
+	width = int(space.w);
+	height = int(space.h);
 	scale = s;
 	angle = a;
 }
@@ -42,16 +42,16 @@ void PositionComponent::update() {
 	position += velocity;
 }
 
-void PositionComponent::setPosition(int x, int y) {
+void PositionComponent::setPosition(double x, double y) {
 
-	position.x = float(x);
-	position.y = float(y);
+	position.x = x;
+	position.y = y;
 }
 
-void PositionComponent::setSpeed(int x, int y) {
+void PositionComponent::setSpeed(double x, double y) {
 
-	velocity.x = float(x);
-	velocity.y = float(y);
+	velocity.x = x;
+	velocity.y = y;
 }
 
 void PositionComponent::setRotationSpeed(int mRotationSpeed) {

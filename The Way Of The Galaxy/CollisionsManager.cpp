@@ -1,5 +1,6 @@
 #include "CollisionsManager.h"
 #include "ECS/Components.h"
+#include "Engine.h"
 #include <math.h>
 #include <cmath>
 
@@ -8,6 +9,7 @@
 struct SATstatus {
 
 	bool collision;
+	double wallAngle;
 	double penetration;
 	double penetrationAngle;
 };
@@ -53,10 +55,15 @@ Collision2D CollisionsManager::AABB(const ColliderComponent* colA, const Collide
 
 		if (fabs(xpenetration) <= fabs(ypenetration)) {
 
-			collision.penetration.x = float(xpenetration);
+			collision.penetration.x = xpenetration;
+			collision.angle = -atan2(xpenetration, 0);
 		}
 
-		else collision.penetration.y = float(ypenetration);
+		else {
+
+			collision.penetration.y = ypenetration;
+			collision.angle = atan2(0, ypenetration);
+		}
 
 		collision.colliderA = colA->id;
 		collision.colliderB = colB->id;
@@ -94,6 +101,8 @@ Collision2D CollisionsManager::SAT(const ColliderComponent* colA, const Collider
 						-Astatus.penetration * sin(Astatus.penetrationAngle),
 						-Astatus.penetration * cos(Astatus.penetrationAngle)
 					);
+
+					collision.angle = Astatus.wallAngle - M_PI;
 				}
 
 				else {
@@ -102,6 +111,8 @@ Collision2D CollisionsManager::SAT(const ColliderComponent* colA, const Collider
 						Bstatus.penetration * sin(Bstatus.penetrationAngle),
 						Bstatus.penetration * cos(Bstatus.penetrationAngle)
 					);
+
+					collision.angle = Bstatus.wallAngle;
 				}
 
 			}
@@ -134,19 +145,77 @@ void CollisionsManager::update() {
 
 	for (int i = 0; i < signed(colliders.size()); i++) {
 
+		std::vector<Collision2D> walls;
+		std::vector<int> wallsColliders;
+
 		for (int j = 0; j < signed(colliders.size()); j++) {
 
 			if (i != j) {
 
 				Collision2D collision = areInCollision(colliders[i], colliders[j]);
 
-				if (collision.collision) {
+				if (collision.collision and collision.colliderB == wallId) {
+
+					walls.push_back(collision);
+					wallsColliders.push_back(j);
+				}
+
+				else if (collision.collision) {
 
 					for (auto& c : colliders[i]->entity->components) {
 
 						c->onCollision2D(collision);
 					}
 				}
+			}
+		}
+
+		// Check if one of the signed penetrations are sufficient
+		// to go out the collision
+
+		bool singlePenetration = false;
+
+		for (int j = 0; j < walls.size(); j++) {
+
+			ColliderComponent collider = *colliders[i];
+			collider.collider.x -= walls[j].penetration.x;
+			collider.collider.y -= walls[j].penetration.y;
+			collider.updatePolygon();
+
+			bool _collision = false;
+
+			for (int z = 0; z < wallsColliders.size(); z++) {
+
+				Collision2D collision2 = areInCollision(&collider, colliders[wallsColliders[z]]);
+
+				if (collision2.penetration != Vector2D().Zero()) {
+
+					_collision = true;
+					break;
+				}
+			}
+			
+			if (!_collision) {
+
+				for (auto& c : colliders[i]->entity->components) {
+
+					c->onCollision2D(walls[j]);
+				}
+
+				singlePenetration = true;
+				break;
+			}
+		}
+
+		// Apply all walls penetrations if there isn't
+		// one of the to go out of the penetration
+
+		if (!singlePenetration) {
+
+			for (auto& wall : walls)
+			for (auto& c : colliders[i]->entity->components) {
+
+				c->onCollision2D(wall);
 			}
 		}
 	}
@@ -205,15 +274,18 @@ SATstatus polygon_polygon_SAT(Polygon polygonA, Polygon polygonB) {
 	for (int i = 0; i < signed(polygonA.size()); i++) {
 
 		Vector2D axis;
+		double angle;
 
 		if (i < signed(polygonA.size()) - 1) {
 
 			axis = Vector2D(-(polygonA[i + 1].y - polygonA[i].y), polygonA[i + 1].x - polygonA[i].x);
+			angle = atan2(polygonA[i + 1].y - polygonA[i].y, polygonA[i + 1].x - polygonA[i].x);
 		}
 
 		else {
 
 			axis = Vector2D(-(polygonA[0].y - polygonA[i].y), polygonA[0].x - polygonA[i].x);
+			angle = atan2(polygonA[0].y - polygonA[i].y, polygonA[0].x - polygonA[i].x);
 		}
 
 		double magnitude = sqrt(pow(axis.x, 2) + pow(axis.y, 2));
@@ -225,7 +297,7 @@ SATstatus polygon_polygon_SAT(Polygon polygonA, Polygon polygonB) {
 		double polygonBpmax = findMaximumPoint(polygonB, axis);
 		double polygonBpmin = findMinimumPoint(polygonB, axis);
 
-		if (polygonApmax < polygonBpmin or polygonApmin > polygonBpmax) {
+		if (polygonApmax <= polygonBpmin or polygonApmin >= polygonBpmax) {
 
 			// Found hole
 			status.collision = false;
@@ -242,6 +314,7 @@ SATstatus polygon_polygon_SAT(Polygon polygonA, Polygon polygonB) {
 
 				firstPenetration = false;
 				status.penetration = penetration;
+				status.wallAngle = angle;
 				status.penetrationAngle = atan2(axis.x, axis.y);
 			}
 		}

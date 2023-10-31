@@ -44,12 +44,12 @@ void ExplodeComponent::explode() {
 	int xposition = int(position->position.x + (position->width / 2) - (width / 2));
 	int yposition = int(position->position.y + (position->height / 2) - (height / 2));
 
-	SDL_Rect explosionSpace = { xposition, yposition, width, height };
+	Rectangle explosionSpace = { double(xposition), double(yposition), double(width), double(height) };
 
 	auto& explosion = entity->manager.addEntity();
 
 	explosion.addComponent<PositionComponent>(explosionSpace, 2);
-	explosion.addComponent<SpriteComponent>(texture, true);
+	explosion.addComponent<SpriteComponent>(texture);
 	explosion.addComponent<ExplosionComponent>(explosionFrames * explosionDuration);
 
 	explosion.getComponent<SpriteComponent>().addAnimation("explosion", explosionFrames, 0, explosionDuration);
@@ -72,14 +72,14 @@ void ExplodeComponent::explode() {
 			int xposition = int(position->position.x + (position->width / 2) - (piecesSize / 2));
 			int yposition = int(position->position.y + (position->height / 2) - (piecesSize / 2));
 
-			SDL_Rect pieceSpace = { xposition, yposition, piecesSize, piecesSize };
+			Rectangle pieceSpace = { double(xposition), double(yposition), double(piecesSize), double(piecesSize) };
 
 			// creating the piece entity
 
 			auto& piece = entity->manager.addEntity();
 
 			piece.addComponent<PositionComponent>(pieceSpace, 1);
-			piece.addComponent<SpriteComponent>(piecesPaths[0], false);
+			piece.addComponent<SpriteComponent>(piecesPaths[0]);
 			piece.addComponent<AutodestroyComponent>();
 
 			piece.getComponent<PositionComponent>().setSpeed(xspeed, yspeed);

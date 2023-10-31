@@ -7,6 +7,7 @@
 
 class Manager;
 class AssetsManager;
+class TilemapsManager;
 class CollisionsManager;
 
 inline int statusheight = 0;
@@ -21,7 +22,7 @@ enum ColliderIds : std::size_t {
 	laserId,
 	enemylaserId,
 	missileId,
-	satId
+	wallId
 };
 
 enum GroupLabels : std::size_t {
@@ -63,6 +64,7 @@ public:
 
 	static Manager manager;
 	static AssetsManager assets;
+	static TilemapsManager tilemaps;
 	static CollisionsManager collisions;
 
 	void init(const char* title, Window mWindow, bool fullscreen);

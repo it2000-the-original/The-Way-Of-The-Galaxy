@@ -12,6 +12,7 @@ struct Collision2D {
 	Vector2D penetration;
 	std::size_t colliderA;
 	std::size_t colliderB;
+	double angle;
 };
 
 class CollisionsManager {

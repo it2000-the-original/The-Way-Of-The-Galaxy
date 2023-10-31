@@ -21,7 +21,7 @@ void LevelManager::spownObject(const char* tex, int position, int width, int hei
 
 	if (reversed) {
 
-		SDL_Rect objectSpace = { 1200, position, width, height };
+		Rectangle objectSpace = { 1200, double(position), double(width), double(height) };
 
 		entity.addComponent<PositionComponent>(objectSpace, 1);
 		entity.getComponent<PositionComponent>().setSpeed(-speed, 0);
@@ -31,7 +31,7 @@ void LevelManager::spownObject(const char* tex, int position, int width, int hei
 
 	else {
 
-		SDL_Rect objectSpace = { -width, position, width, height };
+		Rectangle objectSpace = { double(-width), double(position), double(width), double(height)};
 
 		entity.addComponent<PositionComponent>(objectSpace, 1);
 		entity.getComponent<PositionComponent>().setSpeed(speed, 0);

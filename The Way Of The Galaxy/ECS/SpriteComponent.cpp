@@ -15,19 +15,6 @@ SpriteComponent::SpriteComponent(SDL_Texture* mTexture) {
 	texture = mTexture;
 }
 
-SpriteComponent::SpriteComponent(const char* path, bool mAnimationVerticalScroll) {
-
-	texture = TextureManager::LoadTexture(path);
-	animationVerticalScroll = mAnimationVerticalScroll;
-	destroyTexture = true;
-}
-
-SpriteComponent::SpriteComponent(SDL_Texture* mTexture, bool mAnimationVerticalScroll) {
-
-	texture = mTexture;
-	animationVerticalScroll = mAnimationVerticalScroll;
-}
-
 void SpriteComponent::init() {
 
 	if (!entity->hasComponent<PositionComponent>()) {
@@ -55,12 +42,12 @@ void SpriteComponent::update() {
 
 		if (animationSpeed.check()) {
 
-			if (!animationVerticalScroll) moveRightFrame();
+			if (!animationInverted) moveRightFrame();
 			else moveDownFrame();
 			animationSpeed.init();
 		}
 
-		if (!animationVerticalScroll) srcRect.y = srcRect.h * animationIndex;
+		if (!animationInverted) srcRect.y = srcRect.h * animationIndex;
 		else srcRect.x = srcRect.w * animationIndex;
 	}
 }
@@ -75,8 +62,15 @@ void SpriteComponent::draw() {
 
 void SpriteComponent::addAnimation(std::string aniName, int f, int i, int s) {
 
-	Animation ani = Animation(f, i, s);
-	animations.emplace(aniName, ani);
+	if (!sourced) {
+		Animation ani = Animation(f, i, s);
+		animations.emplace(aniName, ani);
+	}
+}
+
+void SpriteComponent::invertAnimation(bool invert) {
+
+	animationInverted = invert;
 }
 
 void SpriteComponent::playAnimation(const char* ani) {
@@ -108,6 +102,13 @@ void SpriteComponent::moveDownFrame() {
 void SpriteComponent::setFlip(SDL_RendererFlip mFlip) {
 
 	flip = mFlip;
+}
+
+void SpriteComponent::setSource(SDL_Rect source) {
+
+	srcRect.x = source.x;
+	srcRect.y = source.y;
+	bool sourced = true;
 }
 
 void SpriteComponent::resetPosition() {

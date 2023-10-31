@@ -269,7 +269,7 @@ void TransformComponent::linearDecelleration() {
 		position->velocity.Round(3);
 	}
 
-	else if (!wall) {
+	else {
 		
 		xAxisDecelleration();
 		yAxisDecelleration();

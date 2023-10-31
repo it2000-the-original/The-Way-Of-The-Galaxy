@@ -47,16 +47,17 @@ void Statusbar::init() {
 
 	if (initializable) {
 
-		SDL_Rect space = { 0, 0, width, height };
+		Rectangle space = { 0, 0, double(width), double(height) };
 
 		statusbar = &Engine::manager.addEntity();
 
 		statusbar->addComponent<PositionComponent>(space, 1);
-		statusbar->addComponent<SpriteComponent>(texture, true);
+		statusbar->addComponent<SpriteComponent>(texture);
 		statusbar->addGroup(groupStatus);
 
 		if (animated) {
 
+			statusbar->getComponent<SpriteComponent>().invertAnimation(true);
 			statusbar->getComponent<SpriteComponent>().addAnimation("statusAnimation", frames, 0, speed);
 			statusbar->getComponent<SpriteComponent>().playAnimation("statusAnimation");
 		}

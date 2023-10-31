@@ -188,6 +188,7 @@
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Statusbar.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="TilemapsManager.cpp" />
     <ClCompile Include="TimeAction.cpp" />
     <ClCompile Include="ECS\TransformComponent.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -230,6 +231,7 @@
     <ClInclude Include="include\Point.h" />
     <ClInclude Include="include\Polygon.h" />
     <ClInclude Include="include\Rectangle.h" />
+    <ClInclude Include="include\TilemapsManager.h" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="assets\textures\backgrounds\Space_Stars2.png">
@@ -381,6 +383,40 @@
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/statusbar</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/statusbar</DestinationFolders>
       <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/statusbar</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="tilemapsList.json">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="tilemaps\tilesetsList.json">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/tilemaps</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/tilemaps</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/tilemaps</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/tilemaps</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="tilemaps\TilemapTest1.csv">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/tilemaps</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/tilemaps</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/tilemaps</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/tilemaps</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="tilemaps\tilesets\Space_Station.tsj">
+      <FileType>Document</FileType>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/tilemaps/tilesets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/tilemaps/tilesets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/tilemaps/tilesets</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/tilemaps/tilesets</DestinationFolders>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="tilemaps\tilesets\textures\Space-Station-Tileset.png">
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/tilemaps/tilesets/textures</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/tilemaps/tilesets/textures</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)/tilemaps/tilesets/textures</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/tilemaps/tilesets/textures</DestinationFolders>
     </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

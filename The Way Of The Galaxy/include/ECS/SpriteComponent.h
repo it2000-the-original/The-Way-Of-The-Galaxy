@@ -22,9 +22,10 @@ private:
 	SDL_Rect destRect;
 
 	bool animated = false;
+	bool sourced = false;
 	bool destroyTexture = false;
 
-	bool animationVerticalScroll = false;
+	bool animationInverted = false;
 	int animationFrames = 1;
 	int animationIndex = 0;
 	TimeAction animationSpeed;
@@ -36,18 +37,18 @@ public:
 	SpriteComponent();
 	SpriteComponent(const char* path);
 	SpriteComponent(SDL_Texture* mTexture);
-	SpriteComponent(const char* path, bool mAnimationVerticalScroll);
-	SpriteComponent(SDL_Texture* mTexture, bool mAnimationVerticalScroll);
 
 	void init() override;
 	void update() override;
 	void draw() override;
 
 	void addAnimation(std::string aniName, int f, int i, int s);
+	void invertAnimation(bool invert);
 	void playAnimation(const char* ani);
 	void moveRightFrame();
 	void moveDownFrame();
 	void setFlip(SDL_RendererFlip mFlip);
+	void setSource(SDL_Rect source);
 	void resetPosition();
 
 	~SpriteComponent();

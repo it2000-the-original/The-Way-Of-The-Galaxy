@@ -82,12 +82,12 @@ Vector2D& Vector2D::operator/=(const Vector2D vec) {
 
 bool Vector2D::operator!=(const Vector2D vec) {
 
-	return x != vec.x and y != vec.y;
+	return x != vec.x or y != vec.y;
 }
 
 bool Vector2D::operator==(const Vector2D vec) {
 
-	return x == vec.x and y == vec.y;
+	return x == vec.x or y == vec.y;
 }
 
 Vector2D& Vector2D::operator*(const int i) {

@@ -11,6 +11,7 @@ private:
 	PositionComponent* position;
 	TransformComponent* transform;
 	SpriteComponent* sprite;
+	ColliderComponent* collider;
 
 	const SDL_Rect laserPositionCorrection {10, 6, 0, 0};
 	const SDL_Rect missilePositionCorrection {10, 8, 0, 0};

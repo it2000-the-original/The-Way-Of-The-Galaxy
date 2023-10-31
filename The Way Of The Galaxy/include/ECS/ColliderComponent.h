@@ -14,8 +14,9 @@ private:
 
 	PositionComponent* position;
 
-	std::vector<Polygon> srcPolygon;
 	bool advanced = false;
+
+	std::vector<Polygon> srcPolygon;
 
 public:
 
@@ -30,5 +31,6 @@ public:
 	void update() override;
 
 	void setPolygon(Polygon polygon);
+	void updatePolygon();
 	bool isAdvanced();
 };

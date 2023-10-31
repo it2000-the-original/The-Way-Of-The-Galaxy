@@ -58,6 +58,15 @@
     <Filter Include="File di origine\Entity Component System\Custom Components">
       <UniqueIdentifier>{ad88a2b6-95d0-4da8-8510-ac17ebbb87e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File di risorse\Textures\Tilesets">
+      <UniqueIdentifier>{195520bd-0263-4b61-8c9e-7ee2fc1989c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di risorse\Tilesets">
+      <UniqueIdentifier>{17163fb9-847c-4cf6-a854-dc92bf1a32f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di risorse\Tilemaps">
+      <UniqueIdentifier>{9540bf81-fe6d-421f-ac83-6e14eddc0eb8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -130,6 +139,9 @@
       <Filter>File di origine\Entity Component System</Filter>
     </ClCompile>
     <ClCompile Include="ConvexDecomposition.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="TilemapsManager.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -227,6 +239,9 @@
     <ClInclude Include="include\ConvexDecomposition.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="include\TilemapsManager.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="assets\textures\backgrounds\Space_Stars2.png">
@@ -294,6 +309,21 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="statusbar\statusbarSettings.json">
       <Filter>File di risorse\Statusbar</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="tilemaps\tilesetsList.json">
+      <Filter>File di risorse</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="tilemaps\TilemapTest1.csv">
+      <Filter>File di risorse\Tilemaps</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="tilemaps\tilesets\Space_Station.tsj">
+      <Filter>File di risorse\Tilesets</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="tilemaps\tilesets\textures\Space-Station-Tileset.png">
+      <Filter>File di risorse\Textures\Tilesets</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="tilemapsList.json">
+      <Filter>File di risorse</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>

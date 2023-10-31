@@ -6,6 +6,7 @@
 #include "Statusbar.h"
 #include "AssetsManager.h"
 #include "CollisionsManager.h"
+#include "TilemapsManager.h"
 #include <fstream>
 
 BackgroundManager backgroundManager;
@@ -16,6 +17,7 @@ SDL_Event* Engine::event;
 
 Manager Engine::manager;
 AssetsManager Engine::assets;
+TilemapsManager Engine::tilemaps;
 CollisionsManager Engine::collisions;
 
 // Put the manager->groupedEntities vectors in the refereces variables to control
@@ -68,13 +70,16 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 		assets.addAssets("assetsList.json");
 
 		// Adding levels to the background
-		backgroundManager.addLevel("background1_level1", 2);
+		backgroundManager.addLevel("background1_level1", 0);
 
 		// Load statusbar settings
 		statusbar = Statusbar("statusbar//statusbarSettings.json");
 
+		tilemaps.addTilesets("tilemaps//tilesetsList.json");
+		tilemaps.addMaps("tilemapsList.json");
+
 		auto& player = assets.loadAsset("playerSpaceship", 30, 350);
-		auto& entity2 = assets.loadAsset("asset2", 500, 200);
+		//auto& entity2 = assets.loadAsset("asset2", 500, 200);
 
 		// Uncommet this lines to omit the assetsManager for the player
 		/*SDL_Rect playerPosition = {30, 350, 70, 30};
@@ -89,9 +94,9 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 		player.addComponent<PlayerSpaceship>();
 		player.addGroup(groupPlayer);*/
 
-		statusbar.init();
+		//statusbar.init();
 
-		auto& energyWidget = statusbar.addWidget<EnergyWidget>(&player.getComponent<PlayerSpaceship>().energy);
+		/*auto& energyWidget = statusbar.addWidget<EnergyWidget>(&player.getComponent<PlayerSpaceship>().energy);
 		auto& missilesWidget = statusbar.addWidget<MissilesWidget>(&player.getComponent<PlayerSpaceship>().missiles);
 		auto& weaponWidget = statusbar.addWidget<WeaponWidget>(&player.getComponent<PlayerSpaceship>());
 
@@ -105,9 +110,11 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 
 		weaponWidget.setModel("missile");
 		weaponWidget.setColor(255, 255, 0, 180);
-		weaponWidget.setPrefix("W:");
+		weaponWidget.setPrefix("W:");*/
 
 		std::cout << IMG_GetError() << std::endl;
+
+		tilemaps.loadMap("TilemapTest1", -1);
 
 		isRunning = true;
 	}
@@ -128,6 +135,7 @@ void Engine::update() {
 	//levelManager.update();
 	backgroundManager.update();
 	statusbar.update();
+	tilemaps.update();
 	manager.update();
 
 	collisions.update();
