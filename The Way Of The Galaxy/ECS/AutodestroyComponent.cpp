@@ -1,6 +1,7 @@
 #include "ECS/Components.h"
 
 AutodestroyComponent::AutodestroyComponent() : control(xy) {}
+
 AutodestroyComponent::AutodestroyComponent(std::size_t _control) : control(_control) {}
 
 void AutodestroyComponent::init() {

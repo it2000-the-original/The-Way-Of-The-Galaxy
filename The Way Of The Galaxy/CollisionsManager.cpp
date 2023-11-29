@@ -9,17 +9,16 @@
 struct SATstatus {
 
 	bool collision;
-	double wallAngle;
 	double penetration;
 	double penetrationAngle;
 };
 
 double getProjection(Vector2D axis, Point point);
+SATstatus polygon_polygon_SAT(Polygon polygonA, Polygon polygonB);
 double findMinimumPoint(std::vector<Point> points, Vector2D axis);
 double findMaximumPoint(std::vector<Point> points, Vector2D axis);
-SATstatus polygon_polygon_SAT(Polygon polygonA, Polygon polygonB);
 
-Collision2D CollisionsManager::AABB(const ColliderComponent* colA, const ColliderComponent* colB) {
+Collision2D CollisionsManager::AABB(ColliderComponent* colA, ColliderComponent* colB) {
 
 	Collision2D collision;
 
@@ -56,23 +55,24 @@ Collision2D CollisionsManager::AABB(const ColliderComponent* colA, const Collide
 		if (fabs(xpenetration) <= fabs(ypenetration)) {
 
 			collision.penetration.x = xpenetration;
-			collision.angle = -atan2(xpenetration, 0);
 		}
 
 		else {
 
 			collision.penetration.y = ypenetration;
-			collision.angle = atan2(0, ypenetration);
 		}
 
 		collision.colliderA = colA->id;
 		collision.colliderB = colB->id;
+
+		collision.colliderAVelocity = colA->entity->getComponent<PositionComponent>().velocity;
+		collision.colliderBVelocity = colB->entity->getComponent<PositionComponent>().velocity;
 	}
 
 	return collision;
 }
 
-Collision2D CollisionsManager::SAT(const ColliderComponent* colA, const ColliderComponent* colB) {
+Collision2D CollisionsManager::SAT(ColliderComponent* colA, ColliderComponent* colB) {
 
 	Collision2D collision;
 	Vector2D MTV;
@@ -81,12 +81,6 @@ Collision2D CollisionsManager::SAT(const ColliderComponent* colA, const Collider
 
 		for (auto polygonA : colA->destPolygon)
 		for (auto polygonB : colB->destPolygon) {
-
-			for (int i = 0; i < signed(polygonA.size()); i++) {
-
-				polygonA[i].x -= MTV.x;
-				polygonA[i].y -= MTV.y;
-			}
 
 			SATstatus Astatus = polygon_polygon_SAT(polygonA, polygonB);
 			SATstatus Bstatus = polygon_polygon_SAT(polygonB, polygonA);
@@ -101,8 +95,6 @@ Collision2D CollisionsManager::SAT(const ColliderComponent* colA, const Collider
 						-Astatus.penetration * sin(Astatus.penetrationAngle),
 						-Astatus.penetration * cos(Astatus.penetrationAngle)
 					);
-
-					collision.angle = Astatus.wallAngle - M_PI;
 				}
 
 				else {
@@ -111,10 +103,13 @@ Collision2D CollisionsManager::SAT(const ColliderComponent* colA, const Collider
 						Bstatus.penetration * sin(Bstatus.penetrationAngle),
 						Bstatus.penetration * cos(Bstatus.penetrationAngle)
 					);
-
-					collision.angle = Bstatus.wallAngle;
 				}
+			}
 
+			for (int i = 0; i < signed(polygonA.size()); i++) {
+
+				polygonA[i].x -= MTV.x;
+				polygonA[i].y -= MTV.y;
 			}
 		}
 	}
@@ -123,6 +118,9 @@ Collision2D CollisionsManager::SAT(const ColliderComponent* colA, const Collider
 
 	collision.colliderA = colA->id;
 	collision.colliderB = colB->id;
+
+	collision.colliderAVelocity = colA->entity->getComponent<PositionComponent>().velocity;
+	collision.colliderBVelocity = colB->entity->getComponent<PositionComponent>().velocity;
 
 	return collision;
 }
@@ -143,79 +141,16 @@ Collision2D CollisionsManager::areInCollision(ColliderComponent* colA, ColliderC
 
 void CollisionsManager::update() {
 
-	for (int i = 0; i < signed(colliders.size()); i++) {
+	for (int i = 0; i < signed(colliders.size()); i++)
+	for (int j = 0; j < signed(colliders.size()); j++) if (i != j) {
 
-		std::vector<Collision2D> walls;
-		std::vector<int> wallsColliders;
+		Collision2D collision = areInCollision(colliders[i], colliders[j]);
 
-		for (int j = 0; j < signed(colliders.size()); j++) {
+		if (collision.collision) {
 
-			if (i != j) {
-
-				Collision2D collision = areInCollision(colliders[i], colliders[j]);
-
-				if (collision.collision and collision.colliderB == wallId) {
-
-					walls.push_back(collision);
-					wallsColliders.push_back(j);
-				}
-
-				else if (collision.collision) {
-
-					for (auto& c : colliders[i]->entity->components) {
-
-						c->onCollision2D(collision);
-					}
-				}
-			}
-		}
-
-		// Check if one of the signed penetrations are sufficient
-		// to go out the collision
-
-		bool singlePenetration = false;
-
-		for (int j = 0; j < walls.size(); j++) {
-
-			ColliderComponent collider = *colliders[i];
-			collider.collider.x -= walls[j].penetration.x;
-			collider.collider.y -= walls[j].penetration.y;
-			collider.updatePolygon();
-
-			bool _collision = false;
-
-			for (int z = 0; z < wallsColliders.size(); z++) {
-
-				Collision2D collision2 = areInCollision(&collider, colliders[wallsColliders[z]]);
-
-				if (collision2.penetration != Vector2D().Zero()) {
-
-					_collision = true;
-					break;
-				}
-			}
-			
-			if (!_collision) {
-
-				for (auto& c : colliders[i]->entity->components) {
-
-					c->onCollision2D(walls[j]);
-				}
-
-				singlePenetration = true;
-				break;
-			}
-		}
-
-		// Apply all walls penetrations if there isn't
-		// one of the to go out of the penetration
-
-		if (!singlePenetration) {
-
-			for (auto& wall : walls)
 			for (auto& c : colliders[i]->entity->components) {
 
-				c->onCollision2D(wall);
+				c->onCollision2D(collision);
 			}
 		}
 	}
@@ -233,59 +168,24 @@ void CollisionsManager::refresh() {
 
 /////////////////////////// External functions
 
-double getProjection(Vector2D axis, Point point) { 
-	
-	return axis.x * point.x + axis.y * point.y;
-}
-
-double findMinimumPoint(std::vector<Point> points, Vector2D axis) {
-
-	double minPoint = getProjection(axis, points[0]);
-
-	for (int i = 1; i < signed(points.size()); i++) {
-
-		double dot = getProjection(axis, points[i]);
-		if (dot < minPoint) minPoint = dot;
-	}
-
-	return minPoint;
-}
-
-double findMaximumPoint(std::vector<Point> points, Vector2D axis) {
-
-	double maxPoint = getProjection(axis, points[0]);
-
-	for (int i = 1; i < signed(points.size()); i++) {
-
-		double dot = getProjection(axis, points[i]);
-		if (dot > maxPoint) maxPoint = dot;
-	}
-
-	return maxPoint;
-}
-
 SATstatus polygon_polygon_SAT(Polygon polygonA, Polygon polygonB) {
 
 	SATstatus status;
-	bool firstPenetration = true;
-
 	status.collision = true;
+	bool firstPenetration = true;
 
 	for (int i = 0; i < signed(polygonA.size()); i++) {
 
 		Vector2D axis;
-		double angle;
 
 		if (i < signed(polygonA.size()) - 1) {
 
 			axis = Vector2D(-(polygonA[i + 1].y - polygonA[i].y), polygonA[i + 1].x - polygonA[i].x);
-			angle = atan2(polygonA[i + 1].y - polygonA[i].y, polygonA[i + 1].x - polygonA[i].x);
 		}
 
 		else {
 
 			axis = Vector2D(-(polygonA[0].y - polygonA[i].y), polygonA[0].x - polygonA[i].x);
-			angle = atan2(polygonA[0].y - polygonA[i].y, polygonA[0].x - polygonA[i].x);
 		}
 
 		double magnitude = sqrt(pow(axis.x, 2) + pow(axis.y, 2));
@@ -297,7 +197,7 @@ SATstatus polygon_polygon_SAT(Polygon polygonA, Polygon polygonB) {
 		double polygonBpmax = findMaximumPoint(polygonB, axis);
 		double polygonBpmin = findMinimumPoint(polygonB, axis);
 
-		if (polygonApmax <= polygonBpmin or polygonApmin >= polygonBpmax) {
+		if (polygonApmax < polygonBpmin or polygonApmin > polygonBpmax) {
 
 			// Found hole
 			status.collision = false;
@@ -314,11 +214,43 @@ SATstatus polygon_polygon_SAT(Polygon polygonA, Polygon polygonB) {
 
 				firstPenetration = false;
 				status.penetration = penetration;
-				status.wallAngle = angle;
 				status.penetrationAngle = atan2(axis.x, axis.y);
 			}
 		}
 	}
 
 	return status;
+}
+
+double getProjection(Vector2D axis, Point point) {
+
+	return axis.x * point.x + axis.y * point.y;
+}
+
+double findMinimumPoint(std::vector<Point> points, Vector2D axis) {
+
+	double minPoint = getProjection(axis, points[0]);
+
+	for (int i = 1; i < signed(points.size()); i++) {
+
+		double dot = getProjection(axis, points[i]);
+
+		if (dot < minPoint) minPoint = dot;
+	}
+
+	return minPoint;
+}
+
+double findMaximumPoint(std::vector<Point> points, Vector2D axis) {
+
+	double maxPoint = getProjection(axis, points[0]);
+
+	for (int i = 1; i < signed(points.size()); i++) {
+
+		double dot = getProjection(axis, points[i]);
+
+		if (dot > maxPoint) maxPoint = dot;
+	}
+
+	return maxPoint;
 }

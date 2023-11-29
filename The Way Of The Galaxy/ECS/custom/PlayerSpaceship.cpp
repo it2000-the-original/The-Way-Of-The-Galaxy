@@ -49,33 +49,41 @@ void PlayerSpaceship::update() {
 
 	checkForInputs();
 	correctPositionInTheArea();
-
-	//std::cout << position->velocity << std::endl;
 }
 
 void PlayerSpaceship::onCollision2D(Collision2D collision) {
 
 	if (collision.colliderB == wallId) {
 
-		collision.penetration.Round(3);
+		if (collision.penetration != Vector2D().Zero()) {
 
-		Vector2D normal(cos(collision.angle), sin(collision.angle));
-		Vector2D anormal(-normal.y, normal.x);
+			double wallAngle = atan2(-collision.penetration.x, collision.penetration.y);
 
-		double parallel = position->velocity.x * normal.x + position->velocity.y * normal.y;
-		double perpendicular = position->velocity.x * anormal.x + position->velocity.y * anormal.y;
+			Vector2D normal(cos(wallAngle), sin(wallAngle));
+			Vector2D anormal(-normal.y, normal.x);
 
-		if (perpendicular > 0) {
-			position->velocity.x = parallel * normal.x;
-			position->velocity.y = parallel * normal.y;
+			Vector2D relativeVelocity = collision.colliderAVelocity - collision.colliderBVelocity;
+			double parallel = relativeVelocity.x * normal.x + relativeVelocity.y * normal.y;
+			double perpendicular = relativeVelocity.x * anormal.x + relativeVelocity.y * anormal.y;
+
+			if (perpendicular > 0) {
+				position->velocity.x = parallel * normal.x;
+				position->velocity.y = parallel * normal.y;
+				position->velocity += collision.colliderBVelocity;
+			}
+
+			std::cout << wallAngle * 180 / M_PI << std::endl;
+
+			position->velocity.Round(3);
+			collision.penetration.Round(3);
+			
+			position->position -= collision.penetration;
 		}
-
-		position->position -= collision.penetration;
-
+		
 		collider->collider = position->getVisualRectangle();
 		collider->updatePolygon();
 
-		if (!position->isCompletelyOnRender().xy) {
+		if (!position->isCompletelyOnRender().x) {
 
 			entity->destroy();
 		}

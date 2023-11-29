@@ -63,8 +63,8 @@ void ColliderComponent::updatePolygon() {
 	for (int j = 0; j < signed(destPolygon[i].size()); j++) {
 
 		destPolygon[i][j] = srcPolygon[i][j] + Point(
-			collider.x,
-			collider.y
+			position->position.x,
+			position->position.y
 		);
 
 		// Rotating the point around the center point
@@ -81,13 +81,15 @@ void ColliderComponent::updatePolygon() {
 			destPolygon[i][j].x - centerPoint.x
 		);
 
-		angle += position->angle * 3.1415 / 180;
+		angle += position->angle * M_PI / 180;
 		destPolygon[i][j].x = centerPoint.x + distance * cos(angle);
 		destPolygon[i][j].y = centerPoint.y + distance * sin(angle);
+
+		destPolygon[i][j].Round(3);
 	}
 }
 
 bool ColliderComponent::isAdvanced() {
 	
-	return advanced; //or position->angle;
+	return advanced or position->angle != 0;
 }

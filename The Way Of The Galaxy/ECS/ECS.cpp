@@ -1,8 +1,5 @@
 #include "ECS.h"
 
-// I have created this origin file because i cant't declare functions that call
-// a metod of a class that is not defined, that is because i have adapted this non-clean solution.
-
 void Component::init() {}
 
 void Component::update() {}
@@ -108,12 +105,7 @@ void Manager::refreshGroupedEntities() {
 
 void Manager::update() {
 
-	// I must use this method to update all entities because the number
-	// of elements in the entities vector is not constant during this phase,
-	// this is because in some components they could be methods tha during the
-	// update can add or remove components, generating conflicts with the other form
-
-	for (int i = 0; i < entities.size(); i++) entities[i]->update();
+	for (auto& e : entities) e->update();
 }
 
 void Manager::draw() {

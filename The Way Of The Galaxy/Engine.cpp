@@ -57,6 +57,7 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 			std::cout << "Renderer created successfuly" << std::endl;
 			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 			SDL_RenderSetLogicalSize(renderer, renderwidth, renderheight);
+			//SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 		}
 		
 		if (TTF_Init() == 0) {
@@ -94,9 +95,9 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 		player.addComponent<PlayerSpaceship>();
 		player.addGroup(groupPlayer);*/
 
-		//statusbar.init();
+		statusbar.init();
 
-		/*auto& energyWidget = statusbar.addWidget<EnergyWidget>(&player.getComponent<PlayerSpaceship>().energy);
+		auto& energyWidget = statusbar.addWidget<EnergyWidget>(&player.getComponent<PlayerSpaceship>().energy);
 		auto& missilesWidget = statusbar.addWidget<MissilesWidget>(&player.getComponent<PlayerSpaceship>().missiles);
 		auto& weaponWidget = statusbar.addWidget<WeaponWidget>(&player.getComponent<PlayerSpaceship>());
 
@@ -110,10 +111,11 @@ void Engine::init(const char* title, Window mWindow, bool fullscreen) {
 
 		weaponWidget.setModel("missile");
 		weaponWidget.setColor(255, 255, 0, 180);
-		weaponWidget.setPrefix("W:");*/
+		weaponWidget.setPrefix("W:");
 
 		std::cout << IMG_GetError() << std::endl;
 
+		//tilemaps.loadMap("TilemapTest1", 0, 100);
 		tilemaps.loadMap("TilemapTest1", -1);
 
 		isRunning = true;

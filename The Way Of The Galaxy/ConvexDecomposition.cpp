@@ -67,36 +67,13 @@ void findInternalPoints(std::vector<Polygon>& polygons, Polygon polygon) {
     
     for (int l = 0; l < polygons[k].size(); l++) {
 
-        if (!polygons[k][l].internal and polygons[i][j] == polygons[k][l]) {
+        if (polygons[i][j] == polygons[k][l]) {
+            
+            if (polygons[i][(j + 1) % polygons[i].size()] == 
+                polygons[k][(l - 1 + polygons[k].size()) % polygons[k].size()]) {
 
-            if (j < polygons[i].size() - 1) {
-
-                if (l > 0 and polygons[i][j+1] == polygons[k][l-1]) {
-
-                    polygons[i][j].internal = true;
-                    polygons[k][l-1].internal = true;
-                }
-
-                else if (polygons[i][j+1] == polygons[k][polygons[k].size()-1]) {
-
-                    polygons[i][j].internal = true;
-                    polygons[k][polygons[k].size()-1].internal = true;
-                }
-            }
-
-            else {
-
-                if (l > 0 and polygons[i][0] == polygons[k][l-1]) {
-
-                    polygons[i][j].internal = true;
-                    polygons[k][l-1].internal = true;
-                }
-
-                else if (polygons[i][0] == polygons[k][polygons[k].size()-1]) {
-
-                    polygons[i][j].internal = true;
-                    polygons[k][polygons[k].size()-1].internal = true;
-                }
+                polygons[i][(j + 1) % polygons[i].size()].internal = true;
+                polygons[k][(l - 1 + polygons[k].size()) % polygons[k].size()].internal = true;
             }
         }
     }

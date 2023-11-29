@@ -36,6 +36,22 @@
    <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
+ <tile id="6">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="7">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
  <tile id="8">
   <properties>
    <property name="ColliderID" type="int" value="5"/>
@@ -118,6 +134,38 @@
    <object id="2" x="0" y="0">
     <polygon points="0,0 32,0 0,32"/>
    </object>
+  </objectgroup>
+ </tile>
+ <tile id="20">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="21">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="22">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="23">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="24">
@@ -244,6 +292,22 @@
    <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
+ <tile id="42">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="43">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
  <tile id="47">
   <properties>
    <property name="ColliderID" type="int" value="5"/>
@@ -285,6 +349,22 @@
   </objectgroup>
  </tile>
  <tile id="53">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="54">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="55">
   <properties>
    <property name="ColliderID" type="int" value="5"/>
   </properties>
@@ -452,6 +532,38 @@
    </object>
   </objectgroup>
  </tile>
+ <tile id="80">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="81">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="82">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="83">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
  <tile id="84">
   <properties>
    <property name="ColliderID" type="int" value="5"/>
@@ -477,6 +589,22 @@
   </objectgroup>
  </tile>
  <tile id="87">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="90">
+  <properties>
+   <property name="ColliderID" type="int" value="5"/>
+  </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="91">
   <properties>
    <property name="ColliderID" type="int" value="5"/>
   </properties>

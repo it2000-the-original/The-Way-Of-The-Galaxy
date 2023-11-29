@@ -12,7 +12,8 @@ struct Collision2D {
 	Vector2D penetration;
 	std::size_t colliderA;
 	std::size_t colliderB;
-	double angle;
+	Vector2D colliderAVelocity;
+	Vector2D colliderBVelocity;
 };
 
 class CollisionsManager {
@@ -21,8 +22,8 @@ public:
 
 	std::vector<ColliderComponent*> colliders;
 
-	Collision2D AABB(const ColliderComponent* colA, const ColliderComponent* colB);
-	Collision2D SAT(const ColliderComponent* colA, const ColliderComponent* colB);
+	Collision2D AABB(ColliderComponent* colA, ColliderComponent* colB);
+	Collision2D SAT(ColliderComponent* colA, ColliderComponent* colB);
 	Collision2D areInCollision(ColliderComponent* colA, ColliderComponent* colB);
 
 	void update();

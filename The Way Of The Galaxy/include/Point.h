@@ -21,6 +21,7 @@ struct Point {
 	Point Subtract(Point poi);
 	Point Multiply(Point poi);
 	Point Divide(Point poi);
+	Point Round(int i);
 
 	// Defining operators......
 

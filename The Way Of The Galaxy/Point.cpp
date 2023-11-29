@@ -1,4 +1,5 @@
 #include "Point.h"
+#include <cmath>
 
 Point::Point() {
 
@@ -44,6 +45,13 @@ Point Point::Divide(Point poi) {
 
 	x /= poi.x;
 	y /= poi.y;
+	return *this;
+}
+
+Point Point::Round(int i) {
+
+	x = round(x * pow(10, i)) / pow(10, i);
+	y = round(y * pow(10, i)) / pow(10, i);
 	return *this;
 }
 
