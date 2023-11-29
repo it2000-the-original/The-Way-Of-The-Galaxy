@@ -141,7 +141,7 @@ Collision2D CollisionsManager::areInCollision(ColliderComponent* colA, ColliderC
 
 void CollisionsManager::update() {
 
-	for (int i = 0; i < signed(colliders.size()); i++)
+	for (int i = 0; i < signed(colliders.size()); i++) if (colliders[i]->id != wallId)
 	for (int j = 0; j < signed(colliders.size()); j++) if (i != j) {
 
 		Collision2D collision = areInCollision(colliders[i], colliders[j]);

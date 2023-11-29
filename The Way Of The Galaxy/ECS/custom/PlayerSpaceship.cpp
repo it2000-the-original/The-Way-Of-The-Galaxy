@@ -72,8 +72,6 @@ void PlayerSpaceship::onCollision2D(Collision2D collision) {
 				position->velocity += collision.colliderBVelocity;
 			}
 
-			std::cout << wallAngle * 180 / M_PI << std::endl;
-
 			position->velocity.Round(3);
 			collision.penetration.Round(3);
 			
